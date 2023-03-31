@@ -4,7 +4,9 @@ LIBFT	= libft
 HEADERS = -I $(LIBFT)
 LIBS = $(LIBFT)/libft.a
 SRCS	= 	src/loop_shell.c \
-			src/minishell.c
+			src/minishell.c \
+			src/execute.c \
+			src/parser.c
 
 OBJS	= $(SRCS:.c=.o)
 

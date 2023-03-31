@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 18:49:26 by amorilla          #+#    #+#             */
-/*   Updated: 2023/03/31 21:14:50 by amorilla         ###   ########.fr       */
+/*   Created: 2023/03/11 21:05:47 by aruzafa-          #+#    #+#             */
+/*   Updated: 2023/03/11 21:10:24 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "pipex.h"
 
-int	main(int argc, char **args, char **env)
+void	px_setstd(int fd_in, int fd_out)
 {
-	loop_shell(env);
-	return (0);
+	dup2(fd_in, 0);
+	dup2(fd_out, 1);
 }
