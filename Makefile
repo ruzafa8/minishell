@@ -1,7 +1,7 @@
 NAME	= minishell
 CFLAGS	= -Wall -Wextra -g -Werror
 LIBFT	= libft
-HEADERS = -I $(LIBFT)
+HEADERS = -I $(LIBFT) -I ./includes
 LIBS = $(LIBFT)/libft.a
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \

@@ -1,4 +1,4 @@
-#include "includes/minishell.h"
+#include "minishell.h"
 
 /**
  * This function creates a CD command node.
