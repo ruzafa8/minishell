@@ -27,6 +27,17 @@ typedef struct s_instruction
 	char **args; //argumentos del programa generic y el programa
 } t_instruction;
 
+typedef struct s_cd
+{
+	char	*path;
+}	t_cd;
+
+typedef struct s_generic
+{
+	char	*command;
+	char	**full_command;
+}	t_generic;
+
 typedef union u_data
 {
 	t_cd		*cd;
@@ -39,16 +50,7 @@ typedef struct u_command
 	t_data	*data;
 }	t_command;
 
-typedef struct s_cd
-{
-	char	*path;
-}	t_cd;
 
-typedef struct s_generic
-{
-	char	*command;
-	char	**full_command;
-}	t_generic;
 
 t_instruction	*parse(char *str);
 int				execute(t_instruction *instr, char **path, char **env);
