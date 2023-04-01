@@ -2,5 +2,6 @@
 
 int	built_in_cd(t_command *istr)
 {
-	return ((int)istr);
+	if (istr->data->cd->path == NULL)
+		
 }
