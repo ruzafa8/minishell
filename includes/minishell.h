@@ -62,5 +62,6 @@ t_command	*create_cd(char *path);
 void		free_cd(t_data	*data);
 t_command	*create_generic(char *command, char **full_command);
 void		free_command(t_command *command);
+int			built_in_cd(t_instruction *istr);
 
 #endif
