@@ -14,15 +14,15 @@ t_command	*create_cd(char *path)
 		return (0);
 	res->data = (t_data *) ft_calloc(1, sizeof(t_data));
 	if (!res->data)
-		return (free(res), 0);
+		return (free(res), (t_command *) 0);
 	res->type = CD;
 	res->data->cd = (t_cd *) ft_calloc(1, sizeof(t_cd));
 	if (!res->data->cd)
-		return (free_cd(res->data), free(res), 0);
+		return (free_cd(res->data), free(res), (t_command *) 0);
 	res->data->cd->path = ft_strdup(path);
 	// TODO: Es necesario esto? Podría llegarme un path NULL?
 	if (!res->data->cd->path)
-		return (free_cd(res->data), free(res), 0);
+		return (free_cd(res->data), free(res), (t_command *) 0);
 	return (res);
 }
 
@@ -57,28 +57,28 @@ t_command	*create_generic(char *command, char **full_command)
 	res = (t_command *) ft_calloc(1, sizeof(t_command));
 	if (!res)
 		return (0);
-	res->type = (t_data *) ft_calloc(1, sizeof(t_data));
+	res->data = (t_data *) ft_calloc(1, sizeof(t_data));
 	if (!res->type)
-		return (free(res), 0);
+		return (free(res), (t_command *) 0);
 	res->type = GENERIC;
 	res->data->generic = (t_generic *) ft_calloc(1, sizeof(t_generic));
 	if (!res->data->generic)
-		return (free(res), 0);
+		return (free(res), (t_command *) 0);
 	res->data->generic->command = ft_strdup(command);
 	// TODO: Es necesario esto? Podría llegarme un command NULL?
 	if (!res->data->generic->command)
-		return (free(res), 0);
+		return (free(res), (t_command *) 0);
 	res->data->generic->full_command = full_command;
 	// TODO: Es necesario esto? Podría llegarme un full_command NULL?
 	if (!res->data->generic->full_command)
-		return (free(res), 0);
+		return (free(res), (t_command *) 0);
 	return (res);
 }
 
 /**
  * This function deletes any command node.
  */
-void	*free_command(t_command *command)
+void	free_command(t_command *command)
 {
 	if (!command)
 		return ;
