@@ -17,6 +17,8 @@ t_command	*parse(char *command_str)
 	char		**tokens;
 	t_command	*res;
 
+	if (!command_str || ft_strncmp(command_str, "", 1) == 0)
+		return (0);
 	tokens = ft_split(command_str, ' ');
 	res = 0;
 	if (!tokens || !tokens[0])
