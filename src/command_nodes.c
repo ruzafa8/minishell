@@ -30,7 +30,7 @@ t_command	*create_cd(char *path)
  * This function makes a free of a CD node.
  * @param data A pointer to the CD node to free.
  */
-void	*free_cd(t_data	*data)
+void	free_cd(t_data	*data)
 {
 	if (data)
 	{
