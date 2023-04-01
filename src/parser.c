@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 19:37:06 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 18:15:40 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 22:20:34 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ t_instruction	*parse(char *str)
 	{
 		aux->directory = tokens[1];
 		aux->type = CD;
+		ft_printf("%s AWA %s",tokens[0],tokens[1]);
 	}
 	else
 	{
 		aux->type = GENERIC;
 		aux->instruction = tokens[0];
-		aux->args = str;
+		aux->args = tokens;
 	}
 	return (aux);
 }

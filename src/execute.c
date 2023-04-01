@@ -6,18 +6,47 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:10:42 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 20:51:26 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 21:51:58 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	execaux(char *comand, char **path, char ** env)
+char	*check_access(char *command, char **path)
 {
-	
+	char	*command_and_path;
+	int		i;
+
+	if (access(command, X_OK) == 0)
+		return (command);
+	i = 0;
+	while (path[i])
+	{
+		command_and_path = ft_strjoin(path[i], command);
+		if (!command_and_path)
+			return (0);
+		if (access(command_and_path, X_OK) == 0)
+			return (command_and_path);
+		free(command_and_path);
+		i++;
+	}
+	return (0);
 }
 
-static int	execute_generic(t_instruction *instr, char **path, char **env)
+static int	execaux(t_instruction *instr, char **path, char ** env)
+{
+	char	*comand_and_path;
+
+	comand_and_path = check_access(instr->instruction, path);
+	if (comand_and_path != 0)
+	{
+		execve(comand_and_path, instr->args, env);
+		return (errno);
+	}
+	return (127);
+}
+
+static void	execute_generic(t_instruction *instr, char **path, char **env)
 {
 	int		pid1;
 	int		result_code;
@@ -27,7 +56,7 @@ static int	execute_generic(t_instruction *instr, char **path, char **env)
 		exit(pid1);
 	if (pid1 == 0)
 	{
-		result_code = execaux(instr->instruction, path, env);
+		result_code = execaux(instr, path, env);
 		perror(strerror(result_code));
 	}
 	waitpid(pid1, 0, 0);
@@ -44,7 +73,7 @@ int	execute(t_instruction *instr, char **path, char **env)
 	if (instr->type == CD)
 		status = chdir(instr->directory);
 	else if (instr->type == GENERIC)
-		status = execute_generic(instr, path, env);
+		execute_generic(instr, path, env);
 	return (status);
 }
 

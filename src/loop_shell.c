@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 18:51:09 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 20:38:19 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 22:14:21 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	loop_shell(char **path, char **env)
 	while (status)
 	{
 		ft_printf("> ");
-		line = ft_get_next_line(1);
+		line = ft_get_next_line(1);//TODO: cuidao con los leaks
+		line = ft_strtrim(line, "\n");
 		instr = parse(line);
 		status = execute(instr, path, env);
 		free(line);

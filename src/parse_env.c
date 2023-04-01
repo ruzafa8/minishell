@@ -6,32 +6,11 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 18:49:29 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 19:14:46 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 21:55:01 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char	*check_access(char *command, char **path)
-{
-	char	*full_command;
-	int		i;
-
-	if (access(command, X_OK) == 0)
-		return (command);
-	i = 0;
-	while (path[i])
-	{
-		full_command = ft_strjoin(path[i], command);
-		if (!full_command)
-			return (0);
-		if (access(full_command, X_OK) == 0)
-			return (full_command);
-		free(full_command);
-		i++;
-	}
-	return (0);
-}
 
 static char	**compute_path(char *arg)
 {
