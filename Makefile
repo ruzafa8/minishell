@@ -7,7 +7,8 @@ SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/execute.c \
 			src/parser.c \
-			src/parse_env.c
+			src/parse_env.c \
+			src/command_nodes.c
 
 OBJS	= $(SRCS:.c=.o)
 
