@@ -27,7 +27,6 @@ t_command	*parse(char *command_str)
 		res = create_cd(tokens[1]);
 	else
 		res = create_generic(tokens[0], tokens);
-	ft_printf("ASASA: %s\n", res->data->generic->full_command[1]);
 	free_tokens(tokens);
 	return (res);
 }
