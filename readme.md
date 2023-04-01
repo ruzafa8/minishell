@@ -8,3 +8,5 @@ https://github.com/kamalmarhubi/shell-workshop
 
 https://github.com/codecrafters-io/build-your-own-x#build-your-own-shell
 
+https://git.42l.fr/jorun/minishell/src/branch/leaks/src/parsing/parser/parser.c
+
