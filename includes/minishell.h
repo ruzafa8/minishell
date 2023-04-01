@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 18:49:29 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 19:56:39 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 21:43:55 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@
 
 typedef enum e_type
 {
-	CD, GENERIC, PWD, ENV, ECHO, EXPORT, UNSET, EXIT
-} t_type;
+	CD,
+	GENERIC,
+	PWD,
+	ENV,
+	ECHO,
+	EXPORT,
+	UNSET,
+	EXIT
+}	t_type;
 
 typedef struct s_instruction
 {
@@ -28,6 +35,29 @@ typedef struct s_instruction
 	char *instruction; //programa generic a ejecutar
 	char *args; //argumentos del programa generic
 } t_instruction;
+
+typedef struct u_command
+{
+	t_type	type;
+	t_data	*data;
+}	t_command;
+
+typedef union u_data
+{
+	t_cd		*cd;
+	t_generic	*generic;
+}	t_data;
+
+typedef struct s_cd
+{
+	char	*path;
+}	t_cd;
+
+typedef struct s_generic
+{
+	char	*command;
+	char	**full_command;
+}	t_generic;
 
 t_instruction	*parse(char *str);
 int				execute(t_instruction *instr, char **path);
