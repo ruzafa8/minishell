@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:10:42 by amorilla          #+#    #+#             */
-/*   Updated: 2023/03/31 21:49:54 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:57:03 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	execute_generic(t_instruction *instr)
 }
 
 
-int	execute(t_instruction *instr)
+int	execute(t_instruction *instr, char **path)
 {
 	int	status;
 

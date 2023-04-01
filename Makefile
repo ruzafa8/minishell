@@ -6,7 +6,8 @@ LIBS = $(LIBFT)/libft.a
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/execute.c \
-			src/parser.c
+			src/parser.c \
+			src/parse_env.c
 
 OBJS	= $(SRCS:.c=.o)
 

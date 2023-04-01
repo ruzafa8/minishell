@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 18:49:29 by amorilla          #+#    #+#             */
-/*   Updated: 2023/03/31 21:15:10 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:56:39 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ typedef struct s_instruction
 	t_type type;
 	char *directory;
 	char *instruction; //programa generic a ejecutar
-	char **args; //argumentos del programa generic
+	char *args; //argumentos del programa generic
 } t_instruction;
 
 t_instruction	*parse(char *str);
-int				execute(t_instruction *instr);
-void			loop_shell(char **env);
+int				execute(t_instruction *instr, char **path);
+void			loop_shell(char **path);
+void			free_path(char **path);
+char			**get_path(char **env);
+char			*check_access(char *command, char **path);
 
 #endif
