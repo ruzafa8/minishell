@@ -6,9 +6,10 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 19:37:06 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 22:35:21 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/04/01 22:39:56 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 
@@ -53,12 +54,13 @@ t_instruction	*parse(char *str)
 	{
 		aux->directory = tokens[1];
 		aux->type = CD;
+		ft_printf("%s AWA %s",tokens[0],tokens[1]);
 	}
 	else
 	{
 		aux->type = GENERIC;
 		aux->instruction = tokens[0];
-		aux->args = str;
+		aux->args = tokens;
 	}
 	return (aux);
 }

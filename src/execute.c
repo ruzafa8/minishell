@@ -6,13 +6,47 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:10:42 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 21:26:44 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/04/01 22:39:38 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	execute_generic(t_instruction *instr)
+char	*check_access(char *command, char **path)
+{
+	char	*command_and_path;
+	int		i;
+
+	if (access(command, X_OK) == 0)
+		return (command);
+	i = 0;
+	while (path[i])
+	{
+		command_and_path = ft_strjoin(path[i], command);
+		if (!command_and_path)
+			return (0);
+		if (access(command_and_path, X_OK) == 0)
+			return (command_and_path);
+		free(command_and_path);
+		i++;
+	}
+	return (0);
+}
+
+static int	execaux(t_instruction *instr, char **path, char ** env)
+{
+	char	*comand_and_path;
+
+	comand_and_path = check_access(instr->instruction, path);
+	if (comand_and_path != 0)
+	{
+		execve(comand_and_path, instr->args, env);
+		return (errno);
+	}
+	return (127);
+}
+
+static void	execute_generic(t_instruction *instr, char **path, char **env)
 {
 	int		pid1;
 	int		result_code;
@@ -21,22 +55,25 @@ static int	execute_generic(t_instruction *instr)
 	if (pid1 < 0)
 		exit(pid1);
 	if (pid1 == 0)
-		
+	{
+		result_code = execaux(instr, path, env);
+		perror(strerror(result_code));
+	}
 	waitpid(pid1, 0, 0);
 	if (WIFEXITED(result_code))
 		exit(WEXITSTATUS(result_code));
 }
 
 
-int	execute(t_instruction *instr, char **path)
+int	execute(t_instruction *instr, char **path, char **env)
 {
 	int	status;
 
-	status = 1;
+	status = 127;
 	if (instr->type == CD)
 		status = chdir(instr->directory);
 	else if (instr->type == GENERIC)
-		status = execute_generic(instr);
+		execute_generic(instr, path, env);
 	return (status);
 }
 

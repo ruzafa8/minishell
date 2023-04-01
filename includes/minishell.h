@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 18:49:29 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 21:43:55 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/04/01 22:38:56 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include "../libft/ft.h"
 # include <unistd.h>
 # include <stdio.h>
+# include <errno.h>
+# include <string.h>
 
 typedef enum e_type
 {
@@ -31,9 +33,11 @@ typedef enum e_type
 typedef struct s_instruction
 {
 	t_type type;
-	char *directory;
-	char *instruction; //programa generic a ejecutar
-	char *args; //argumentos del programa generic
+	
+	char *directory; //si es cd
+	
+	char *instruction; //programa generic a ejecutar sin el path metido
+	char **args; //argumentos del programa generic y el programa
 } t_instruction;
 
 typedef struct u_command
@@ -60,8 +64,8 @@ typedef struct s_generic
 }	t_generic;
 
 t_instruction	*parse(char *str);
-int				execute(t_instruction *instr, char **path);
-void			loop_shell(char **path);
+int				execute(t_instruction *instr, char **path, char **env);
+void			loop_shell(char **path, char **env);
 void			free_path(char **path);
 char			**get_path(char **env);
 char			*check_access(char *command, char **path);

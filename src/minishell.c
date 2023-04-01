@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 18:49:26 by amorilla          #+#    #+#             */
-/*   Updated: 2023/04/01 19:54:34 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/01 20:37:55 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int	main(int argc, char **args, char **env)
 	char **path;
 	
 	path = get_path(env);
-	loop_shell(path);
+	loop_shell(path, env);
 	return (0);
 }
