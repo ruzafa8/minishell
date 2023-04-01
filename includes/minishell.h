@@ -23,22 +23,21 @@ typedef struct s_instruction
 	t_type type;
 	
 	char *directory; //si es cd
-	
 	char *instruction; //programa generic a ejecutar sin el path metido
 	char **args; //argumentos del programa generic y el programa
 } t_instruction;
-
-typedef struct u_command
-{
-	t_type	type;
-	t_data	*data;
-}	t_command;
 
 typedef union u_data
 {
 	t_cd		*cd;
 	t_generic	*generic;
 }	t_data;
+
+typedef struct u_command
+{
+	t_type	type;
+	t_data	*data;
+}	t_command;
 
 typedef struct s_cd
 {
@@ -57,5 +56,9 @@ void			loop_shell(char **path, char **env);
 void			free_path(char **path);
 char			**get_path(char **env);
 char			*check_access(char *command, char **path);
+t_command		*create_cd(char *path);
+void			*free_cd(t_data	*data);
+t_command		*create_generic(char *command, char **full_command);
+void			*free_command(t_command *command);
 
 #endif
