@@ -18,15 +18,6 @@ typedef enum e_type
 	EXIT
 }	t_type;
 
-typedef struct s_instruction
-{
-	t_type type;
-	
-	char *directory; //si es cd
-	char *instruction; //programa generic a ejecutar sin el path metido
-	char **args; //argumentos del programa generic y el programa
-} t_instruction;
-
 typedef struct s_cd
 {
 	char	*path;
