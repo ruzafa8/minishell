@@ -20,7 +20,7 @@ t_command	*parse_command(char *command_str)
 	tokens = ft_split(command_str, ' ');
 	res = 0;
 	if (!tokens || !tokens[0])
-		return (free(tokens), 0);
+		return (free(tokens), (t_command *)0);
 	if (ft_strncmp(tokens[0], "cd", 2) == 0)
 		res = create_cd(tokens[1]);
 	else
