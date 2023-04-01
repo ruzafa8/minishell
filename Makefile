@@ -5,10 +5,10 @@ HEADERS = -I $(LIBFT) -I ./includes
 LIBS = $(LIBFT)/libft.a
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
-			src/execute.c \
-			src/parser.c \
-			src/parse_env.c \
-			src/command_nodes.c
+			src/executer/execute.c \
+			src/executer/parse_env.c \
+			src/parser/parser.c \
+			src/parser/command_nodes.c
 
 OBJS	= $(SRCS:.c=.o)
 
