@@ -58,7 +58,7 @@ int	execute(t_command *instr, char **path, char **env)
 
 	status = 127;
 	if (instr->type == CD)
-		status = chdir(instr->data->cd->path);
+		status = built_in_cd(instr);
 	else if (instr->type == GENERIC)
 		execute_generic(instr, path, env);
 	return (status);
