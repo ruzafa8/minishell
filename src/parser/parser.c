@@ -12,7 +12,7 @@ void	free_tokens(char **tokens)
 	}
 	free(tokens);
 }
-t_command	*parse_command(char *command_str)
+t_command	*parse(char *command_str)
 {
 	char		**tokens;
 	t_command	*res;
@@ -25,28 +25,7 @@ t_command	*parse_command(char *command_str)
 		res = create_cd(tokens[1]);
 	else
 		res = create_generic(tokens[0], tokens);
+	ft_printf("ASASA: %s\n", res->data->generic->full_command[1]);
 	free_tokens(tokens);
 	return (res);
-}
-
-t_instruction	*parse(char *str)
-{
-	t_instruction	*aux;
-	char			**tokens;
-
-	tokens = ft_split(str, ' ');
-	aux = ft_calloc(1, sizeof(t_instruction));
-	if (ft_strncmp(tokens[0], "cd", 2) == 0)
-	{
-		aux->directory = tokens[1];
-		aux->type = CD;
-		ft_printf("%s AWA %s",tokens[0],tokens[1]);
-	}
-	else
-	{
-		aux->type = GENERIC;
-		aux->instruction = tokens[0];
-		aux->args = tokens;
-	}
-	return (aux);
 }

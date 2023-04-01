@@ -21,20 +21,20 @@ char	*check_access(char *command, char **path)
 	return (0);
 }
 
-static int	execaux(t_instruction *instr, char **path, char ** env)
+static int	execaux(t_command *instr, char **path, char ** env)
 {
 	char	*comand_and_path;
 
-	comand_and_path = check_access(instr->instruction, path);
+	comand_and_path = check_access(instr->data->generic->command, path);
 	if (comand_and_path != 0)
 	{
-		execve(comand_and_path, instr->args, env);
+		execve(comand_and_path, instr->data->generic->full_command, env);
 		return (errno);
 	}
 	return (127);
 }
 
-static void	execute_generic(t_instruction *instr, char **path, char **env)
+static void	execute_generic(t_command *instr, char **path, char **env)
 {
 	int		pid1;
 	int		result_code;
@@ -52,14 +52,13 @@ static void	execute_generic(t_instruction *instr, char **path, char **env)
 		exit(WEXITSTATUS(result_code));
 }
 
-
-int	execute(t_instruction *instr, char **path, char **env)
+int	execute(t_command *instr, char **path, char **env)
 {
 	int	status;
 
 	status = 127;
 	if (instr->type == CD)
-		status = chdir(instr->directory);
+		status = chdir(instr->data->cd->path);
 	else if (instr->type == GENERIC)
 		execute_generic(instr, path, env);
 	return (status);

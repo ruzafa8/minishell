@@ -3,7 +3,7 @@
 void	loop_shell(char **path, char **env)
 {
 	char			*line;
-	t_instruction	*instr;
+	t_command	*instr;
 	int status;
 
 	status = 1;
