@@ -10,7 +10,7 @@ void	loop_shell(char **path, char **env)
 	while (status)
 	{
 		ft_printf("> ");
-		line = ft_get_next_line(1);//TODO: cuidao con los leaks
+		line = ft_get_next_line(0);//TODO: cuidao con los leaks
 		line = ft_strtrim(line, "\n");
 		instr = parse(line);
 		status = execute(instr, path, env);

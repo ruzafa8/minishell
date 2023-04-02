@@ -41,8 +41,6 @@ typedef struct u_command
 	t_data	*data;
 }	t_command;
 
-
-
 t_command	*parse(char *str);
 int			execute(t_command *instr, char **path, char **env);
 void		loop_shell(char **path, char **env);
@@ -55,5 +53,8 @@ t_command	*create_generic(char *command, char **full_command);
 void		free_command(t_command *command);
 int			built_in_cd(t_command *istr, char **env);
 char		*get_env_value(char **env, char *key);
+t_command	*create_pwd(void);
+int			exec_pwd(void);
+
 
 #endif
