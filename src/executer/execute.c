@@ -34,22 +34,28 @@ static int	execaux(t_command *instr, char **path, char ** env)
 	return (127);
 }
 
-static void	execute_generic(t_command *instr, char **path, char **env)
+static int	execute_generic(t_command *instr, char **path, char **env)
 {
 	int		pid1;
 	int		result_code;
 
 	pid1 = fork();
+	result_code = 1; // Código de error genérico.
 	if (pid1 < 0)
-		exit(pid1);
+		return (pid1);
 	if (pid1 == 0)
 	{
 		result_code = execaux(instr, path, env);
 		perror(strerror(result_code));
 	}
 	waitpid(pid1, 0, 0);
+	/*
 	if (WIFEXITED(result_code))
+	{
+		ft_printf("%d", WEXITSTATUS(result_code));
 		exit(WEXITSTATUS(result_code));
+	}*/
+	return (result_code);
 }
 
 int	execute(t_command *instr, char **path, char **env)
@@ -65,4 +71,3 @@ int	execute(t_command *instr, char **path, char **env)
 		execute_generic(instr, path, env);
 	return (status);
 }
-
