@@ -16,5 +16,6 @@ void	loop_shell(char **path, char **env)
 		status = execute(instr, path, env);
 		free(line);
 		free(instr);
+		status = 1;//quitar pa poner shell interactiva o no interactiva (con el flag -c)
 	}
 }

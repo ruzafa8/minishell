@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	**free_args(char **arg)
+static char	*free_args(char **arg)
 {
 	if (!arg)
 		return (0);
@@ -15,7 +15,7 @@ static char	**free_args(char **arg)
 char	*get_env_value(char **env, char *key)
 {
 	char	**arg;
-	char	**res;
+	char	*res;
 	size_t	key_len;
 
 	key_len = ft_strlen(key);
