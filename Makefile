@@ -8,10 +8,12 @@ SRCS	= 	src/loop_shell.c \
 			src/executer/execute.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \
+			src/executer/exec_pwd.c \
 			src/parser/parser.c \
 			src/parser/command_nodes.c\
 			src/parser/generic_nodes.c\
-			src/parser/cd_nodes.c
+			src/parser/cd_nodes.c\
+			src/parser/pwd_nodes.c
 
 OBJS	= $(SRCS:.c=.o)
 
