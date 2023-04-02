@@ -24,7 +24,7 @@ t_command	*parse(char *command_str)
 	if (!tokens || !tokens[0])
 		return (free(tokens), (t_command *)0);
 	if (ft_strncmp(tokens[0], "cd", 2) == 0)
-		res = create_cd(tokens[1]);
+		res = create_cd(command_str + 3);
 	else if (ft_strncmp(tokens[0], "pwd", 3) == 0)
 		res = create_pwd();
 	else

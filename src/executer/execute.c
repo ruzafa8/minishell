@@ -66,7 +66,7 @@ int	execute(t_command *instr, char **path, char **env)
 	if (!instr)
 		return (1);
 	if (instr->type == CD)
-		status = built_in_cd(instr);
+		status = built_in_cd(instr, env);
 	else if (instr->type == PWD)
 		status = exec_pwd();
 	else if (instr->type == GENERIC)
