@@ -18,6 +18,18 @@ typedef enum e_type
 	EXIT
 }	t_type;
 
+typedef enum e_token_type
+{
+	TOK_STR,
+	TOK_CD
+}	t_token_type;
+
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+}	t_token;
+
 typedef struct s_cd
 {
 	char	*path;
@@ -56,5 +68,10 @@ char		*get_env_value(char **env, char *key);
 t_command	*create_pwd(void);
 int			exec_pwd(void);
 
+
+/**** token functions ******/
+char	*get_until(char *str, char c);
+t_list	*lexer(char *command_str);
+int	is_command(char *str, char *word);
 
 #endif
