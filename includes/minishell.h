@@ -41,6 +41,19 @@ typedef struct u_command
 	t_data	*data;
 }	t_command;
 
+typedef struct s_shell_data
+{
+	bool		interactive;
+	//t_token		*token;
+	//char		*user_input;
+	char		**env;
+	char		*working_dir;
+	char		*old_working_dir;
+	//t_command	*cmd;
+	//pid_t		pid;
+}	t_shell_data;
+
+
 t_command	*parse(char *str);
 int			execute(t_command *instr, char **path, char **env);
 void		loop_shell(char **path, char **env);
