@@ -68,6 +68,6 @@ int	execute(t_command *instr, char **path, char **env)
 	if (instr->type == CD)
 		status = built_in_cd(instr);
 	else if (instr->type == GENERIC)
-		execute_generic(instr, path, env);
+		status = execute_generic(instr, path, env);
 	return (status);
 }
