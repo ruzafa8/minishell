@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/ft.h"
+# include "lexer_types.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <errno.h>
@@ -17,18 +18,6 @@ typedef enum e_type
 	UNSET,
 	EXIT
 }	t_type;
-
-typedef enum e_token_type
-{
-	TOK_STR,
-	TOK_CD
-}	t_token_type;
-
-typedef struct s_token
-{
-	char			*value;
-	t_token_type	type;
-}	t_token;
 
 typedef struct s_cd
 {
@@ -70,8 +59,9 @@ int			exec_pwd(void);
 
 
 /**** token functions ******/
-char	*get_until(char *str, char c);
+
 t_list	*lexer(char *command_str);
-int	is_command(char *str, char *word);
+t_list	*create_token(t_token_type type, char *value);
+void	free_token_list(t_list **lst);
 
 #endif

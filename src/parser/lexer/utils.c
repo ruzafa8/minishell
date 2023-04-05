@@ -1,35 +1,27 @@
 #include "minishell.h"
 
-/**
- * Returns a copy of the string until a char is found
-*/
-char	*get_until(char *str, char c)
+t_list	*create_token(t_token_type type, char *value)
 {
-	char	*res;
-	size_t	i;
+	t_token	*token;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
-	res = ft_calloc(i + 1, sizeof(char));
-	ft_strlcpy(res, str, i + 1);
-	return (res);
+	token = ft_calloc(1, sizeof(t_token));
+	token->type = type;
+	token->value = value;
+	return (ft_lstnew(token));
 }
-/**
- * Returns if the first word of the string is a given string
-*/
-int	is_command(char *str, char *word)
-{
-	size_t	i;
 
-	if (!str || !word)
-		return (0);
-	i = 0;
-	while (str[i] && word[i] && str[i] == word[i])
-		i++;
-	if (word[i] == '\0' && (str[i] == ' ' || str[i] == '\0'))
-		return (1);
-	return (0);
+static void	free_token(void *token)
+{
+	if (!token)
+		return ;
+	free(((t_token *)token)->value);
+	free(token);
+}
+
+void	free_token_list(t_list **lst)
+{
+	if (!lst)
+		return ;
+	ft_lstclear(lst, &free_token);
+	ft_printf("free token list\n");
 }

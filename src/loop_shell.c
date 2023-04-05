@@ -16,15 +16,25 @@ void	loop_shell(char **path, char **env)
 		line = ft_get_next_line(0);//TODO: cuidao con los leaks
 		line = ft_strtrim(line, "\n");
 		t_list	*res = lexer(line);
-		while (res)
+		t_list	*tmp = res;
+		while (tmp)
 		{
-			t_token *token = res->content;
-			if (token->type == TOK_STR)
+			t_token *token = tmp->content;
+			if (token->type == TOK_WORD)
 				ft_printf("str: %s\n", token->value);
-			else if (token->type == TOK_CD)
-				ft_printf("cd\n");
-			res = res->next;
+			else if (token->type == TOK_PIPE)
+				ft_printf("pipe\n");
+			else if (token->type == TOK_REDIR_OUT)
+				ft_printf("redir out\n");
+			else if (token->type == TOK_REDIR_OUT_APPEND)
+				ft_printf("redir out append\n");
+			else if (token->type == TOK_REDIR_IN)
+				ft_printf("redir in\n");
+			else if (token->type == TOK_REDIR_IN_HEREDOC)
+				ft_printf("redir in heredoc\n");
+			tmp = tmp->next;
 		}
+		free_token_list(&res);
 		// instr = parse(line);
 		// status = execute(instr, path, env);
 		// free(line);
