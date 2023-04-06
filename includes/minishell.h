@@ -60,8 +60,9 @@ int			exec_pwd(void);
 
 /**** token functions ******/
 
-t_list	*lexer(char *command_str);
-t_list	*create_token(t_token_type type, char *value);
-void	free_token_list(t_list **lst);
+t_list		*lexer(char *command_str);
+t_list		*create_token(t_token_type type, char *value);
+void		free_token_list(t_list **lst);
+void		append_last_token(t_list **tokens, char **cmd);
 
 #endif

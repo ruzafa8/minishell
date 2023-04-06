@@ -1,105 +1,79 @@
 #include "minishell.h"
 
-void	process_quote_state(char **cmd, t_lexer_state *st, t_list **res, char q)
+static t_lexer_state	next_state(t_lexer_state current_state, char command)
 {
-	t_token	*token;
+	if (current_state == LEX_SIMPLE_QUOTE && command == '\'')
+		return (LEX_WORD);
+	else if (current_state == LEX_DOUBLE_QUOTE && command == '"')
+		return (LEX_WORD);
+	else if (current_state == LEX_START && command == '\'')
+		return (LEX_SIMPLE_QUOTE);
+	else if (current_state == LEX_START && command == '"')
+		return (LEX_DOUBLE_QUOTE);
+	else if (current_state == LEX_START && !ft_strchr("< |>", command))
+		return (LEX_WORD);
+	else if (current_state == LEX_WORD && command == '\'')
+		return (LEX_SIMPLE_QUOTE);
+	else if (current_state == LEX_WORD && command == '"')
+		return (LEX_DOUBLE_QUOTE);
+	else if (current_state == LEX_WORD && ft_strchr("< |>", command))
+		return (LEX_START);
+	return (current_state);
+}
 
-	if (**cmd == q)
-		*st = LEX_WORD;
-	else
-	{
-		token = ft_lstlast(*res)->content;
-		token->value = ft_strjoin(token->value, ft_substr(*cmd, 0, 1)); //TODO: Leaks?
-	}
+static void	quote_state(char **cmd, t_lexer_state *st, t_list **res, char q)
+{
+	*st = next_state(*st, **cmd);
+	if (**cmd != q)
+		append_last_token(res, cmd);
 	(*cmd)++;
 }
 
-void	process_word_state(char **cmd, t_lexer_state *st, t_list **res)
+static void	word_state(char **cmd, t_lexer_state *st, t_list **res)
 {
-	t_token	*token;
-	char	*aux;
-	char	*substr;
-
-	if (**cmd == '\'')
-		*st = LEX_SIMPLE_QUOTE;
-	else if (**cmd == '"')
-		*st = LEX_DOUBLE_QUOTE;
-	else if (**cmd == ' ')
-		*st = LEX_START;
-	else if (**cmd == '|')
-	{
-		*st = LEX_START;
+	*st = next_state(*st, **cmd);
+	if (**cmd == '|')
 		ft_lstadd_back(res, create_token(TOK_PIPE, 0));
-	}
 	else if (**cmd == '>' && **(cmd + 1) == '>')
 	{
-		*st = LEX_START;
 		ft_lstadd_back(res, create_token(TOK_REDIR_OUT_APPEND, 0));
 		(*cmd)++;
 	}
 	else if (**cmd == '>')
-	{
-		*st = LEX_START;
 		ft_lstadd_back(res, create_token(TOK_REDIR_OUT, 0));
-	}
 	else if (**cmd == '<' && **(cmd + 1) == '<')
 	{
-		*st = LEX_START;
 		ft_lstadd_back(res, create_token(TOK_REDIR_IN_HEREDOC, 0));
 		(*cmd)++;
 	}
 	else if (**cmd == '<')
-	{
-		*st = LEX_START;
 		ft_lstadd_back(res, create_token(TOK_REDIR_IN, 0));
-	}
-	else
-	{
-		token = ft_lstlast(*res)->content;
-		substr = ft_substr(*cmd, 0, 1);
-		aux = ft_strjoin(token->value, substr);
-		free(substr);
-		free(token->value);
-		token->value = aux;
-	}
+	else if (!ft_strchr(" '\"", **cmd))
+		append_last_token(res, cmd);
 	(*cmd)++;
 }
 
-void	process_start_state(char **command, t_lexer_state *state, t_list **res)
+static void	start_state(char **command, t_lexer_state *state, t_list **res)
 {
-	if (**command == '\'')
-	{
-		ft_lstadd_back(res, create_token(TOK_WORD, (char *) ft_calloc(0, sizeof(char))));
-		*state = LEX_SIMPLE_QUOTE;
-	}
-	else if (**command == '"')
-	{
-		ft_lstadd_back(res, create_token(TOK_WORD, (char *) ft_calloc(0, sizeof(char))));
-		*state = LEX_DOUBLE_QUOTE;
-	}
-	else if (**command == ' ') {}
-		// do nothing
+	*state = next_state(*state, **command);
+	if (ft_strchr("'\"", **command))
+		ft_lstadd_back(res, create_token(TOK_WORD,
+				(char *) ft_calloc(0, sizeof(char))));
 	else if (**command == '|')
 		ft_lstadd_back(res, create_token(TOK_PIPE, 0));
-	else if (**command == '>' && command + 1 && **(command + 1) == '>')
-	{
+	else if (**command == '>' && *((*command) + 1) == '>')
 		ft_lstadd_back(res, create_token(TOK_REDIR_OUT_APPEND, 0));
-		(*command)++;
-	}
 	else if (**command == '>')
 		ft_lstadd_back(res, create_token(TOK_REDIR_OUT, 0));
-	else if (**command == '<' && command + 1 && **(command + 1) == '<')
-	{
+	else if (**command == '<' && *((*command) + 1) == '<')
 		ft_lstadd_back(res, create_token(TOK_REDIR_IN_HEREDOC, 0));
-		(*command)++;
-	}
 	else if (**command == '<')
 		ft_lstadd_back(res, create_token(TOK_REDIR_IN, 0));
-	else
-	{
-		*state = LEX_WORD;
+	else if (**command != ' ')
 		ft_lstadd_back(res, create_token(TOK_WORD, ft_substr(*command, 0, 1)));
-	}
+	if ((**command == '>' && *((*command) + 1) == '>')
+		|| (**command == '<' && *((*command)) == '<'))
+		(*command)++;
 	(*command)++;
 }
 
@@ -113,13 +87,13 @@ t_list	*lexer(char *command)
 	while (*command)
 	{
 		if (state == LEX_START)
-			process_start_state(&command, &state, &tokens);
+			start_state(&command, &state, &tokens);
 		else if (state == LEX_SIMPLE_QUOTE)
-			process_quote_state(&command, &state, &tokens, '\'');
+			quote_state(&command, &state, &tokens, '\'');
 		else if (state == LEX_DOUBLE_QUOTE)
-			process_quote_state(&command, &state, &tokens, '"');
+			quote_state(&command, &state, &tokens, '"');
 		else if (state == LEX_WORD)
-			process_word_state(&command, &state, &tokens);
+			word_state(&command, &state, &tokens);
 	}
 	if (state == LEX_SIMPLE_QUOTE || state == LEX_DOUBLE_QUOTE)
 	{
