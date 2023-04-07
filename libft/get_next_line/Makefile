@@ -12,13 +12,12 @@ all: ${NAME}
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
 
-$(NAME): ${OBJS} ${BONUS_OBJS}
+$(NAME): ${BONUS_OBJS}
 	make -C ../ft
 	cp ../ft/libft.a $(NAME) 
-	ar -rcs ${NAME} ${BONUS_OBJS} ${OBJS}
+	ar -rcs ${NAME} ${BONUS_OBJS}
 
 clean:
-	${RM} ${OBJS}
 	${RM} ${BONUS_OBJS}
 
 fclean: clean

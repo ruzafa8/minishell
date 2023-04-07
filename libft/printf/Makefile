@@ -20,7 +20,6 @@ $(NAME): ${OBJS_BONUS}
 	ar -rcs ${NAME} ${OBJS_BONUS}
 
 clean:
-	${RM} ${OBJS}
 	${RM} ${OBJS_BONUS}
 
 fclean: clean
