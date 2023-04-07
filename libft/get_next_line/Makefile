@@ -1,5 +1,5 @@
 SRCS			= get_next_line.c get_next_line_utils.c
-BONUS_SRCS		= get_next_line_bonus.c get_next_line_bonus.c
+BONUS_SRCS		= get_next_line_bonus.c get_next_line_utils_bonus.c
 BONUS_OBJS		= ${BONUS_SRCS:.c=.o}
 OBJS			= ${SRCS:.c=.o}
 NAME			= libnextline.a
