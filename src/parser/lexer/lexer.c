@@ -1,42 +1,31 @@
 #include "minishell.h"
 
-static t_lexer_state	next_state(t_lexer_state current_state, char command)
+static t_lexer_state	next_state(t_lexer_state state, char command)
 {
-	if (current_state == LEX_SIMPLE_QUOTE && command == '\'')
+	if ((state == LEX_SIMPLE_QUOTE && command == '\'')
+		|| (state == LEX_DOUBLE_QUOTE && command == '"')
+		|| (state == LEX_START && !ft_strchr("<' $|\">", command))
+		|| (state == LEX_VAR && command == ' ')
+		|| (state == LEX_VAR_DOUBLE_QUOTE && command == '"'))
 		return (LEX_WORD);
-	else if (current_state == LEX_DOUBLE_QUOTE && command == '"')
-		return (LEX_WORD);
-	else if (current_state == LEX_DOUBLE_QUOTE && command == '$')
+	else if (state == LEX_DOUBLE_QUOTE && command == '$')
 		return (LEX_VAR_DOUBLE_QUOTE);
-	else if (current_state == LEX_START && command == '\'')
+	else if ((state == LEX_START && command == '\'')
+		|| (state == LEX_WORD && command == '\'')
+		|| (state == LEX_VAR && command == '\''))
 		return (LEX_SIMPLE_QUOTE);
-	else if (current_state == LEX_START && command == '"')
+	else if ((state == LEX_START && command == '"')
+		|| (state == LEX_WORD && command == '"')
+		|| (state == LEX_VAR && command == '"')
+		|| (state == LEX_VAR_DOUBLE_QUOTE && ft_strchr("<'| >", command)))
 		return (LEX_DOUBLE_QUOTE);
-	else if (current_state == LEX_START && command == '$')
+	else if ((state == LEX_START && command == '$')
+		|| (state == LEX_WORD && command == '$'))
 		return (LEX_VAR);
-	else if (current_state == LEX_START && !ft_strchr("< |>", command))
-		return (LEX_WORD);
-	else if (current_state == LEX_WORD && command == '\'')
-		return (LEX_SIMPLE_QUOTE);
-	else if (current_state == LEX_WORD && command == '"')
-		return (LEX_DOUBLE_QUOTE);
-	else if (current_state == LEX_WORD && command == '$')
-		return (LEX_VAR);
-	else if (current_state == LEX_WORD && ft_strchr("< |>", command))
+	else if ((state == LEX_WORD && ft_strchr("< |>", command))
+		|| (state == LEX_VAR && ft_strchr("<|>", command)))
 		return (LEX_START);
-	else if (current_state == LEX_VAR && command == '\'')
-		return (LEX_SIMPLE_QUOTE);
-	else if (current_state == LEX_VAR && command == '"')
-		return (LEX_DOUBLE_QUOTE);
-	else if (current_state == LEX_VAR && command == ' ')
-		return (LEX_WORD);
-	else if (current_state == LEX_VAR && ft_strchr("<|>", command))
-		return (LEX_START);
-	else if (current_state == LEX_VAR_DOUBLE_QUOTE && ft_strchr("<'| >", command))
-		return (LEX_DOUBLE_QUOTE);
-	else if (current_state == LEX_VAR_DOUBLE_QUOTE && command == '"')
-		return (LEX_WORD);
-	return (current_state);
+	return (state);
 }
 
 static void	simple_quote_state(char **cmd, t_lexer_state *st, t_list **res)
