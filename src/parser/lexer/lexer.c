@@ -34,14 +34,14 @@ static void	word_state(char **cmd, t_lexer_state *st, t_list **res)
 	*st = next_state(*st, **cmd);
 	if (**cmd == '|')
 		ft_lstadd_back(res, create_token(TOK_PIPE, 0));
-	else if (**cmd == '>' && **(cmd + 1) == '>')
+	else if (**cmd == '>' && *((*cmd) + 1) == '>')
 	{
 		ft_lstadd_back(res, create_token(TOK_REDIR_OUT_APPEND, 0));
 		(*cmd)++;
 	}
 	else if (**cmd == '>')
 		ft_lstadd_back(res, create_token(TOK_REDIR_OUT, 0));
-	else if (**cmd == '<' && **(cmd + 1) == '<')
+	else if (**cmd == '<' && *((*cmd) + 1) == '<')
 	{
 		ft_lstadd_back(res, create_token(TOK_REDIR_IN_HEREDOC, 0));
 		(*cmd)++;
@@ -58,7 +58,7 @@ static void	start_state(char **command, t_lexer_state *state, t_list **res)
 	*state = next_state(*state, **command);
 	if (ft_strchr("'\"", **command))
 		ft_lstadd_back(res, create_token(TOK_WORD,
-				(char *) ft_calloc(0, sizeof(char))));
+				(char *) ft_calloc(1, sizeof(char))));
 	else if (**command == '|')
 		ft_lstadd_back(res, create_token(TOK_PIPE, 0));
 	else if (**command == '>' && *((*command) + 1) == '>')
@@ -72,7 +72,7 @@ static void	start_state(char **command, t_lexer_state *state, t_list **res)
 	else if (**command != ' ')
 		ft_lstadd_back(res, create_token(TOK_WORD, ft_substr(*command, 0, 1)));
 	if ((**command == '>' && *((*command) + 1) == '>')
-		|| (**command == '<' && *((*command)) == '<'))
+		|| (**command == '<' && *((*command) + 1) == '<'))
 		(*command)++;
 	(*command)++;
 }
@@ -84,6 +84,8 @@ t_list	*lexer(char *command)
 
 	state = LEX_START;
 	tokens = 0;
+	if (!command)
+		return (0);
 	while (*command)
 	{
 		if (state == LEX_START)
