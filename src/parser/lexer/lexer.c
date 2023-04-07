@@ -28,19 +28,19 @@ static t_lexer_state	next_state(t_lexer_state state, char command)
 	return (state);
 }
 
-static void	simple_quote_state(char **cmd, t_lexer_state *st, t_list **res)
+static void	quote_states(char **cmd, t_lexer_state *st, t_list **res, char quote)
 {
 	*st = next_state(*st, **cmd);
-	if (**cmd != '\'')
-		append_last_token(res, cmd);
-	(*cmd)++;
-}
-
-static void	double_quote_state(char **cmd, t_lexer_state *st, t_list **res)
-{
-	*st = next_state(*st, **cmd);
-	if (!ft_strchr("$\"", **cmd))
-		append_last_token(res, cmd);
+	if (quote == '"')
+	{
+		if (!ft_strchr("$\"", **cmd))
+			append_last_token(res, cmd);
+	}
+	else
+	{
+		if (**cmd != '\'')
+			append_last_token(res, cmd);
+	}
 	(*cmd)++;
 }
 
@@ -146,9 +146,9 @@ t_list	*lexer(char *command, char **env)
 		if (state == LEX_START)
 			start_state(&command, &state, &tokens);
 		else if (state == LEX_SIMPLE_QUOTE)
-			simple_quote_state(&command, &state, &tokens);
+			quote_states(&command, &state, &tokens, '\'');
 		else if (state == LEX_DOUBLE_QUOTE)
-			double_quote_state(&command, &state, &tokens);
+			quote_states(&command, &state, &tokens, '"');
 		else if (state == LEX_WORD)
 			word_state(&command, &state, &tokens);
 		else if (state == LEX_VAR)
