@@ -6,7 +6,9 @@ typedef enum e_lexer_state
 	LEX_START,
 	LEX_SIMPLE_QUOTE,
 	LEX_DOUBLE_QUOTE,
-	LEX_WORD
+	LEX_WORD,
+	LEX_VAR,
+	LEX_VAR_DOUBLE_QUOTE
 }	t_lexer_state;
 
 typedef enum e_token_type
@@ -22,6 +24,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*value;
+	char			*var_name;
 	t_token_type	type;
 }	t_token;
 
