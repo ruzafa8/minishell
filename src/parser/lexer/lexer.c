@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_lex_st	next_state(t_lex_st state, char command)
+t_lex_st	lex_next_state(t_lex_st state, char command)
 {
 	if ((state == LEX_SIMPLE_QUOTE && command == '\'')
 		|| (state == LEX_DOUBLE_QUOTE && command == '"')
@@ -28,8 +28,6 @@ static t_lex_st	next_state(t_lex_st state, char command)
 	return (state);
 }
 
-
-
 t_list	*lexer(char *command, char **env)
 {
 	t_lex_st	state;
@@ -54,8 +52,7 @@ t_list	*lexer(char *command, char **env)
 		else if (state == LEX_VAR_DOUBLE_QUOTE)
 			lex_var_double_st(&command, &state, &tokens, env);
 	}
-	if (state == LEX_SIMPLE_QUOTE
-		|| state == LEX_DOUBLE_QUOTE
+	if (state == LEX_SIMPLE_QUOTE || state == LEX_DOUBLE_QUOTE
 		|| state == LEX_VAR_DOUBLE_QUOTE)
 	{
 		ft_printf("minishell: syntax error: quote not closed.\n");

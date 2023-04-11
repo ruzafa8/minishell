@@ -17,7 +17,8 @@ SRCS	= 	src/loop_shell.c \
 			src/parser/pwd_nodes.c\
 			src/parser/lexer/lexer.c\
 			src/parser/lexer/utils.c\
-			src/parser/lexer/actions.c
+			src/parser/lexer/actions.c\
+			src/parser/lexer/states.c
 
 OBJS	= $(SRCS:.c=.o)
 

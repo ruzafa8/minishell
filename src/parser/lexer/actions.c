@@ -38,10 +38,13 @@ void	substitute_env_var(t_list **tokens, char **env)
 	if (*(token->var_name) != 0)
 	{
 		env_value = get_env_value(env, token->var_name);
-		aux = ft_strjoin(token->value, env_value);
-		free(token->value);
-		token->value = aux;
-		free(env_value);
+		if (env_value)
+		{
+			aux = ft_strjoin(token->value, env_value);
+			free(token->value);
+			token->value = aux;
+			free(env_value);
+		}
 		free(token->var_name);
 		token->var_name = ft_strdup("");
 	}

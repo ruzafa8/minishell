@@ -72,7 +72,6 @@ void		lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env);
 void		lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, char **env);
 void		lex_word_state(char **cmd, t_lex_st *st, t_list **res);
 void		lex_start_state(char **command, t_lex_st *state, t_list **res);
-
-
+t_lex_st	lex_next_state(t_lex_st state, char command);
 
 #endif

@@ -2,7 +2,7 @@
 
 void	lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char quote)
 {
-	*st = next_state(*st, **cmd);
+	*st = lex_next_state(*st, **cmd);
 	if (quote == '"')
 	{
 		if (!ft_strchr("$\"", **cmd))
@@ -18,7 +18,7 @@ void	lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char quote)
 
 void	lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env)
 {
-	*st = next_state(*st, **cmd);
+	*st = lex_next_state(*st, **cmd);
 	if (ft_strchr("<' $|\">", **cmd))
 		substitute_env_var(res, env);
 	if (**cmd == '|')
@@ -46,7 +46,7 @@ void	lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env)
 
 void	lex_var_double_st(char **cmd, t_lex_st *st, t_list **res, char **env)
 {
-	*st = next_state(*st, **cmd);
+	*st = lex_next_state(*st, **cmd);
 	if (ft_strchr("<' $|\">", **cmd))
 		substitute_env_var(res, env);
 	if (!ft_strchr("\"$", **cmd))
@@ -56,7 +56,7 @@ void	lex_var_double_st(char **cmd, t_lex_st *st, t_list **res, char **env)
 
 void	lex_word_state(char **cmd, t_lex_st *st, t_list **res)
 {
-	*st = next_state(*st, **cmd);
+	*st = lex_next_state(*st, **cmd);
 	if (**cmd == '|')
 		ft_lstadd_back(res, create_token(TOK_PIPE, 0));
 	else if (**cmd == '>' && *((*cmd) + 1) == '>')
@@ -80,7 +80,7 @@ void	lex_word_state(char **cmd, t_lex_st *st, t_list **res)
 
 void	lex_start_state(char **command, t_lex_st *state, t_list **res)
 {
-	*state = next_state(*state, **command);
+	*state = lex_next_state(*state, **command);
 	if (ft_strchr("'\"", **command))
 		ft_lstadd_back(res, create_token(TOK_WORD, ft_strdup("")));
 	else if (**command == '|')
