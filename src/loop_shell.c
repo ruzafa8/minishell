@@ -2,9 +2,10 @@
 
 void	loop_shell(char **path, char **env)
 {
-	char			*line;
+	char		*line;
+	char		*aux;
 	t_command	*instr;
-	int status;
+	int 		status;
 
 	status = 1;
 	(void)env;
@@ -13,9 +14,10 @@ void	loop_shell(char **path, char **env)
 	while (status)
 	{
 		ft_printf("> ");
-		line = ft_get_next_line(0);//TODO: cuidao con los leaks
-		line = ft_strtrim(line, "\n");
-		t_list	*res = lexer(line);
+		aux = ft_get_next_line(0);//TODO: cuidao con los leaks
+		line = ft_strtrim(aux, "\n");
+		free(aux);
+		t_list	*res = lexer(line, env);
 		t_list	*tmp = res;
 		while (tmp)
 		{
@@ -37,7 +39,7 @@ void	loop_shell(char **path, char **env)
 		free_token_list(&res);
 		// instr = parse(line);
 		// status = execute(instr, path, env);
-		// free(line);
+		free(line);
 		// free(instr);
 		status = 1;//quitar pa poner shell interactiva o no interactiva (con el flag -c)
 	}

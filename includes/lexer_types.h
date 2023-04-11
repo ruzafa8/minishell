@@ -9,7 +9,7 @@ typedef enum e_lexer_state
 	LEX_WORD,
 	LEX_VAR,
 	LEX_VAR_DOUBLE_QUOTE
-}	t_lexer_state;
+}	t_lex_st;
 
 typedef enum e_token_type
 {

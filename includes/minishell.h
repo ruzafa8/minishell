@@ -67,4 +67,12 @@ void		append_last_token(t_list **tokens, char **cmd);
 void		append_var_name(t_list **tokens, char **cmd);
 void		substitute_env_var(t_list **tokens, char **env);
 
+void		lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char q);
+void		lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env);
+void		lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, char **env);
+void		lex_word_state(char **cmd, t_lex_st *st, t_list **res);
+void		lex_start_state(char **command, t_lex_st *state, t_list **res);
+
+
+
 #endif
