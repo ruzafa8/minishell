@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 19:25:25 by aruzafa-          #+#    #+#             */
-/*   Updated: 2022/04/24 17:05:09 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/03/31 21:40:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static size_t	ft_count_to_delete(char const *s, char const *set, size_t len)
 	size_t	count;
 	size_t	i;
 
+	if (len == 0)
+		return (0);
 	count = 0;
 	i = 0;
 	while (i < len && ft_belong(s[i], set))
@@ -36,7 +38,7 @@ static size_t	ft_count_to_delete(char const *s, char const *set, size_t len)
 		i++;
 	}
 	i = len - 1;
-	while (i >= 0 && ft_belong(s[i], set) && count < len)
+	while (ft_belong(s[i], set) && count < len)
 	{
 		count++;
 		i--;
