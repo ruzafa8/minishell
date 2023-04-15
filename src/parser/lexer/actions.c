@@ -28,7 +28,7 @@ void	append_var_name(t_list **tokens, char **cmd)
 	token->var_name = aux;
 }
 
-void	substitute_env_var(t_list **tokens, char **env)
+void	substitute_env_var(t_list **tokens, t_shell_data *data)
 {
 	t_token	*token;
 	char	*env_value;
@@ -37,7 +37,7 @@ void	substitute_env_var(t_list **tokens, char **env)
 	token = ft_lstlast(*tokens)->content;
 	if (*(token->var_name) != 0)
 	{
-		env_value = get_env_value(env, token->var_name);
+		env_value = get_env_value(data, token->var_name);
 		if (env_value)
 		{
 			aux = ft_strjoin(token->value, env_value);

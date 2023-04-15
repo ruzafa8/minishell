@@ -16,11 +16,11 @@ void	lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char quote)
 	(*cmd)++;
 }
 
-void	lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env)
+void	lex_var_state(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data)
 {
 	*st = lex_next_state(*st, **cmd);
 	if (ft_strchr("<' $|\">", **cmd))
-		substitute_env_var(res, env);
+		substitute_env_var(res, data);
 	if (**cmd == '|')
 		ft_lstadd_back(res, create_token(TOK_PIPE, 0));
 	else if (**cmd == '>' && *((*cmd) + 1) == '>')
@@ -44,11 +44,11 @@ void	lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env)
 	(*cmd)++;
 }
 
-void	lex_var_double_st(char **cmd, t_lex_st *st, t_list **res, char **env)
+void	lex_var_double_st(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data)
 {
 	*st = lex_next_state(*st, **cmd);
 	if (ft_strchr("<' $|\">", **cmd))
-		substitute_env_var(res, env);
+		substitute_env_var(res, data);
 	if (!ft_strchr("\"$", **cmd))
 		append_var_name(res, cmd);
 	(*cmd)++;

@@ -9,6 +9,6 @@ int	main(int argc, char **args, char **env)
 
 	shell_data = init_shell_data(env);
 	path = get_path(env);
-	loop_shell(path, env);
+	loop_shell(shell_data);
 	return (0);
 }

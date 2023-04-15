@@ -28,7 +28,7 @@ t_lex_st	lex_next_state(t_lex_st state, char command)
 	return (state);
 }
 
-t_list	*lexer(char *command, char **env)
+t_list	*lexer(char *command, t_shell_data *data)
 {
 	t_lex_st	state;
 	t_list		*tokens;
@@ -48,9 +48,9 @@ t_list	*lexer(char *command, char **env)
 		else if (state == LEX_WORD)
 			lex_word_state(&command, &state, &tokens);
 		else if (state == LEX_VAR)
-			lex_var_state(&command, &state, &tokens, env);
+			lex_var_state(&command, &state, &tokens, data);
 		else if (state == LEX_VAR_DOUBLE_QUOTE)
-			lex_var_double_st(&command, &state, &tokens, env);
+			lex_var_double_st(&command, &state, &tokens, data);
 	}
 	if (state == LEX_SIMPLE_QUOTE || state == LEX_DOUBLE_QUOTE
 		|| state == LEX_VAR_DOUBLE_QUOTE)
@@ -59,6 +59,6 @@ t_list	*lexer(char *command, char **env)
 		return (free_token_list(&tokens), (t_list *) 0);
 	}
 	if (state == LEX_VAR)
-		substitute_env_var(&tokens, env);
+		substitute_env_var(&tokens, data);
 	return (tokens);
 }

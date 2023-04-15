@@ -89,16 +89,16 @@ int				remove_env_var(t_shell_data *data, int idx);
 
 /**** token functions ******/
 
-t_list		*lexer(char *command_str, char **env);
+t_list		*lexer(char *command_str, t_shell_data *data);
 t_list		*create_token(t_token_type type, char *value);
 void		free_token_list(t_list **lst);
 void		append_last_token(t_list **tokens, char **cmd);
 void		append_var_name(t_list **tokens, char **cmd);
-void		substitute_env_var(t_list **tokens, char **env);
+void		substitute_env_var(t_list **tokens, t_shell_data *data);
 
 void		lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char q);
-void		lex_var_state(char **cmd, t_lex_st *st, t_list **res, char **env);
-void		lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, char **env);
+void		lex_var_state(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data);
+void		lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, t_shell_data *d);
 void		lex_word_state(char **cmd, t_lex_st *st, t_list **res);
 void		lex_start_state(char **command, t_lex_st *state, t_list **res);
 t_lex_st	lex_next_state(t_lex_st state, char command);

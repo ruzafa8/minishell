@@ -15,7 +15,7 @@ void	loop_shell(t_shell_data *data)
 		aux = ft_get_next_line(0);//TODO: cuidao con los leaks
 		line = ft_strtrim(aux, "\n");
 		free(aux);
-		tokens = lexer(line, data->env);
+		tokens = lexer(line, data);
 		t_list	*tmp = tokens;
 		while (tmp)
 		{
