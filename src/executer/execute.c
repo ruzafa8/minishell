@@ -21,20 +21,24 @@ char	*check_access(char *command, char **path)
 	return (0);
 }
 
-static int	execaux(t_command_old *instr, char **path, char ** env)
+static int	execaux(t_command *instr, t_shell_data *data)
 {
 	char	*comand_and_path;
+	char	**path;
 
-	comand_and_path = check_access(instr->data->generic->command, path);
+	path = get_path(data->env);
+	if (!path)
+		return (1);
+	comand_and_path = check_access(instr->argv[0], path);
 	if (comand_and_path != 0)
 	{
-		execve(comand_and_path, instr->data->generic->full_command, env);
+		execve(comand_and_path, instr->argv, data->env);
 		return (errno);
 	}
 	return (127);
 }
 
-static int	execute_generic(t_command_old *instr, char **path, char **env)
+static int	execute_generic(t_command *instr, t_shell_data *data)
 {
 	int		pid1;
 	int		result_code;
@@ -45,7 +49,7 @@ static int	execute_generic(t_command_old *instr, char **path, char **env)
 		return (pid1);
 	if (pid1 == 0)
 	{
-		result_code = execaux(instr, path, env);
+		result_code = execaux(instr, data);
 		perror(strerror(result_code));
 	}
 	waitpid(pid1, 0, 0);
@@ -62,14 +66,12 @@ int	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
 	t_command *command;
-	(void)status;
-	(void)instr;
-	(void)execute_generic;
 
 	command = (t_command *) instr->content;
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
-
+	else
+		status = execute_generic(command, data);
 
 /*
 	status = 127;

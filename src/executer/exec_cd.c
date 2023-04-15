@@ -5,7 +5,7 @@ int	built_in_cd(t_command *command, t_shell_data *sh_data)
 	int	res_code;
 	char *pathaux;
 
-	if (ft_strncmp(command->argv[1], "", 1) == 0
+	if (command->argc == 1 
 		|| ft_strncmp(command->argv[1], "--", 3) == 0)
 	{
 		pathaux = get_env_value(sh_data, "HOME");
