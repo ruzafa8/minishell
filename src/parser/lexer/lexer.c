@@ -31,7 +31,7 @@ t_lex_st	lex_next_state(t_lex_st state, char command)
 t_list	*lexer(char *command, char **env)
 {
 	t_lex_st	state;
-	t_list			*tokens;
+	t_list		*tokens;
 
 	state = LEX_START;
 	tokens = 0;
