@@ -2,6 +2,7 @@
 # define MINISHELL_H
 # include "../libft/ft.h"
 # include "lexer_types.h"
+# include "parser_types.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <errno.h>
@@ -74,4 +75,15 @@ void		lex_word_state(char **cmd, t_lex_st *st, t_list **res);
 void		lex_start_state(char **command, t_lex_st *state, t_list **res);
 t_lex_st	lex_next_state(t_lex_st state, char command);
 
+/**** parser functions ******/
+
+void		parser(t_list *tokens);
+t_pars_st	pars_next_state(t_pars_st state, t_token *token);
+void		pars_start_st(t_list *tokens, t_pars_st *state);
+void		pars_command_st(t_list *tokens, t_pars_st *state);
+void		pars_redirin_st(t_list *tokens, t_pars_st *state);
+void		pars_redirout_st(t_list *tokens, t_pars_st *state);
+void		pars_rediroappe_st(t_list *tokens, t_pars_st *state);
+void		pars_redheredoc_st(t_list *tokens, t_pars_st *state);
+void		pars_invalid_st(t_list *tokens, t_pars_st *state);
 #endif

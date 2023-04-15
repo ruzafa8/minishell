@@ -36,7 +36,11 @@ void	loop_shell(char **path, char **env)
 				ft_printf("redir in heredoc\n");
 			tmp = tmp->next;
 		}
-		free_token_list(&res);
+		if (res)
+		{
+			parser(res);
+			free_token_list(&res);
+		}
 		// instr = parse(line);
 		// status = execute(instr, path, env);
 		free(line);
