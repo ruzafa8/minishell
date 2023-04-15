@@ -24,6 +24,7 @@ SRCS	= 	src/loop_shell.c \
 			src/parser/lexer/states.c \
 			src/parser/parser/parser.c \
 			src/parser/parser/states.c \
+			src/parser/parser/actions.c \
 
 OBJS	= $(SRCS:.c=.o)
 

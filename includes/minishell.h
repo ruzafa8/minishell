@@ -46,6 +46,7 @@ typedef struct u_command
 typedef struct s_command
 {
 	char	**argv;
+	int		argc;
 	int		fd_in;
 	int		fd_out;
 }	t_command;
@@ -106,11 +107,15 @@ t_lex_st	lex_next_state(t_lex_st state, char command);
 
 t_list		*parser(t_list *tokens);
 t_pars_st	pars_next_state(t_pars_st state, t_token *token);
-void		pars_start_st(t_list *tokens, t_pars_st *state);
-void		pars_command_st(t_list *tokens, t_pars_st *state);
+void		pars_start_st(t_list *tokens, t_pars_st *state, t_list **commands);
+void		pars_command_st(t_list *tokens, t_pars_st *state, t_list **commands);
 void		pars_redirin_st(t_list *tokens, t_pars_st *state);
 void		pars_redirout_st(t_list *tokens, t_pars_st *state);
 void		pars_rediroappe_st(t_list *tokens, t_pars_st *state);
 void		pars_redheredoc_st(t_list *tokens, t_pars_st *state);
 void		pars_invalid_st(t_list *tokens, t_pars_st *state);
+
+void		pars_append_arg_to_command(t_list *commands, char *value);
+void		pars_append_new_command(t_list **commands, char *value);
+
 #endif

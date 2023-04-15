@@ -3,20 +3,20 @@
 
 #include "minishell.h"
 
-
-//TODO: NO ES VOID , HAY devolvimientos del arbore
 t_list	*parser(t_list *tokens)
 {
 	t_pars_st	state;
+	t_list		*commands;
 
 	//tokens nunca puede ser null???? se sale antes
+	commands = 0;
 	state = PARS_START;
 	while (tokens)
 	{
 		if (state == PARS_START)
-			pars_start_st(tokens, &state);
+			pars_start_st(tokens, &state, &commands);
 		else if (state == PARS_COMMAND)
-			pars_command_st(tokens, &state);
+			pars_command_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_IN)
 			pars_redirin_st(tokens, &state);
 		else if (state == PARS_REDIR_OUT)
@@ -37,7 +37,7 @@ t_list	*parser(t_list *tokens)
 		//return (free_tree(), (t_ast *) 0);
 	}
 	//TODO: pONER BIEN EL NOMBRE DE LA VARIABLE
-	return (0);
+	return (commands);
 }
 
 t_pars_st	pars_next_state(t_pars_st state, t_token *token)
