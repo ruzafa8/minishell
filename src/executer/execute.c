@@ -58,14 +58,19 @@ static int	execute_generic(t_command_old *instr, char **path, char **env)
 	return (result_code);
 }
 
-int	execute(t_list *instr, char **path, char **env)
+int	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
+	t_command *command;
 	(void)status;
-	(void)env;
-	(void)path;
 	(void)instr;
 	(void)execute_generic;
+
+	command = (t_command *) instr->content;
+	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
+		status = built_in_cd(command, data);
+
+
 /*
 	status = 127;
 	if (!instr)

@@ -62,8 +62,8 @@ typedef struct s_shell_data
 	//pid_t		pid;
 }	t_shell_data;
 
-int			execute(t_list *instr, char **path, char **env);
-void		loop_shell(char **path, char **env);
+int			execute(t_list *instr, t_shell_data *data);
+void		loop_shell(t_shell_data *data);
 void		free_path(char **path);
 char		**get_path(char **env);
 char		*check_access(char *command, char **path);
@@ -71,11 +71,12 @@ t_command_old	*create_cd(char *path);
 void		free_cd(t_data	*data);
 t_command_old	*create_generic(char *command, char **full_command);
 void		free_command(t_command_old *command);
-int			built_in_cd(t_command_old *instr, t_shell_data *data);
-char		*get_env_value(char **env, char *key);
+int			built_in_cd(t_command *instr, t_shell_data *data);
+char		*get_env_value(t_shell_data *data, char *key);
 t_command_old	*create_pwd(void);
 int				exec_pwd(void);
 
+/**** env functions ******/
 
 int				env_size(char **env);
 int				init_env(t_shell_data *aux, char **env);
@@ -84,6 +85,7 @@ void			free_ptr(void *ptr);
 int				get_env_var_index(char **env, char *var);
 int				set_env_var(t_shell_data *data, char *key, char *value);
 int				remove_env_var(t_shell_data *data, int idx);
+
 /**** token functions ******/
 
 t_list		*lexer(char *command_str, char **env);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	loop_shell(char **path, char **env)
+void	loop_shell(t_shell_data *data)
 {
 	char		*line;
 	char		*aux;
@@ -9,15 +9,13 @@ void	loop_shell(char **path, char **env)
 	t_list		*commands;
 
 	status = 1;
-	(void)env;
-	(void)path;
 	while (status)
 	{
 		ft_printf("> ");
 		aux = ft_get_next_line(0);//TODO: cuidao con los leaks
 		line = ft_strtrim(aux, "\n");
 		free(aux);
-		tokens = lexer(line, env);
+		tokens = lexer(line, data->env);
 		t_list	*tmp = tokens;
 		while (tmp)
 		{
@@ -39,7 +37,7 @@ void	loop_shell(char **path, char **env)
 		if (tokens)
 		{
 			commands = parser(tokens);
-			status = execute(commands, path, env);
+			status = execute(commands, data);
 			free_token_list(&tokens);
 		}
 		free(line);
