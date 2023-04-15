@@ -39,6 +39,20 @@ void	loop_shell(char **path, char **env)
 		if (tokens)
 		{
 			commands = parser(tokens);
+			// Iterate commands to print them
+			t_list	*tmp = commands;
+			while (tmp)
+			{
+				t_command *command = tmp->content;
+				ft_printf("command: %s\n", command->argv[0]);
+				int i = 0;
+				while (i < command->argc)
+				{
+					ft_printf("arg: %s\n", command->argv[i]);
+					i++;
+				}
+				tmp = tmp->next;
+			}
 			status = execute(commands, path, env);
 			free_token_list(&tokens);
 		}
