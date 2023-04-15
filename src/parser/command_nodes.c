@@ -3,7 +3,7 @@
 /**
  * This function deletes any command node.
  */
-void	free_command(t_command *command)
+void	free_command(t_command_old *command)
 {
 	if (!command)
 		return ;

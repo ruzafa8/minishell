@@ -18,7 +18,7 @@ typedef enum e_type
 	EXPORT,
 	UNSET,
 	EXIT
-}	t_type;
+}	t_type_old;
 
 typedef struct s_cd
 {
@@ -39,24 +39,31 @@ typedef union u_data
 
 typedef struct u_command
 {
-	t_type	type;
+	t_type_old	type;
 	t_data	*data;
+}	t_command_old;
+
+typedef struct s_command
+{
+	char	**argv;
+	int		fd_in;
+	int		fd_out;
 }	t_command;
 
-t_command	*parse(char *str);
-int			execute(t_command *instr, char **path, char **env);
+t_command_old	*parse(char *str);
+int			execute(t_command_old *instr, char **path, char **env);
 void		loop_shell(char **path, char **env);
 void		free_path(char **path);
 char		**get_path(char **env);
 char		*check_access(char *command, char **path);
-t_command	*create_cd(char *path);
+t_command_old	*create_cd(char *path);
 void		free_cd(t_data	*data);
-t_command	*create_generic(char *command, char **full_command);
-void		free_command(t_command *command);
-int			built_in_cd(t_command *istr, char **env);
+t_command_old	*create_generic(char *command, char **full_command);
+void		free_command(t_command_old *command);
+int			built_in_cd(t_command_old *istr, char **env);
 char		*get_env_value(char **env, char *key);
-t_command	*create_pwd(void);
-int			exec_pwd(void);
+t_command_old	*create_pwd(void);
+int				exec_pwd(void);
 
 
 /**** token functions ******/

@@ -21,7 +21,7 @@ char	*check_access(char *command, char **path)
 	return (0);
 }
 
-static int	execaux(t_command *instr, char **path, char ** env)
+static int	execaux(t_command_old *instr, char **path, char ** env)
 {
 	char	*comand_and_path;
 
@@ -34,7 +34,7 @@ static int	execaux(t_command *instr, char **path, char ** env)
 	return (127);
 }
 
-static int	execute_generic(t_command *instr, char **path, char **env)
+static int	execute_generic(t_command_old *instr, char **path, char **env)
 {
 	int		pid1;
 	int		result_code;
@@ -58,7 +58,7 @@ static int	execute_generic(t_command *instr, char **path, char **env)
 	return (result_code);
 }
 
-int	execute(t_command *instr, char **path, char **env)
+int	execute(t_command_old *instr, char **path, char **env)
 {
 	int	status;
 
