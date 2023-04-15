@@ -1,0 +1,15 @@
+#ifndef PARSER_TYPES_H
+# define PARSER_TYPES_H
+
+typedef enum e_parser_state
+{
+	PARS_START,
+	PARS_COMMAND,
+	PARS_REDIR_IN,
+	PARS_REDIR_OUT,
+	PARS_REDIR_OUT_APPEND,
+	PARS_REDIR_IN_HEREDOC,
+	PARS_INVALID
+}	t_pars_st;
+
+#endif

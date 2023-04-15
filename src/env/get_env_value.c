@@ -12,16 +12,18 @@ static char	*free_args(char **arg)
 	return (0);
 }
 //tiene que coger el env de t_shell_data
-char	*get_env_value(char **env, char *key)
+char	*get_env_value(t_shell_data *data, char *key)
 {
 	char	**arg;
 	char	*res;
 	size_t	key_len;
+	int		i;
 
+	i = 0;
 	key_len = ft_strlen(key);
-	while (env)
+	while (data->env[i])
 	{
-		arg = ft_split(*env, '=');
+		arg = ft_split(data->env[i], '=');
 		if (!arg || !arg[0] || !arg[1])
 			return (free_args(arg));
 		if (ft_strncmp(arg[0], key, key_len) == 0)
@@ -32,7 +34,7 @@ char	*get_env_value(char **env, char *key)
 		}
 		else
 			free_args(arg);
-		env++;
+		i++;
 	}
 	return (0);
 }
