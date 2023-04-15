@@ -4,7 +4,7 @@ void	loop_shell(char **path, char **env)
 {
 	char		*line;
 	char		*aux;
-	t_command	*instr;
+	t_command_old	*instr;
 	int 		status;
 
 	status = 1;

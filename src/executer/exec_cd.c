@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	built_in_cd(t_command *istr, char **env)
+int	built_in_cd(t_command_old *istr, char **env)
 {
 	int	res_code;
 

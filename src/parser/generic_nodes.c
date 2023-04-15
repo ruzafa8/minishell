@@ -53,27 +53,27 @@ static char	**duplicate_command(char **args)
  * the found command.
  * @returns A pointer to the node or NULL if any allocation problem.
  */
-t_command	*create_generic(char *command, char **full_command)
+t_command_old	*create_generic(char *command, char **full_command)
 {
-	t_command	*res;
+	t_command_old	*res;
 
-	res = (t_command *) ft_calloc(1, sizeof(t_command));
+	res = (t_command_old *) ft_calloc(1, sizeof(t_command_old));
 	if (!res)
 		return (0);
 	res->data = (t_data *) ft_calloc(1, sizeof(t_data));
 	if (!res->data)
-		return (free(res), (t_command *) 0);
+		return (free(res), (t_command_old *) 0);
 	res->type = GENERIC;
 	res->data->generic = (t_generic *) ft_calloc(1, sizeof(t_generic));
 	if (!res->data->generic)
-		return (free(res), (t_command *) 0);
+		return (free(res), (t_command_old *) 0);
 	res->data->generic->command = ft_strdup(command);
 	// TODO: Es necesario esto? Podría llegarme un command NULL?
 	if (!res->data->generic->command)
-		return (free(res), (t_command *) 0);
+		return (free(res), (t_command_old *) 0);
 	res->data->generic->full_command = duplicate_command(full_command);
 	// TODO: Es necesario esto? Podría llegarme un full_command NULL?
 	if (!res->data->generic->full_command)
-		return (free(res), (t_command *) 0);
+		return (free(res), (t_command_old *) 0);
 	return (res);
 }

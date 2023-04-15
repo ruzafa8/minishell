@@ -12,17 +12,17 @@ void	free_tokens(char **tokens)
 	}
 	free(tokens);
 }
-t_command	*parse(char *command_str)
+t_command_old	*parse(char *command_str)
 {
 	char		**tokens;
-	t_command	*res;
+	t_command_old	*res;
 
 	if (!command_str || ft_strncmp(command_str, "", 1) == 0)
 		return (0);
 	tokens = ft_split(command_str, ' ');
 	res = 0;
 	if (!tokens || !tokens[0])
-		return (free(tokens), (t_command *)0);
+		return (free(tokens), (t_command_old *)0);
 	if (ft_strncmp(tokens[0], "cd", 2) == 0)
 		res = create_cd(command_str + 3);
 	else if (ft_strncmp(tokens[0], "pwd", 3) == 0)

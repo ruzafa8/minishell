@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:25:57 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/04/01 21:37:03 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:36:16 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	first_command(int fd_in, int fd_out, char *command, t_data *data)
+static void	first_command_old(int fd_in, int fd_out, char *command, t_data *data)
 {
 	int	res;
 
@@ -47,7 +47,7 @@ void	px_pipex(char *command1, char *command2, t_data *data)
 	if (pid1 < 0)
 		exit(pid1);
 	if (pid1 == 0)
-		first_command(data->in, data->pipe[1], command1, data);
+		first_command_old(data->in, data->pipe[1], command1, data);
 	pid2 = fork();
 	if (pid2 < 0)
 		exit(pid2);
