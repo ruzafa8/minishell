@@ -61,8 +61,8 @@ typedef struct s_shell_data
 	//t_command	*cmd;
 	//pid_t		pid;
 }	t_shell_data;
-t_command_old	*parse(char *str);
-int			execute(t_command_old *instr, char **path, char **env);
+
+int			execute(t_list *instr, char **path, char **env);
 void		loop_shell(char **path, char **env);
 void		free_path(char **path);
 char		**get_path(char **env);
@@ -71,7 +71,7 @@ t_command_old	*create_cd(char *path);
 void		free_cd(t_data	*data);
 t_command_old	*create_generic(char *command, char **full_command);
 void		free_command(t_command_old *command);
-int			built_in_cd(t_command_old *istr, char **env);
+int			built_in_cd(t_command_old *instr, t_shell_data *data);
 char		*get_env_value(char **env, char *key);
 t_command_old	*create_pwd(void);
 int				exec_pwd(void);
@@ -102,7 +102,7 @@ t_lex_st	lex_next_state(t_lex_st state, char command);
 
 /**** parser functions ******/
 
-void		parser(t_list *tokens);
+t_list		*parser(t_list *tokens);
 t_pars_st	pars_next_state(t_pars_st state, t_token *token);
 void		pars_start_st(t_list *tokens, t_pars_st *state);
 void		pars_command_st(t_list *tokens, t_pars_st *state);

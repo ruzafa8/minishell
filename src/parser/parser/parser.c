@@ -5,7 +5,7 @@
 
 
 //TODO: NO ES VOID , HAY devolvimientos del arbore
-void	parser(t_list *tokens)
+t_list	*parser(t_list *tokens)
 {
 	t_pars_st	state;
 
@@ -37,7 +37,7 @@ void	parser(t_list *tokens)
 		//return (free_tree(), (t_ast *) 0);
 	}
 	//TODO: pONER BIEN EL NOMBRE DE LA VARIABLE
-	//return (arbore);
+	return (0);
 }
 
 t_pars_st	pars_next_state(t_pars_st state, t_token *token)

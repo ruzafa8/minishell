@@ -4,21 +4,21 @@ void	loop_shell(char **path, char **env)
 {
 	char		*line;
 	char		*aux;
-	t_command_old	*instr;
 	int 		status;
+	t_list		*tokens;
+	t_list		*commands;
 
 	status = 1;
 	(void)env;
 	(void)path;
-	(void)instr;
 	while (status)
 	{
 		ft_printf("> ");
 		aux = ft_get_next_line(0);//TODO: cuidao con los leaks
 		line = ft_strtrim(aux, "\n");
 		free(aux);
-		t_list	*res = lexer(line, env);
-		t_list	*tmp = res;
+		tokens = lexer(line, env);
+		t_list	*tmp = tokens;
 		while (tmp)
 		{
 			t_token *token = tmp->content;
@@ -36,13 +36,12 @@ void	loop_shell(char **path, char **env)
 				ft_printf("redir in heredoc\n");
 			tmp = tmp->next;
 		}
-		if (res)
+		if (tokens)
 		{
-			parser(res);
-			free_token_list(&res);
+			commands = parser(tokens);
+			status = execute(commands, path, env);
+			free_token_list(&tokens);
 		}
-		// instr = parse(line);
-		// status = execute(instr, path, env);
 		free(line);
 		// free(instr);
 		status = 1;//quitar pa poner shell interactiva o no interactiva (con el flag -c)

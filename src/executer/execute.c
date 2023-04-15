@@ -58,10 +58,15 @@ static int	execute_generic(t_command_old *instr, char **path, char **env)
 	return (result_code);
 }
 
-int	execute(t_command_old *instr, char **path, char **env)
+int	execute(t_list *instr, char **path, char **env)
 {
 	int	status;
-
+	(void)status;
+	(void)env;
+	(void)path;
+	(void)instr;
+	(void)execute_generic;
+/*
 	status = 127;
 	if (!instr)
 		return (1);
@@ -71,5 +76,6 @@ int	execute(t_command_old *instr, char **path, char **env)
 		status = exec_pwd();
 	else if (instr->type == GENERIC)
 		status = execute_generic(instr, path, env);
+		*/
 	return (1);
 }
