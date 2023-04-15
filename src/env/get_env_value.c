@@ -11,7 +11,7 @@ static char	*free_args(char **arg)
 	free(arg);
 	return (0);
 }
-
+//tiene que coger el env de t_shell_data
 char	*get_env_value(char **env, char *key)
 {
 	char	**arg;
