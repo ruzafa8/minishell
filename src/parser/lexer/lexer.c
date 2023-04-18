@@ -56,7 +56,7 @@ t_list	*lexer(char *command, t_shell_data *data)
 		|| state == LEX_VAR_DOUBLE_QUOTE)
 	{
 		ft_printf("minishell: syntax error: quote not closed.\n");
-		return (free_token_list(&tokens), (t_list *) 0);
+		return (lex_free_token_list(&tokens), (t_list *) 0);
 	}
 	if (state == LEX_VAR)
 		substitute_env_var(&tokens, data);

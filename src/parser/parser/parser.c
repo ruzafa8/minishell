@@ -34,9 +34,8 @@ t_list	*parser(t_list *tokens)
 		//TODO ten cuidao con el free fire 
 		//TODO PONERLO EL PRINTF EN EL STERROR
 		ft_printf("minishell: syntax error.\n");
-		//return (free_tree(), (t_ast *) 0);
+		return (pars_free_command_list(&commands), (t_list *) 0);
 	}
-	//TODO: pONER BIEN EL NOMBRE DE LA VARIABLE
 	return (commands);
 }
 

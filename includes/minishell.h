@@ -50,8 +50,8 @@ int				remove_env_var(t_shell_data *data, int idx);
 /**** token functions ******/
 
 t_list		*lexer(char *command_str, t_shell_data *data);
-t_list		*create_token(t_token_type type, char *value);
-void		free_token_list(t_list **lst);
+t_list		*lex_create_token(t_token_type type, char *value);
+void		lex_free_token_list(t_list **lst);
 void		append_last_token(t_list **tokens, char **cmd);
 void		append_var_name(t_list **tokens, char **cmd);
 void		substitute_env_var(t_list **tokens, t_shell_data *data);
@@ -77,5 +77,6 @@ void		pars_invalid_st(t_list *tokens, t_pars_st *state);
 
 void		pars_append_arg_to_command(t_list *commands, char *value);
 void		pars_append_new_command(t_list **commands, char *value);
+void		pars_free_command_list(t_list **cmds);
 
 #endif
