@@ -14,7 +14,7 @@ void	pars_append_arg_to_command(t_list *commands, char *value)
 	i = 0;
 	while (command->argv[i])
 	{
-		new_argv[i] = ft_strdup(command->argv[i]);
+		new_argv[i] = command->argv[i];
 		i++;
 	}
 	new_argv[i] = ft_strdup(value);

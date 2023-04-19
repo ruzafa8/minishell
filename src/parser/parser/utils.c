@@ -13,7 +13,6 @@ static void	free_node(void *node)
 	i = 0;
 	while (command->argv[i])
 	{
-		ft_printf("About to delete: %s.\n", command->argv[i]);
 		free(command->argv[i]);
 		i++;
 	}
