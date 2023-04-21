@@ -38,9 +38,10 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 {
 	int	res_code;
 	char *pathaux;
+	char *dotdotcd;
 
 	if (command->argc == 1 
-		|| ft_strncmp(command->argv[1], "--", 3) == 0)
+		|| (ft_strncmp(command->argv[1], "--", 3) == 0 && command->argc == 2)) //ir a home
 	{
 		pathaux = get_env_value(data, "HOME");
 		//if (!pathaux)
@@ -48,14 +49,30 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 		res_code = chdir(pathaux);
 		if(res_code == 0) //si el cd va todo perfectisimo
 			update_pwds(data, pathaux);
-		
 		free(pathaux);
 	}
-	//else if ()
-	//{
-		
-	//}
-	else
+	else if (command->argc == 2 && ft_strncmp(command->argv[1], "..", 3) == 0) //volver patras
+	{
+		dotdotcd = get_env_value(data, "PWD");
 		res_code = chdir(command->argv[1]);
+		if(res_code == 0) //si el cd va todo perfectisimo
+		{
+			pathaux = getcwd(NULL, 0);//getcwd genera leaks?????
+			update_pwds(data, pathaux);
+			free(pathaux);
+		}
+		free(dotdotcd);
+
+	}
+	else if (command->argc == 2) //cd clasic
+	{
+		res_code = chdir(command->argv[1]);
+		if(res_code == 0) //si el cd va todo perfectisimo
+			update_pwds(data, command->argv[1]);
+	}
+	else //cambiar porque es basura los errores por ahora
+		res_code = 1;
+
+
 	return (res_code);
 }

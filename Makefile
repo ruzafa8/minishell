@@ -14,6 +14,7 @@ SRCS	= 	src/loop_shell.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \
 			src/executer/exec_pwd.c \
+			src/executer/exec_env.c \
 			src/parser/command_nodes.c \
 			src/parser/generic_nodes.c \
 			src/parser/cd_nodes.c \

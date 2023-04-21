@@ -16,6 +16,7 @@ void	loop_shell(t_shell_data *data)
 		line = ft_strtrim(aux, "\n");
 		free(aux);
 		tokens = lexer(line, data);
+		/*
 		t_list	*tmp = tokens;
 		while (tmp)
 		{
@@ -34,10 +35,12 @@ void	loop_shell(t_shell_data *data)
 				ft_printf("redir in heredoc\n");
 			tmp = tmp->next;
 		}
+		*/
 		if (tokens)
 		{
 			commands = parser(tokens);
 			// Iterate commands to print them
+			/*
 			t_list	*tmp = commands;
 			while (tmp)
 			{
@@ -51,6 +54,7 @@ void	loop_shell(t_shell_data *data)
 				}
 				tmp = tmp->next;
 			}
+			*/
 			status = execute(commands, data);
 			free_token_list(&tokens);
 		}
