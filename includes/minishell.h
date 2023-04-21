@@ -72,7 +72,6 @@ t_command_old	*create_cd(char *path);
 void		free_cd(t_data	*data);
 t_command_old	*create_generic(char *command, char **full_command);
 void		free_command(t_command_old *command);
-int			built_in_cd(t_command *instr, t_shell_data *data);
 char		*get_env_value(t_shell_data *data, char *key);
 t_command_old	*create_pwd(void);
 int				exec_pwd(void);
@@ -117,5 +116,12 @@ void		pars_invalid_st(t_list *tokens, t_pars_st *state);
 
 void		pars_append_arg_to_command(t_list *commands, char *value);
 void		pars_append_new_command(t_list **commands, char *value);
+
+
+/**** builtin functions ******/
+
+int	built_in_env(t_command *command, t_shell_data *data);
+int	built_in_cd(t_command *instr, t_shell_data *data);
+
 
 #endif

@@ -70,6 +70,8 @@ int	execute(t_list *instr, t_shell_data *data)
 	command = (t_command *) instr->content;
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
+	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
+		status = built_in_env(command, data);
 	else
 		status = execute_generic(command, data);
 

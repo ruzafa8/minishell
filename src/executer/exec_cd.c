@@ -1,3 +1,7 @@
+
+
+
+
 #include "minishell.h"
 
 
@@ -23,6 +27,9 @@ static void	update_pwds(t_shell_data *data, char *new)
 	}
 }
 /*
+	Posibles errores del cd:
+
+	Too many args,
 	The target might not exist, 
 	the target might not be a directory, 
 	you might not have permission to access the target directory
@@ -36,17 +43,18 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 		|| ft_strncmp(command->argv[1], "--", 3) == 0)
 	{
 		pathaux = get_env_value(data, "HOME");
-		
 		//if (!pathaux)
 		//	return (errorcomand(con la info));
-		
-		
 		res_code = chdir(pathaux);
 		if(res_code == 0) //si el cd va todo perfectisimo
 			update_pwds(data, pathaux);
 		
 		free(pathaux);
 	}
+	//else if ()
+	//{
+		
+	//}
 	else
 		res_code = chdir(command->argv[1]);
 	return (res_code);
