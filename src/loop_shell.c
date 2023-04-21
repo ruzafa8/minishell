@@ -16,16 +16,13 @@ void	loop_shell(t_shell_data *data)
 		line = ft_strtrim(aux, "\n");
 		free(aux);
 		tokens = lexer(line, data);
-
 		if (!tokens)
 		{
 			free(line);
 			continue ;
 		}
-
 		commands = parser(tokens);
 		lex_free_token_list(&tokens);
-
 		if (!commands)
 		{
 			free(line);

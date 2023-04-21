@@ -64,6 +64,10 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 		free(dotdotcd);
 
 	}
+	else if (command->argc == 2 && ft_strncmp(command->argv[1], ".", 2) == 0)
+	{
+		res_code = set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
+	}
 	else if (command->argc == 2) //cd clasic
 	{
 		res_code = chdir(command->argv[1]);
