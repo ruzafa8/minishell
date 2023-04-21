@@ -14,7 +14,7 @@ void	pars_append_arg_to_command(t_list *commands, char *value)
 	i = 0;
 	while (command->argv[i])
 	{
-		new_argv[i] = ft_strdup(command->argv[i]);
+		new_argv[i] = command->argv[i];
 		i++;
 	}
 	new_argv[i] = ft_strdup(value);
@@ -29,7 +29,10 @@ void	pars_append_new_command(t_list **commands, char *value)
 
 	command = (t_command *) ft_calloc(1, sizeof(t_command));
 	command->argv = (char **) ft_calloc(2, sizeof(char *));
-	command->argv[0] = ft_strdup(value);
-	command->argc = 1;
+	if (value)
+	{
+		command->argv[0] = ft_strdup(value);
+		command->argc = 1;
+	}
 	ft_lstadd_back(commands, ft_lstnew(command));
 }

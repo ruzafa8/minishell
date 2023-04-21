@@ -52,7 +52,7 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 		result_code = execaux(instr, data);
 		perror(strerror(result_code));
 	}
-	waitpid(pid1, 0, 0);
+	//waitpid(pid1, 0, 0);
 	/*
 	if (WIFEXITED(result_code))
 	{
@@ -82,7 +82,7 @@ int	execute(t_list *instr, t_shell_data *data)
 		status = debug_env(data);//status = built_in_env(command, data);
 	else
 		status = execute_generic(command, data);
-
+	(void) status;
 /*
 	status = 127;
 	if (!instr)

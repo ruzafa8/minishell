@@ -8,41 +8,6 @@
 # include <errno.h>
 # include <string.h>
 
-typedef enum e_type
-{
-	CD,
-	GENERIC,
-	PWD,
-	ENV,
-	ECHO,
-	EXPORT,
-	UNSET,
-	EXIT
-}	t_type_old;
-
-typedef struct s_cd
-{
-	char	*path;
-}	t_cd;
-
-typedef struct s_generic
-{
-	char	*command;
-	char	**full_command;
-}	t_generic;
-
-typedef union u_data
-{
-	t_cd		*cd;
-	t_generic	*generic;
-}	t_data;
-
-typedef struct u_command
-{
-	t_type_old	type;
-	t_data	*data;
-}	t_command_old;
-
 typedef struct s_command
 {
 	char	**argv;
@@ -68,12 +33,7 @@ void		loop_shell(t_shell_data *data);
 void		free_path(char **path);
 char		**get_path(char **env);
 char		*check_access(char *command, char **path);
-t_command_old	*create_cd(char *path);
-void		free_cd(t_data	*data);
-t_command_old	*create_generic(char *command, char **full_command);
-void		free_command(t_command_old *command);
 char		*get_env_value(t_shell_data *data, char *key);
-t_command_old	*create_pwd(void);
 int				exec_pwd(void);
 
 /**** env functions ******/
@@ -89,8 +49,8 @@ int				remove_env_var(t_shell_data *data, int idx);
 /**** token functions ******/
 
 t_list		*lexer(char *command_str, t_shell_data *data);
-t_list		*create_token(t_token_type type, char *value);
-void		free_token_list(t_list **lst);
+t_list		*lex_create_token(t_token_type type, char *value);
+void		lex_free_token_list(t_list **lst);
 void		append_last_token(t_list **tokens, char **cmd);
 void		append_var_name(t_list **tokens, char **cmd);
 void		substitute_env_var(t_list **tokens, t_shell_data *data);
@@ -116,6 +76,7 @@ void		pars_invalid_st(t_list *tokens, t_pars_st *state);
 
 void		pars_append_arg_to_command(t_list *commands, char *value);
 void		pars_append_new_command(t_list **commands, char *value);
+void		pars_free_command_list(t_list **cmds);
 
 
 /**** builtin functions ******/
