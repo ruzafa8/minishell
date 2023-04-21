@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list	*create_token(t_token_type type, char *value)
+t_list	*lex_create_token(t_token_type type, char *value)
 {
 	t_token	*token;
 
@@ -25,7 +25,7 @@ static void	free_token(void *token)
 	free(t);
 }
 
-void	free_token_list(t_list **lst)
+void	lex_free_token_list(t_list **lst)
 {
 	if (!lst)
 		return ;
