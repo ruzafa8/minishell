@@ -3,39 +3,46 @@
 
 #include "minishell.h"
 
+void	print_error(t_pars_st state, t_pars_err err)
+{
+	if (state != PARS_COMMAND || err == PARS_SYNTAX_ERROR)
+		ft_printf("minishell: syntax error.\n");
+	else if (err == PARS_MALLOC_ERROR)
+		ft_printf("minishell: memory error\n");
+	else if (err == PARS_NO_SUCH_FILE_OR_DIR)
+		ft_printf("minishell: no such file or directory\n");
+}
+
 t_list	*parser(t_list *tokens)
 {
 	t_pars_st	state;
 	t_list		*commands;
+	t_pars_err	err;
 
-	//tokens nunca puede ser null???? se sale antes
 	commands = 0;
 	state = PARS_START;
-	while (tokens)
+	err = PARS_NO_ERROR;
+	while (tokens && err == PARS_NO_ERROR)
 	{
 		if (state == PARS_START)
-			pars_start_st(tokens, &state, &commands);
+			err = pars_start_st(tokens, &state, &commands);
 		else if (state == PARS_COMMAND)
-			pars_command_st(tokens, &state, &commands);
+			err = pars_command_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_IN)
-			pars_redirin_st(tokens, &state);
+			err = pars_redirin_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_OUT)
-			pars_redirout_st(tokens, &state);
+			err = pars_redirout_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_OUT_APPEND)
-			pars_rediroappe_st(tokens, &state);
+			err = pars_rediroappe_st(tokens, &state);
 		else if (state == PARS_REDIR_IN_HEREDOC)
-			pars_redheredoc_st(tokens, &state);
+			err = pars_redheredoc_st(tokens, &state);
 		else if (state == PARS_INVALID)
-			pars_invalid_st(tokens, &state);
+			err = pars_invalid_st(tokens, &state);
 		tokens = tokens->next;
 	}
-	if (state != PARS_COMMAND)
-	{
-		//TODO ten cuidao con el free fire 
-		//TODO PONERLO EL PRINTF EN EL STERROR
-		ft_printf("minishell: syntax error.\n");
+	print_error(state, err);
+	if (err != PARS_NO_ERROR)
 		return (pars_free_command_list(&commands), (t_list *) 0);
-	}
 	return (commands);
 }
 
