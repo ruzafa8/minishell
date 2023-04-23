@@ -24,7 +24,7 @@ int	built_in_env(t_command *command, t_shell_data *data)
 	else
 	{
 		ft_printf("Error, env built in doesnt support any args or flags\n");
-		//res_code = nosecomomanejamosloserrorestodavia;hg
+		res_code = 7; // nosecomomanejamosloserrorestodavia
 	}
 	return (res_code);
 }
