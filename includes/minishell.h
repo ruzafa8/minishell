@@ -36,7 +36,6 @@ void		loop_shell(t_shell_data *data);
 void		free_path(char **path);
 char		**get_path(char **env);
 char		*check_access(char *command, char **path);
-int			built_in_cd(t_command *instr, t_shell_data *data);
 char		*get_env_value(t_shell_data *data, char *key);
 int				exec_pwd(void);
 
@@ -83,5 +82,12 @@ t_pars_err		pars_append_new_command(t_list **commands, char *value);
 void			pars_free_command_list(t_list **cmds);
 t_pars_err		pars_set_stdin(t_list *commands, char *filename);
 t_pars_err		pars_set_stdout(t_list *commands, char *filename);
+
+
+/**** builtin functions ******/
+
+int	built_in_env(t_command *command, t_shell_data *data);
+int	built_in_cd(t_command *instr, t_shell_data *data);
+
 
 #endif

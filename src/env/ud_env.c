@@ -68,7 +68,7 @@ int	set_env_var(t_shell_data *data, char *key, char *value)
 	//	value = "";
 	aux = ft_strjoin("=", value);
 	if (!aux)
-		return (0);
+		return (12);
 	if (idx != -1 && data->env[idx])
 	{
 		free_ptr(data->env[idx]);
@@ -79,11 +79,11 @@ int	set_env_var(t_shell_data *data, char *key, char *value)
 		idx = env_size(data->env);
 		data->env = realloc_env_vars(data, idx + 1);
 		if (!data->env)
-			return (0);
+			return (12);
 		data->env[idx] = ft_strjoin(key, aux);
 	}
 	free_ptr(aux);
-	return (1);
+	return (0);
 }
 
 /*

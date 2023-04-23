@@ -44,14 +44,11 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	int		result_code;
 
 	pid1 = fork();
-	result_code = 1; // Código de error genérico.
+	result_code = 0; // Código de error genérico.
 	if (pid1 < 0)
 		return (pid1);
 	if (pid1 == 0)
-	{
 		result_code = execaux(instr, data);
-		perror(strerror(result_code));
-	}
 	waitpid(pid1, 0, 0);
 	/*
 	if (WIFEXITED(result_code))
@@ -61,6 +58,14 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	}*/
 	return (result_code);
 }
+
+static int debug_env(t_shell_data *data)
+{
+	ft_printf("OLDPWD = %s\n",get_env_value(data,"OLDPWD"));
+	ft_printf("PWD = %s\n",get_env_value(data,"PWD"));
+	return (1);
+}
+
 
 int	execute(t_list *instr, t_shell_data *data)
 {
@@ -76,13 +81,14 @@ int	execute(t_list *instr, t_shell_data *data)
 		dup2(command->fd_out, STDOUT_FILENO);
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
+	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
+		status = debug_env(data);//status = built_in_env(command, data);
 	else
 		status = execute_generic(command, data);
 	if (command->fd_in > 0)
 		dup2(dup_in, STDIN_FILENO);
 	if (command->fd_out > 0)
 		dup2(dup_out, STDOUT_FILENO);
-	(void) status;
 /*
 	status = 127;
 	if (!instr)
@@ -94,5 +100,5 @@ int	execute(t_list *instr, t_shell_data *data)
 	else if (instr->type == GENERIC)
 		status = execute_generic(instr, path, env);
 		*/
-	return (1);
+	return (status);
 }
