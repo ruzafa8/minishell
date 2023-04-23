@@ -52,17 +52,19 @@ t_pars_err	pars_redirout_st(t_list *tokens, t_pars_st *state, t_list **commands)
 	token = (t_token *) tokens->content;
 	*state = pars_next_state(*state, (t_token *) tokens->content);
 	if (token->type == TOK_WORD)
-		return (pars_set_stdout(*commands, token->value));
+		return (pars_set_stdout(*commands, token->value, 0));
 	if (token->type == TOK_PIPE)
 		return (PARS_SYNTAX_ERROR);
 	return (PARS_NO_ERROR);
 }
-t_pars_err	pars_rediroappe_st(t_list *tokens, t_pars_st *state)
+t_pars_err	pars_rediroappe_st(t_list *tokens, t_pars_st *state, t_list **commands)
 {
 	t_token	*token;
 
 	token = (t_token *) tokens->content;
 	*state = pars_next_state(*state, (t_token *) tokens->content);
+	if (token->type == TOK_WORD)
+		return (pars_set_stdout(*commands, token->value, 1));
 	if (token->type == TOK_PIPE)
 		return (PARS_SYNTAX_ERROR);
 	return (PARS_NO_ERROR);

@@ -33,7 +33,7 @@ t_list	*parser(t_list *tokens)
 		else if (state == PARS_REDIR_OUT)
 			err = pars_redirout_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_OUT_APPEND)
-			err = pars_rediroappe_st(tokens, &state);
+			err = pars_rediroappe_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_IN_HEREDOC)
 			err = pars_redheredoc_st(tokens, &state);
 		else if (state == PARS_INVALID)

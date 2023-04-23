@@ -14,14 +14,18 @@ t_pars_err	pars_set_stdin(t_list *commands, char *filename)
 	return (PARS_NO_ERROR);
 }
 
-t_pars_err	pars_set_stdout(t_list *commands, char *filename)
+t_pars_err	pars_set_stdout(t_list *commands, char *filename, int append)
 {
 	t_command	*command;
 	int			permissions;
+	int			mode;
 
 	permissions = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	mode = O_WRONLY | O_CREAT | O_TRUNC;
+	if (append)
+		mode = O_WRONLY | O_CREAT | O_APPEND;
 	command = (t_command *) ft_lstlast(commands)->content;
-	command->fd_out = open(filename, O_WRONLY | O_CREAT | O_TRUNC, permissions);
+	command->fd_out = open(filename, mode, permissions);
 	return (PARS_NO_ERROR);
 }
 
