@@ -1,9 +1,22 @@
 #include "minishell.h"
 
+char	*get_nextline()
+{
+	char	*aux;
+	char	*current_dir;
+	char	*prompt;
+	char	*line;
+
+	current_dir = getcwd(NULL, 0);
+	aux = ft_strjoin("ConchaBB ", current_dir);
+	prompt = ft_strjoin(aux, " > ");
+	line = readline(prompt);
+	return (free(current_dir), free(aux), free(prompt), line);
+}
+
 void	loop_shell(t_shell_data *data)
 {
 	char		*line;
-	char		*aux;
 	int 		status;
 	t_list		*tokens;
 	t_list		*commands;
@@ -11,10 +24,8 @@ void	loop_shell(t_shell_data *data)
 	status = 1;
 	while (status)
 	{
-		ft_printf("> ");
-		aux = ft_get_next_line(0);//TODO: cuidao con los leaks
-		line = ft_strtrim(aux, "\n");
-		free(aux);
+		line = get_nextline();
+		add_history(line);
 		tokens = lexer(line, data);
 
 		if (!tokens)
