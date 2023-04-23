@@ -44,14 +44,11 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	int		result_code;
 
 	pid1 = fork();
-	result_code = 1; // Código de error genérico.
+	result_code = 0; // Código de error genérico.
 	if (pid1 < 0)
 		return (pid1);
 	if (pid1 == 0)
-	{
 		result_code = execaux(instr, data);
-		perror(strerror(result_code));
-	}
 	waitpid(pid1, 0, 0);
 	/*
 	if (WIFEXITED(result_code))
@@ -82,7 +79,6 @@ int	execute(t_list *instr, t_shell_data *data)
 		status = debug_env(data);//status = built_in_env(command, data);
 	else
 		status = execute_generic(command, data);
-	(void) status;
 /*
 	status = 127;
 	if (!instr)
@@ -94,5 +90,5 @@ int	execute(t_list *instr, t_shell_data *data)
 	else if (instr->type == GENERIC)
 		status = execute_generic(instr, path, env);
 		*/
-	return (1);
+	return (status);
 }

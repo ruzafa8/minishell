@@ -40,6 +40,8 @@ void	loop_shell(t_shell_data *data)
 			continue ;
 		}
 		status = execute(commands, data);
+		if (status != 0)
+			ft_printf("%s\n", strerror(status));//perror
 		pars_free_command_list(&commands);
 		free(line);
 		status = 1;//quitar pa poner shell interactiva o no interactiva (con el flag -c)
