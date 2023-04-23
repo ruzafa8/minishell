@@ -35,7 +35,6 @@ void		loop_shell(t_shell_data *data);
 void		free_path(char **path);
 char		**get_path(char **env);
 char		*check_access(char *command, char **path);
-int			built_in_cd(t_command *instr, t_shell_data *data);
 char		*get_env_value(t_shell_data *data, char *key);
 int				exec_pwd(void);
 
@@ -80,5 +79,12 @@ void		pars_invalid_st(t_list *tokens, t_pars_st *state);
 void		pars_append_arg_to_command(t_list *commands, char *value);
 void		pars_append_new_command(t_list **commands, char *value);
 void		pars_free_command_list(t_list **cmds);
+
+
+/**** builtin functions ******/
+
+int	built_in_env(t_command *command, t_shell_data *data);
+int	built_in_cd(t_command *instr, t_shell_data *data);
+
 
 #endif
