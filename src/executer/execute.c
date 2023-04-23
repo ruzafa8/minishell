@@ -86,9 +86,15 @@ int	execute(t_list *instr, t_shell_data *data)
 	else
 		status = execute_generic(command, data);
 	if (command->fd_in > 0)
+	{
 		dup2(dup_in, STDIN_FILENO);
+		close(command->fd_in);
+	}
 	if (command->fd_out > 0)
+	{
 		dup2(dup_out, STDOUT_FILENO);
+		close(command->fd_out);
+	}
 /*
 	status = 127;
 	if (!instr)
