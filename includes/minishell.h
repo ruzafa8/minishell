@@ -9,6 +9,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <string.h>
+# include <fcntl.h>
 
 typedef struct s_command
 {
@@ -66,19 +67,21 @@ t_lex_st	lex_next_state(t_lex_st state, char command);
 
 /**** parser functions ******/
 
-t_list		*parser(t_list *tokens);
-t_pars_st	pars_next_state(t_pars_st state, t_token *token);
-void		pars_start_st(t_list *tokens, t_pars_st *state, t_list **commands);
-void		pars_command_st(t_list *tokens, t_pars_st *state, t_list **commands);
-void		pars_redirin_st(t_list *tokens, t_pars_st *state);
-void		pars_redirout_st(t_list *tokens, t_pars_st *state);
-void		pars_rediroappe_st(t_list *tokens, t_pars_st *state);
-void		pars_redheredoc_st(t_list *tokens, t_pars_st *state);
-void		pars_invalid_st(t_list *tokens, t_pars_st *state);
+t_list			*parser(t_list *tokens);
+t_pars_st		pars_next_state(t_pars_st state, t_token *token);
+t_pars_err		pars_start_st(t_list *tokens, t_pars_st *state, t_list **commands);
+t_pars_err		pars_command_st(t_list *tokens, t_pars_st *state, t_list **commands);
+t_pars_err		pars_redirin_st(t_list *tokens, t_pars_st *state, t_list **commands);
+t_pars_err		pars_redirout_st(t_list *tokens, t_pars_st *state, t_list **commands);
+t_pars_err		pars_rediroappe_st(t_list *tokens, t_pars_st *state, t_list **commands);
+t_pars_err		pars_redheredoc_st(t_list *tokens, t_pars_st *state);
+t_pars_err		pars_invalid_st(t_list *tokens, t_pars_st *state);
 
-void		pars_append_arg_to_command(t_list *commands, char *value);
-void		pars_append_new_command(t_list **commands, char *value);
-void		pars_free_command_list(t_list **cmds);
+t_pars_err		pars_append_arg_to_command(t_list *commands, char *value);
+t_pars_err		pars_append_new_command(t_list **commands, char *value);
+void			pars_free_command_list(t_list **cmds);
+t_pars_err		pars_set_stdin(t_list *commands, char *filename);
+t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
 
 
 /**** builtin functions ******/

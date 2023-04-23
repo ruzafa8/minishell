@@ -70,9 +70,15 @@ int	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
 	t_command *command;
+	int	dup_in = dup(STDIN_FILENO);
+	int	dup_out = dup(STDOUT_FILENO);
 
 	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
 	command = (t_command *) instr->content;
+	if (command->fd_in > 0)
+		dup2(command->fd_in, STDIN_FILENO);
+	if (command->fd_out > 0)
+		dup2(command->fd_out, STDOUT_FILENO);
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
 	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
@@ -81,6 +87,16 @@ int	execute(t_list *instr, t_shell_data *data)
 		exit(0);
 	else
 		status = execute_generic(command, data);
+	if (command->fd_in > 0)
+	{
+		dup2(dup_in, STDIN_FILENO);
+		close(command->fd_in);
+	}
+	if (command->fd_out > 0)
+	{
+		dup2(dup_out, STDOUT_FILENO);
+		close(command->fd_out);
+	}
 /*
 	status = 127;
 	if (!instr)
