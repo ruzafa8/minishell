@@ -22,10 +22,12 @@ void	loop_shell(t_shell_data *data)
 	t_list		*commands;
 
 	status = 1;
+	// set señales modo interactivo CONTROL C HACE UN SALTO DE LINEA Y YA Y CTRL \ NO HACE NI MIERDAS
 	while (status)
 	{
 		line = get_nextline();
 		add_history(line);
+		//SI GETNEXLINE DEVUELVE NULL (CONTROL D) 
 		tokens = lexer(line, data);
 		if (!tokens)
 		{

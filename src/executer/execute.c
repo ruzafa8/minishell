@@ -66,12 +66,12 @@ static int debug_env(t_shell_data *data)
 	return (1);
 }
 
-
 int	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
 	t_command *command;
 
+	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
 	command = (t_command *) instr->content;
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
