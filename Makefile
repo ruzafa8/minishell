@@ -35,7 +35,7 @@ libft:
 	gcc $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	gcc $(CFLAGS) $(SRCS) $(LIBFT)/libft.a $(HEADERS) -o $(NAME)
+	gcc $(CFLAGS) $(SRCS) $(LIBFT)/libft.a -lreadline $(HEADERS) -o $(NAME)
 
 clean:
 	rm -rf $(OBJS)
