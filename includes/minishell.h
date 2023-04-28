@@ -10,6 +10,7 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+# include <signal.h>
 
 typedef struct s_command
 {
@@ -105,5 +106,14 @@ t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
 int				built_in_env(t_command *command, t_shell_data *data);
 int				built_in_cd(t_command *instr, t_shell_data *data);
 int				exec_pwd(void);
+
+/**** signals functions ******/
+
+void	signal_reset_prompt(int signo);
+void	set_signals_interactive(void);
+void	signal_print_newline(int signal);
+void	set_signals_noninteractive(void);
+void	ignore_sigquit(void);
+
 
 #endif
