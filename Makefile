@@ -1,9 +1,12 @@
 NAME	= minishell
 CFLAGS	= -Wall -Wextra -g -Werror
 LIBFT	= libft
-HEADERS = -I $(LIBFT) -I ./includes
+RL_LIB = -I /Users/$(USER)/.brew/opt/readline/include 
+RL_LINK = -L /Users/$(USER)/.brew/opt/readline/lib 
+HEADERS = -I $(LIBFT) -I ./includes $(RL_LIB)
 LIBS = $(LIBFT)/libft.a
-#src/utils/errors.c
+CC = gcc
+#src/utils/errors.c						
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/env/get_env_value.c \
@@ -33,10 +36,10 @@ libft:
 	make -C $(LIBFT)
 
 %.o: %.c
-	gcc $(CFLAGS) $(HEADERS) -c $< -o $@
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	gcc $(CFLAGS) $(SRCS) $(LIBFT)/libft.a -lreadline $(HEADERS) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) $(LIBFT)/libft.a $(RL_LINK) -lreadline $(HEADERS) -o $(NAME) 
 
 clean:
 	rm -rf $(OBJS)

@@ -4,13 +4,14 @@
 # include "lexer_types.h"
 # include "parser_types.h"
 # include <unistd.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdio.h>
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <stdlib.h>
 
 typedef struct s_command
 {
