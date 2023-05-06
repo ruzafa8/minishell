@@ -85,6 +85,8 @@ int	execute(t_list *instr, t_shell_data *data)
 		status = debug_env(data);//status = built_in_env(command, data);
 	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
 		exit(0);
+	else if (ft_strncmp(command->argv[0], "echo", 5) == 0)
+		status = built_in_echo(command);
 	else
 		status = execute_generic(command, data);
 	if (command->fd_in > 0)
