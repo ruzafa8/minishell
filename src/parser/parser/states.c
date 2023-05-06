@@ -31,8 +31,6 @@ t_pars_err	pars_command_st(t_list *tokens, t_pars_st *state, t_list **commands)
 	*state = pars_next_state(*state, token);
 	if (token->type == TOK_WORD)
 		return (pars_append_arg_to_command(*commands, token->value));
-	if (token->type == TOK_PIPE)
-		return (pars_append_new_command(commands, ""));
 	return (PARS_NO_ERROR);
 }
 t_pars_err	pars_redirin_st(t_list *tokens, t_pars_st *state, t_list **commands)
