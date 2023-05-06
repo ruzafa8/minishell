@@ -19,7 +19,6 @@ void	loop_shell(t_shell_data *data)
 	char		*line;
 	int 		status;
 	t_list		*tokens;
-	t_list		*commands;
 
 	status = 1;
 	// set señales modo interactivo CONTROL C HACE UN SALTO DE LINEA Y YA Y CTRL \ NO HACE NI MIERDAS
@@ -34,17 +33,18 @@ void	loop_shell(t_shell_data *data)
 			free(line);
 			continue ;
 		}
-		commands = parser(tokens);
+		data->commands = parser(tokens);
 		lex_free_token_list(&tokens);
-		if (!commands)
+		if (!data->commands)
 		{
 			free(line);
 			continue ;
 		}
-		status = execute(commands, data);
+		status = execute_pintapipex(data);
+		ft_printf("statusssss: %d\n", status);
 		if (status != 0)
 			ft_printf("%s\n", strerror(status));//perror
-		pars_free_command_list(&commands);
+		pars_free_command_list(&(data->commands));
 		free(line);
 		status = 1;//quitar pa poner shell interactiva o no interactiva (con el flag -c)
 	}

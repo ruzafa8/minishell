@@ -4,9 +4,9 @@
 # include "lexer_types.h"
 # include "parser_types.h"
 # include <unistd.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdio.h>
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
@@ -25,13 +25,17 @@ typedef struct s_shell_data
 	//t_token		*token;
 	//char		*user_input;
 	char		**env;
+	int			dup_stdin;
+	int			dup_stdout;
+	t_list		*commands;
 	//char		*working_dir;
 	//char		*old_working_dir;
-	//t_command	*cmd;
 	//pid_t		pid;
 }	t_shell_data;
 
-int			execute(t_list *instr, t_shell_data *data);
+void			execute(t_list *instr, t_shell_data *data);
+int	execute_pintapipex(t_shell_data *data);
+
 void		loop_shell(t_shell_data *data);
 void		free_path(char **path);
 char		**get_path(char **env);

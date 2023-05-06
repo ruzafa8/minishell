@@ -48,7 +48,10 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	if (pid1 < 0)
 		return (pid1);
 	if (pid1 == 0)
+	{
+		fprintf(stdout, "filloso %s .FD_IN: %d FD_OUT: %d\n",instr->argv[0], instr->fd_in, instr->fd_out);
 		result_code = execaux(instr, data);
+	}
 	waitpid(pid1, 0, 0);
 	/*
 	if (WIFEXITED(result_code))
@@ -66,41 +69,46 @@ static int debug_env(t_shell_data *data)
 	return (1);
 }
 
-int	execute(t_list *instr, t_shell_data *data)
+void	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
 	t_command *command;
-	int	dup_in = dup(STDIN_FILENO);
-	int	dup_out = dup(STDOUT_FILENO);
+
 
 	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
-	while (instr)
+	command = (t_command *) instr->content;
+	if (command->fd_in > 0)
 	{
-		command = (t_command *) instr->content;
-		if (command->fd_in > 0)
-			dup2(command->fd_in, STDIN_FILENO);
-		if (command->fd_out > 0)
-			dup2(command->fd_out, STDOUT_FILENO);
-		if (ft_strncmp(command->argv[0], "cd", 3) == 0)
-			status = built_in_cd(command, data);
-		else if (ft_strncmp(command->argv[0], "env", 4) == 0)
-			status = debug_env(data);//status = built_in_env(command, data);
-		else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
-			exit(0);
-		else
-			status = execute_generic(command, data);
-		if (command->fd_in > 0)
-		{
-			dup2(dup_in, STDIN_FILENO);
-			close(command->fd_in);
-		}
-		if (command->fd_out > 0)
-		{
-			dup2(dup_out, STDOUT_FILENO);
-			close(command->fd_out);
-		}
-		instr = instr->next;
+		dup2(command->fd_in, STDIN_FILENO);
+		//close(command->fd_in);
 	}
+	if (command->fd_out > 0)
+	{
+		dup2(command->fd_out, STDOUT_FILENO);
+		//close(command->fd_out);
+	}
+	// close all fd_in and fd_out of the other commands
+	t_list *c = data->commands;
+	while (c)
+	{
+		if (c != instr && c->next != instr)
+		{
+			if (((t_command *)c->content)->fd_in > 0)
+				close(((t_command *)c->content)->fd_in);
+			if (((t_command *)c->content)->fd_out > 0)
+				close(((t_command *)c->content)->fd_out);
+		}
+
+		c = c->next;
+	}
+	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
+		status = built_in_cd(command, data);
+	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
+		status = debug_env(data);//status = built_in_env(command, data);
+	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
+		exit(0);
+	else
+		status = execute_generic(command, data);
 /*
 	status = 127;
 	if (!instr)
@@ -112,5 +120,47 @@ int	execute(t_list *instr, t_shell_data *data)
 	else if (instr->type == GENERIC)
 		status = execute_generic(instr, path, env);
 		*/
-	return (status);
+	fprintf(stdout, "tremino %s\n",((t_command *)instr->content)->argv[0]);
+	exit (status);
+}
+
+int	execute_pintapipex(t_shell_data *data)
+{
+	int		status;
+	int		last_pid;
+	int		last_status;
+	t_list	*commands;
+
+	data->dup_stdin = dup(STDIN_FILENO);
+	data->dup_stdout = dup(STDOUT_FILENO);
+	commands = data->commands;
+	while (commands)
+	{
+		printf("instruccion %s\n",((t_command *)commands->content)->argv[0]);
+		last_pid = fork();
+		if (last_pid < 0)
+			return (last_pid);
+		if (last_pid == 0)
+			execute(commands, data);
+		commands = commands->next;
+	}
+	commands = data->commands;
+	while (commands)
+	{
+		if (((t_command *)commands->content)->fd_in > 0)
+			close(((t_command *)commands->content)->fd_in);
+		if (((t_command *)commands->content)->fd_out > 0)
+			close(((t_command *)commands->content)->fd_out);
+		commands = commands->next;
+	}
+	commands = data->commands;
+	while (commands)
+	{
+		if (last_pid == waitpid(-1, &status, 0))
+			last_status = status;
+		commands = commands->next;
+	}
+	dup2(data->dup_stdin, STDIN_FILENO);
+	dup2(data->dup_stdin, STDOUT_FILENO);
+	return (last_status);
 }
