@@ -69,11 +69,10 @@ static int debug_env(t_shell_data *data)
 	return (1);
 }
 
-void	execute(t_list *instr, t_shell_data *data)
+int	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
 	t_command *command;
-
 
 	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
 	command = (t_command *) instr->content;
@@ -90,13 +89,14 @@ void	execute(t_list *instr, t_shell_data *data)
 		exit(0);
 	else
 		status = execute_generic(command, data);
-	close(command->fd_out);
+	if (command->fd_out > 0)
+		close(command->fd_out);
 	if (instr->next)
 		close(((t_command *)instr->next->content)->fd_in);
-	exit(status);
+	return (status);
 }
 
-int	execute_pintapipex(t_shell_data *data)
+int	execute_pipex(t_shell_data *data)
 {
 	int		status;
 	int		last_pid;
@@ -112,18 +112,11 @@ int	execute_pintapipex(t_shell_data *data)
 		if (last_pid < 0)
 			return (last_pid);
 		if (last_pid == 0)
-			execute(commands, data);
+			exit (execute(commands, data));
 		commands = commands->next;
 	}
 	commands = data->commands;
-	while (commands)
-	{
-		if (((t_command *)commands->content)->fd_in > 0)
-			close(((t_command *)commands->content)->fd_in);
-		if (((t_command *)commands->content)->fd_out > 0)
-			close(((t_command *)commands->content)->fd_out);
-		commands = commands->next;
-	}
+	close_pipes(data, 0);
 	commands = data->commands;
 	while (commands)
 	{

@@ -33,8 +33,8 @@ typedef struct s_shell_data
 	//pid_t		pid;
 }	t_shell_data;
 
-void			execute(t_list *instr, t_shell_data *data);
-int	execute_pintapipex(t_shell_data *data);
+int			execute(t_list *instr, t_shell_data *data);
+int			execute_pipex(t_shell_data *data);
 
 void		loop_shell(t_shell_data *data);
 void		free_path(char **path);

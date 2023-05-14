@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void iterate_to_close(t_list *current, t_list *next, t_list *commands)
+static void	iterate_to_close(t_list *current, t_list *next, t_list *commands)
 {
 	while (commands)
 	{
@@ -36,9 +36,11 @@ void	close_pipes(t_shell_data *data, t_list *instr)
 	t_list	*commands;
 
 	commands = data->commands;
-	current = instr->content;
 	next = 0;
-	if (instr->next)
+	current = 0;
+	if (instr)
+		current = instr->content;
+	if (instr && instr->next)
 		next = instr->next->content;
 	iterate_to_close(current, next, commands);
 }

@@ -40,7 +40,10 @@ void	loop_shell(t_shell_data *data)
 			free(line);
 			continue ;
 		}
-		status = execute_pintapipex(data);
+		if (ft_lstsize(data->commands) == 1)
+			status = execute(data->commands, data);
+		else if (ft_lstsize(data->commands) > 1)
+			status = execute_pipex(data);
 		ft_printf("statusssss: %d\n", status);
 		if (status != 0)
 			ft_printf("%s\n", strerror(status));//perror
