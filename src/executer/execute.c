@@ -49,8 +49,8 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 		return (pid1);
 	if (pid1 == 0)
 	{
-		fprintf(stdout, "filloso %s .FD_IN: %d FD_OUT: %d\n",instr->argv[0], instr->fd_in, instr->fd_out);
 		result_code = execaux(instr, data);
+		exit(result_code);
 	}
 	waitpid(pid1, 0, 0);
 	/*
@@ -78,16 +78,9 @@ void	execute(t_list *instr, t_shell_data *data)
 	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
 	command = (t_command *) instr->content;
 	if (command->fd_in > 0)
-	{
 		dup2(command->fd_in, STDIN_FILENO);
-		//close(command->fd_in);
-	}
 	if (command->fd_out > 0)
-	{
 		dup2(command->fd_out, STDOUT_FILENO);
-		//close(command->fd_out);
-	}
-	// close all fd_in and fd_out of the other commands
 	t_list *c = data->commands;
 	while (c)
 	{
@@ -98,7 +91,16 @@ void	execute(t_list *instr, t_shell_data *data)
 			if (((t_command *)c->content)->fd_out > 0)
 				close(((t_command *)c->content)->fd_out);
 		}
-
+		else if (c == instr)
+		{
+			if (((t_command *)c->content)->fd_in > 0)
+				close(((t_command *)c->content)->fd_in);
+		}
+		else if (c->next == instr)
+		{
+			if (((t_command *)c->content)->fd_out > 0)
+				close(((t_command *)c->content)->fd_out);
+		}
 		c = c->next;
 	}
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
@@ -109,18 +111,9 @@ void	execute(t_list *instr, t_shell_data *data)
 		exit(0);
 	else
 		status = execute_generic(command, data);
-/*
-	status = 127;
-	if (!instr)
-		return (1);
-	if (instr->type == CD)
-		status = built_in_cd(instr, env);
-	else if (instr->type == PWD)
-		status = exec_pwd();
-	else if (instr->type == GENERIC)
-		status = execute_generic(instr, path, env);
-		*/
-	fprintf(stdout, "tremino %s\n",((t_command *)instr->content)->argv[0]);
+	close(command->fd_out);
+	if (instr->next)
+		close(((t_command *)instr->next->content)->fd_in);
 	exit (status);
 }
 
@@ -136,7 +129,6 @@ int	execute_pintapipex(t_shell_data *data)
 	commands = data->commands;
 	while (commands)
 	{
-		printf("instruccion %s\n",((t_command *)commands->content)->argv[0]);
 		last_pid = fork();
 		if (last_pid < 0)
 			return (last_pid);
