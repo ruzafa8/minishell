@@ -81,28 +81,7 @@ void	execute(t_list *instr, t_shell_data *data)
 		dup2(command->fd_in, STDIN_FILENO);
 	if (command->fd_out > 0)
 		dup2(command->fd_out, STDOUT_FILENO);
-	t_list *c = data->commands;
-	while (c)
-	{
-		if (c != instr && c->next != instr)
-		{
-			if (((t_command *)c->content)->fd_in > 0)
-				close(((t_command *)c->content)->fd_in);
-			if (((t_command *)c->content)->fd_out > 0)
-				close(((t_command *)c->content)->fd_out);
-		}
-		else if (c == instr)
-		{
-			if (((t_command *)c->content)->fd_in > 0)
-				close(((t_command *)c->content)->fd_in);
-		}
-		else if (c->next == instr)
-		{
-			if (((t_command *)c->content)->fd_out > 0)
-				close(((t_command *)c->content)->fd_out);
-		}
-		c = c->next;
-	}
+	close_pipes(data, instr);
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
 	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
@@ -114,7 +93,7 @@ void	execute(t_list *instr, t_shell_data *data)
 	close(command->fd_out);
 	if (instr->next)
 		close(((t_command *)instr->next->content)->fd_in);
-	exit (status);
+	exit(status);
 }
 
 int	execute_pintapipex(t_shell_data *data)

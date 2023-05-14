@@ -87,6 +87,13 @@ void			pars_free_command_list(t_list **cmds);
 t_pars_err		pars_set_stdin(t_list *commands, char *filename);
 t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
 
+/**** pipes utils ******/
+
+/**
+ * Closes all pipes except the ones that are needed for the current
+ * instruction.
+ */
+void			close_pipes(t_shell_data *data, t_list *instr);
 
 /**** builtin functions ******/
 
