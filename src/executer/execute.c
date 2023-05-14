@@ -93,6 +93,10 @@ int	execute(t_list *instr, t_shell_data *data)
 		close(command->fd_out);
 	if (instr->next)
 		close(((t_command *)instr->next->content)->fd_in);
+	if (command->fd_in > 0)
+		dup2(data->dup_stdin, STDIN_FILENO);
+	if (command->fd_out > 0)
+		dup2(data->dup_stdout, STDOUT_FILENO);
 	return (status);
 }
 
@@ -103,8 +107,6 @@ int	execute_pipex(t_shell_data *data)
 	int		last_status;
 	t_list	*commands;
 
-	data->dup_stdin = dup(STDIN_FILENO);
-	data->dup_stdout = dup(STDOUT_FILENO);
 	commands = data->commands;
 	while (commands)
 	{
@@ -124,7 +126,5 @@ int	execute_pipex(t_shell_data *data)
 			last_status = status;
 		commands = commands->next;
 	}
-	dup2(data->dup_stdin, STDIN_FILENO);
-	dup2(data->dup_stdin, STDOUT_FILENO);
 	return (last_status);
 }

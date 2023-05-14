@@ -21,6 +21,8 @@ void	loop_shell(t_shell_data *data)
 	t_list		*tokens;
 
 	status = 1;
+	data->dup_stdin = dup(STDIN_FILENO);
+	data->dup_stdout = dup(STDOUT_FILENO);
 	// set señales modo interactivo CONTROL C HACE UN SALTO DE LINEA Y YA Y CTRL \ NO HACE NI MIERDAS
 	while (status)
 	{
