@@ -28,8 +28,12 @@ static void	set_pipes(t_list *instr)
 			pipe(pipes);
 			if (cmd->fd_out == 0)
 				ft_memcpy(&(cmd->fd_out), pipes + 1, sizeof(int));
+			else
+				close(pipes[1]);
 			if (next->fd_in == 0)
 				ft_memcpy(&(next->fd_in), pipes + 0, sizeof(int));
+			else
+				close(pipes[0]);
 		}
 		instr = instr->next;
 	}
