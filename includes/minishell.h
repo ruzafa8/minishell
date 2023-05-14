@@ -25,6 +25,7 @@ typedef struct s_shell_data
 	//t_token		*token;
 	//char		*user_input;
 	char		**env;
+	char		**exportenv;
 	//char		*working_dir;
 	//char		*old_working_dir;
 	//t_command	*cmd;
@@ -37,12 +38,13 @@ void		free_path(char **path);
 char		**get_path(char **env);
 char		*check_access(char *command, char **path);
 char		*get_env_value(t_shell_data *data, char *key);
-int				exec_pwd(void);
+int			exec_pwd(void);
 
 /**** env functions ******/
 
 int				env_size(char **env);
 int				init_env(t_shell_data *aux, char **env);
+int				init_export_env(t_shell_data *aux, char **env);
 t_shell_data	*init_shell_data(char **env);
 void			free_ptr(void *ptr);
 int				get_env_var_index(char **env, char *var);
