@@ -91,6 +91,6 @@ t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
 int	built_in_env(t_command *command, t_shell_data *data);
 int	built_in_cd(t_command *instr, t_shell_data *data);
 int	built_in_export(t_command *command, t_shell_data *data);
-
+int	set_export_env_var(t_shell_data *data, char *key, char *value);
 
 #endif

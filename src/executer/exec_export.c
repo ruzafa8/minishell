@@ -27,7 +27,10 @@ static void print_export_env(t_shell_data *data)
 	while (i < env_size(export_env_aux))
 	{
 		iterator = ft_split(export_env_aux[i], '=');
-		printf("declare -x %s=\"%s\"\n", iterator[0], iterator[1]); //declare -x VARIABLE="valor"\n
+		if (!iterator[1])
+			printf("declare -x %s\n", iterator[0]); //declare -x VARIABLE\n
+		else
+			printf("declare -x %s=\"%s\"\n", iterator[0], iterator[1]); //declare -x VARIABLE="valor"\n
 		free_args(iterator);
 		i++;
 	}
@@ -49,57 +52,64 @@ static int	is_valid_name(char *arg)
 
 	i = 0;
 	is_valid = 1;
-	invalid_chars = "ñç:-!¡·¢$/?¿+^¨ÑÇ.,";
+	invalid_chars = ":-!/?+^.,";
 	if (arg[0] == '=')
-		return (0);
+		return (ft_printf("minishell: export: \'=\': not a valid identifier\n"), 0);
 	splitted = ft_split(arg, '=');
-	while ((i < ft_strlen(invalid_chars)) && (is_valid == 1))
+	while (((i < (int)ft_strlen(splitted[0]))) && (is_valid == 1))
 	{
-		if (!ft_strchr(arg, invalid_chars[i]))
+		if (ft_strchr(invalid_chars, splitted[0][i]) || ft_isdigit(splitted[0][0]))
 			is_valid = 0;
 		i++;
 	}
 	if (is_valid == 0)
-
-
+		ft_printf("minishell: export: \'%s\': not a valid identifier\n", splitted[0]);
 	free_args(splitted);
+	return (is_valid);
 }
 
+/*
+	si es la variable tal cual sin el = SOLO SE GUARDA EN EL EXPORT 
+	si es la variable con el = se guarda en el env y el export con cadena vacia
+	en otro caso se guarda en el env y el export con los valores y ya
+
+*/
 static void set_infinite_vars(t_command *command, t_shell_data *data)
 {
 	int		i;
 	char	**args;
+	char	**splited;
 
 	i = 1;
 	args = command->argv;
 	while (i < command->argc)
 	{
 		if (is_valid_name(args[i]))
-
+		{
+			if (!ft_strchr(args[i], '='))
+				set_export_env_var(data, args[i], "");
+			else
+			{
+				splited = ft_split(args[i], '=');
+				set_env_var(data, splited[0], splited[1]);
+				set_export_env_var(data, splited[0], splited[1]);
+				free_args(splited);
+			}
+		}
 		i++;
 	}
 }
 
-	//QUE PASA SI PONGO MUCHAS SEGUIDAS??
-	//EL ENV DEL EXPORT hay que hacerlo si o si
-	//COÑAZO GRANDE, SI PONES UNA 'ñ' EN EL NOMBRE DE UNA VARIABLE DEBERIA DE FALLAR ¿¿¿¿¿o si pones '_'???? ((ft_isprint))
 int	built_in_export(t_command *command, t_shell_data *data)
 {
-	int		res_code;
 	char	**export_env_aux;
 	int		i;
 
-	res_code = 0; //NOSESABELOQUEHAYQUEHACERAHORAMISMO
 	i = 0;
 	export_env_aux = data->exportenv;
 	if (command->argc == 1)
 		print_export_env(data);
 	else if (command->argc > 1)
 		set_infinite_vars(command, data);
-	else
-	{
-		ft_printf("Error, env built in doesnt support any args or flags\n");
-		res_code = 7; // nosecomomanejamosloserrorestodavia
-	}
-	return (res_code);
+	return (0);
 }

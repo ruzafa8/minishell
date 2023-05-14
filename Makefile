@@ -8,6 +8,7 @@ SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/env/get_env_value.c \
 			src/env/ud_env.c \
+			src/env/u_export_env.c \
 			src/utils/init_data.c \
 			src/utils/free.c \
 			src/executer/execute.c \
