@@ -69,14 +69,14 @@ t_pars_err	pars_rediroappe_st(t_list *tokens, t_pars_st *state, t_list **command
 		return (PARS_SYNTAX_ERROR);
 	return (PARS_NO_ERROR);
 }
-t_pars_err	pars_redheredoc_st(t_list *tokens, t_pars_st *state, t_list **commands)
+t_pars_err	pars_redheredoc_st(t_list *tokens, t_pars_st *state, t_list **commands, t_shell_data *data)
 {
 	t_token	*token;
 
 	token = (t_token *) tokens->content;
 	*state = pars_next_state(*state, (t_token *) tokens->content);
 	if (token->type == TOK_WORD)
-		return (pass_create_heredoc(*commands, token->value));
+		return (pars_create_heredoc(*commands, token->value, data));
 	if (token->type == TOK_PIPE)
 		return (PARS_SYNTAX_ERROR);
 	return (PARS_NO_ERROR);

@@ -69,14 +69,14 @@ t_lex_st	lex_next_state(t_lex_st state, char command);
 
 /**** parser functions ******/
 
-t_list			*parser(t_list *tokens);
+t_list			*parser(t_list *tokens, t_shell_data *data);
 t_pars_st		pars_next_state(t_pars_st state, t_token *token);
 t_pars_err		pars_start_st(t_list *tokens, t_pars_st *state, t_list **commands);
 t_pars_err		pars_command_st(t_list *tokens, t_pars_st *state, t_list **commands);
 t_pars_err		pars_redirin_st(t_list *tokens, t_pars_st *state, t_list **commands);
 t_pars_err		pars_redirout_st(t_list *tokens, t_pars_st *state, t_list **commands);
 t_pars_err		pars_rediroappe_st(t_list *tokens, t_pars_st *state, t_list **commands);
-t_pars_err		pars_redheredoc_st(t_list *tokens, t_pars_st *state, t_list **commands);
+t_pars_err		pars_redheredoc_st(t_list *tokens, t_pars_st *state, t_list **commands, t_shell_data *data);
 t_pars_err		pars_invalid_st(t_list *tokens, t_pars_st *state);
 
 t_pars_err		pars_append_arg_to_command(t_list *commands, char *value);
@@ -84,7 +84,7 @@ t_pars_err		pars_append_new_command(t_list **commands, char *value);
 void			pars_free_command_list(t_list **cmds);
 t_pars_err		pars_set_stdin(t_list *commands, char *filename);
 t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
-t_pars_err		pass_create_heredoc(t_list	*commands, char *value);
+t_pars_err		pars_create_heredoc(t_list	*commands, char *value, t_shell_data *data);
 
 
 /**** builtin functions ******/
