@@ -67,16 +67,14 @@ static void expand_var(char **line, t_shell_data* data)
 static void	read_heredoc(int fd, char *value, t_shell_data *data)
 {
 	char	*line;
-	size_t	value_len;
 
-	value_len = ft_strlen(value);
 	while (1)
 	{
 		line = readline(" :: heredocker >> ");
 		if (!line)
 			break ;
 		expand_var(&line, data);
-		if (ft_strncmp(line, value, value_len) == 0)
+		if (ft_strncmp(line, value, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;
