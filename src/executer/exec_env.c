@@ -10,7 +10,7 @@ int	built_in_env(t_command *command, t_shell_data *data)
 	char	**envaux;
 	int		i;
 
-	res_code = 1; //NOSESABELOQUEHAYQUEHACERAHORAMISMO
+	res_code = 0; //NOSESABELOQUEHAYQUEHACERAHORAMISMO
 	i = 0;
 	envaux = data->env;
 	if (command->argc == 1)
