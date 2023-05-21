@@ -61,13 +61,14 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	}*/
 	return (result_code);
 }
-
+/*
 static int debug_env(t_shell_data *data)
 {
 	ft_printf("OLDPWD = %s\n",get_env_value(data,"OLDPWD"));
 	ft_printf("PWD = %s\n",get_env_value(data,"PWD"));
-	return (1);
+	return (0);
 }
+*/
 
 int	execute(t_list *instr, t_shell_data *data)
 {
@@ -84,7 +85,9 @@ int	execute(t_list *instr, t_shell_data *data)
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
 	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
-		status = debug_env(data);//status = built_in_env(command, data);
+		status = built_in_env(command, data);//debug_env(data);
+	else if (ft_strncmp(command->argv[0], "export", 7) == 0)
+		status = built_in_export(command, data);
 	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
 		exit(0);
 	else
