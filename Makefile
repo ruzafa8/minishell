@@ -11,6 +11,7 @@ SRCS	= 	src/loop_shell.c \
 			src/env/u_export_env.c \
 			src/utils/init_data.c \
 			src/utils/free.c \
+			src/utils/pipes.c \
 			src/executer/execute.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \

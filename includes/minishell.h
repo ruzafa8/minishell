@@ -4,9 +4,9 @@
 # include "lexer_types.h"
 # include "parser_types.h"
 # include <unistd.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdio.h>
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
@@ -25,14 +25,18 @@ typedef struct s_shell_data
 	//t_token		*token;
 	//char		*user_input;
 	char		**env;
+	int			dup_stdin;
+	int			dup_stdout;
+	t_list		*commands;
 	char		**exportenv;
 	//char		*working_dir;
 	//char		*old_working_dir;
-	//t_command	*cmd;
 	//pid_t		pid;
 }	t_shell_data;
 
 int			execute(t_list *instr, t_shell_data *data);
+int			execute_pipex(t_shell_data *data);
+
 void		loop_shell(t_shell_data *data);
 void		free_path(char **path);
 char		**get_path(char **env);
@@ -86,6 +90,13 @@ t_pars_err		pars_set_stdin(t_list *commands, char *filename);
 t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
 t_pars_err		pars_create_heredoc(t_list	*commands, char *value, t_shell_data *data);
 
+/**** pipes utils ******/
+
+/**
+ * Closes all pipes except the ones that are needed for the current
+ * instruction.
+ */
+void			close_pipes(t_shell_data *data, t_list *instr);
 
 /**** builtin functions ******/
 
