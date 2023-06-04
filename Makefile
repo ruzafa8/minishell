@@ -7,8 +7,9 @@ LIBS = $(LIBFT)/libft.a
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/env/get_env_value.c \
-			src/env/ud_env.c \
-			src/env/u_export_env.c \
+			src/env/remove_env_var.c \
+			src/env/remove_exportenv_var.c \
+			src/env/set_export_env_var.c \
 			src/utils/init_data.c \
 			src/utils/free.c \
 			src/utils/pipes.c \

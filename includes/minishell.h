@@ -34,15 +34,15 @@ typedef struct s_shell_data
 	//pid_t		pid;
 }	t_shell_data;
 
-int			execute(t_list *instr, t_shell_data *data);
-int			execute_pipex(t_shell_data *data);
+int				execute(t_list *instr, t_shell_data *data);
+int				execute_pipex(t_shell_data *data);
 
-void		loop_shell(t_shell_data *data);
-void		free_path(char **path);
-char		**get_path(char **env);
-char		*check_access(char *command, char **path);
-char		*get_env_value(t_shell_data *data, char *key);
-int			exec_pwd(void);
+void			loop_shell(t_shell_data *data);
+void			free_path(char **path);
+char			**get_path(char **env);
+char			*check_access(char *command, char **path);
+char			*get_env_value(t_shell_data *data, char *key);
+int				exec_pwd(void);
 
 /**** env functions ******/
 
@@ -58,19 +58,19 @@ int				remove_exportenv_var(t_shell_data *data, int idx);
 
 /**** token functions ******/
 
-t_list		*lexer(char *command_str, t_shell_data *data);
-t_list		*lex_create_token(t_token_type type, char *value);
-void		lex_free_token_list(t_list **lst);
-void		append_last_token(t_list **tokens, char **cmd);
-void		append_var_name(t_list **tokens, char **cmd);
-void		substitute_env_var(t_list **tokens, t_shell_data *data);
+t_list			*lexer(char *command_str, t_shell_data *data);
+t_list			*lex_create_token(t_token_type type, char *value);
+void			lex_free_token_list(t_list **lst);
+void			append_last_token(t_list **tokens, char **cmd);
+void			append_var_name(t_list **tokens, char **cmd);
+void			substitute_env_var(t_list **tokens, t_shell_data *data);
 
-void		lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char q);
-void		lex_var_state(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data);
-void		lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, t_shell_data *d);
-void		lex_word_state(char **cmd, t_lex_st *st, t_list **res);
-void		lex_start_state(char **command, t_lex_st *state, t_list **res);
-t_lex_st	lex_next_state(t_lex_st state, char command);
+void			lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char q);
+void			lex_var_state(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data);
+void			lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, t_shell_data *d);
+void			lex_word_state(char **cmd, t_lex_st *st, t_list **res);
+void			lex_start_state(char **command, t_lex_st *state, t_list **res);
+t_lex_st		lex_next_state(t_lex_st state, char command);
 
 /**** parser functions ******/
 
@@ -107,14 +107,24 @@ void			close_pipes(t_shell_data *data, t_list *instr);
  */
 void			expand_variables(char **line, t_shell_data* data, int expand_quotes);
 
+/***************************** builtin functions ******************************/
 
-/**** builtin functions ******/
+int				built_in_env(t_command *command, t_shell_data *data);
+int				built_in_cd(t_command *instr, t_shell_data *data);
+int				built_in_export(t_command *command, t_shell_data *data);
 
-int	built_in_env(t_command *command, t_shell_data *data);
-int	built_in_cd(t_command *instr, t_shell_data *data);
-int	built_in_export(t_command *command, t_shell_data *data);
-int	set_export_env_var(t_shell_data *data, char *key, char *value);
-int	built_in_unset(t_command *command, t_shell_data *data);
+/**
+ *	Añade la variable al enviroment.
+ *	Si ya existe, le cambia el valor, si no, creará una nueva.
+ * 
+ * @param data: estructura de datos.
+ * @param key: clave de la variable.
+ * @param value: valor de la variable.
+ * 
+ * @returns 1 si ha ocurrido, 0 si se ha destruido.
+ */
+int				set_export_env_var(t_shell_data *data, char *key, char *value);
+int				built_in_unset(t_command *command, t_shell_data *data);
 int				exec_pwd(void);
 int				built_in_echo(t_command *command);
 
