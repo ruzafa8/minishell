@@ -44,7 +44,7 @@ libft:
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) $(LIBFT)/libft.a $(RL_LINK) -lreadline $(HEADERS) -o $(NAME) 
+	$(CC) $(CFLAGS) $(SRCS) $(LIBFT)/libft.a -lreadline $(RL_LINK) $(HEADERS) -o $(NAME) 
 
 clean:
 	rm -rf $(OBJS)
