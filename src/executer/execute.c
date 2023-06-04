@@ -92,6 +92,8 @@ int	execute(t_list *instr, t_shell_data *data)
 		status = built_in_unset(command, data);
 	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
 		exit(0);
+	else if (ft_strncmp(command->argv[0], "echo", 5) == 0)
+		status = built_in_echo(command);
 	else
 		status = execute_generic(command, data);
 	if (command->fd_out > 0)
