@@ -11,7 +11,7 @@ static void	read_heredoc(int fd, char *value, t_shell_data *data)
 		line = readline(" :: heredocker >> ");
 		if (!line)
 			break ;
-		expand_variables(&line, data);
+		expand_variables(&line, data, 1);
 		if (ft_strncmp(line, value, ft_strlen(line)) == 0)
 		{
 			free(line);

@@ -102,8 +102,9 @@ void			close_pipes(t_shell_data *data, t_list *instr);
  * Function that expands the variables in the given line.
  * @param line the line to expand. It is reallocated to substitute the variables.
  * @param data the shell data (To get the env variables)
+ * @param expand_quotes if 1, the variables inside simple quotes are expanded. If 0, they are not.
  */
-void			expand_variables(char **line, t_shell_data* data);
+void			expand_variables(char **line, t_shell_data* data, int expand_quotes);
 
 /**** builtin functions ******/
 

@@ -18,33 +18,37 @@ static char	*get_var(t_shell_data *data, char *line, int *var_len)
 	return (var_value);
 }
 
-static char	*concat_me(char *line, int line_count, char *var_value, int var_name_len)
+static void	concat_me(char **line, int line_count, char *var_value, int var_name_len)
 {
 	char	*result;
 	char	*str1;
 	char	*str2;
 
-	str1 = ft_substr(line, 0, line_count - 1);
-	str2 = ft_substr(line, line_count + var_name_len, -1);
+	str1 = ft_substr(*line, 0, line_count - 1);
+	str2 = ft_substr(*line, line_count + var_name_len, -1);
 	result = ft_strjoin(str1, var_value);
 	free(str1);
 	str1 = ft_strjoin(result, str2);
 	free(result);
 	free(str2);
-	return (str1);
+	free(*line);
+	*line = str1;
 }
 
-void	expand_variables(char **line, t_shell_data* data)
+void	expand_variables(char **line, t_shell_data* data, int expand_quotes)
 {
 	int		var_name_len;
 	int		line_count;
 	char	*var_value;
-	char	*aux;
+	int		quote_found;
 
 	line_count = 0;
+	quote_found = 0;
 	while (*(*line + line_count))
 	{
-		if (*(*line + line_count) == '$')
+		if (*(*line + line_count) == '\'')
+			quote_found = !quote_found;
+		if (*(*line + line_count) == '$' && (!quote_found || expand_quotes))
 		{
 			line_count++;
 			var_value = get_var(data, (*line) + line_count, &var_name_len);
@@ -54,9 +58,7 @@ void	expand_variables(char **line, t_shell_data* data)
 				var_value = ft_strdup("");
 			if (!var_value)
 				return ;
-			aux = concat_me(*line, line_count, var_value, var_name_len);
-			free(*line);
-			*line = aux;
+			concat_me(line, line_count, var_value, var_name_len);
 			free(var_value);
 		}
 		else

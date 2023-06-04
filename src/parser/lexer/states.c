@@ -16,44 +16,6 @@ void	lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char quote)
 	(*cmd)++;
 }
 
-void	lex_var_state(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data)
-{
-	*st = lex_next_state(*st, **cmd);
-	if (ft_strchr("<' $|\">", **cmd))
-		substitute_env_var(res, data);
-	if (**cmd == '|')
-		ft_lstadd_back(res, lex_create_token(TOK_PIPE, 0));
-	else if (**cmd == '>' && *((*cmd) + 1) == '>')
-	{
-		ft_lstadd_back(res, lex_create_token(TOK_REDIR_OUT_APPEND, 0));
-		(*cmd)++;
-	}
-	else if (**cmd == '>')
-		ft_lstadd_back(res, lex_create_token(TOK_REDIR_OUT, 0));
-	else if (**cmd == '<' && *((*cmd) + 1) == '<')
-	{
-		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN_HEREDOC, 0));
-		(*cmd)++;
-	}
-	else if (**cmd == '<')
-		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN, 0));
-	else if (**cmd == ' ')
-		ft_lstadd_back(res, lex_create_token(TOK_WORD, ft_strdup("")));
-	else if (!ft_strchr("'\"$", **cmd))
-		append_var_name(res, cmd);
-	(*cmd)++;
-}
-
-void	lex_var_double_st(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data)
-{
-	*st = lex_next_state(*st, **cmd);
-	if (ft_strchr("<' $|\">", **cmd))
-		substitute_env_var(res, data);
-	if (!ft_strchr("\"$", **cmd))
-		append_var_name(res, cmd);
-	(*cmd)++;
-}
-
 void	lex_word_state(char **cmd, t_lex_st *st, t_list **res)
 {
 	*st = lex_next_state(*st, **cmd);
