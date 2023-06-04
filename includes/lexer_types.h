@@ -17,7 +17,7 @@ typedef enum e_token_type
 	TOK_REDIR_IN,
 	TOK_REDIR_OUT,
 	TOK_REDIR_OUT_APPEND,
-	TOK_REDIR_IN_HEREDOC,
+	TOK_HDOC,
 	TOK_PIPE
 }	t_token_type;
 

@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions_heredoc.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/04 19:34:04 by aruzafa-          #+#    #+#             */
+/*   Updated: 2023/06/04 19:34:51 by aruzafa-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -8,7 +18,7 @@ static void	read_heredoc(int fd, char *value, t_shell_data *data)
 
 	while (1)
 	{
-		line = readline(" :: heredocker >> ");
+		line = readline(" >> ");
 		if (!line)
 			break ;
 		expand_variables(&line, data, 1);
@@ -23,14 +33,14 @@ static void	read_heredoc(int fd, char *value, t_shell_data *data)
 	close(fd);
 }
 
-t_pars_err	pars_create_heredoc(t_list	*commands, char *value, t_shell_data *data)
+t_pars_err	pars_create_heredoc(t_list	*cmds, char *value, t_shell_data *data)
 {
 	t_command		*command;
 	static size_t	next_heredoc_code = 0;
 	char			*filename;
 	char			*tmp;
 
-	command = (t_command *) ft_lstlast(commands)->content;
+	command = (t_command *) ft_lstlast(cmds)->content;
 	tmp = ft_itoa(next_heredoc_code++);
 	if (!tmp)
 		return (PARS_MALLOC_ERROR);

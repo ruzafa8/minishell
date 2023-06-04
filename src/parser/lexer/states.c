@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:28:24 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/04 19:29:19 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/04 19:49:45 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	lex_word_state(char **cmd, t_lex_st *st, t_list **res)
 		ft_lstadd_back(res, lex_create_token(TOK_REDIR_OUT, 0));
 	else if (**cmd == '<' && *((*cmd) + 1) == '<')
 	{
-		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN_HEREDOC, 0));
+		ft_lstadd_back(res, lex_create_token(TOK_HDOC, 0));
 		(*cmd)++;
 	}
 	else if (**cmd == '<')
@@ -64,7 +64,7 @@ void	lex_start_state(char **command, t_lex_st *state, t_list **res)
 	else if (**command == '>')
 		ft_lstadd_back(res, lex_create_token(TOK_REDIR_OUT, 0));
 	else if (**command == '<' && *((*command) + 1) == '<')
-		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN_HEREDOC, 0));
+		ft_lstadd_back(res, lex_create_token(TOK_HDOC, 0));
 	else if (**command == '<')
 		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN, 0));
 	else if (**command == ' ')

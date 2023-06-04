@@ -27,6 +27,7 @@ SRCS	= 	src/loop_shell.c \
 			src/parser/lexer/states.c \
 			src/parser/parser/parser.c \
 			src/parser/parser/states.c \
+			src/parser/parser/states2.c \
 			src/parser/parser/actions.c \
 			src/parser/parser/actions_heredoc.c \
 			src/parser/parser/utils.c \

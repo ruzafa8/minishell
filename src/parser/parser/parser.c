@@ -1,9 +1,18 @@
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/04 19:35:18 by aruzafa-          #+#    #+#             */
+/*   Updated: 2023/06/04 19:57:27 by aruzafa-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_error(t_pars_st state, t_pars_err err)
+static void	print_error(t_pars_st state, t_pars_err err)
 {
 	if (state != PARS_COMMAND || err == PARS_SYNTAX_ERROR)
 		ft_printf("minishell: syntax error.\n");
@@ -39,6 +48,32 @@ static void	set_pipes(t_list *instr)
 	}
 }
 
+static t_pars_err	pars_states(
+	t_list *tokens,
+	t_pars_st *st,
+	t_list **cmds,
+	t_shell_data *data
+) {
+	t_pars_err	err;
+
+	err = PARS_SYNTAX_ERROR;
+	if (*st == PARS_START)
+		err = pars_start_st(tokens, st, cmds);
+	else if (*st == PARS_COMMAND)
+		err = pars_command_st(tokens, st, cmds);
+	else if (*st == PARS_REDIR_IN)
+		err = pars_redirin_st(tokens, st, cmds);
+	else if (*st == PARS_REDIR_OUT)
+		err = pars_redirout_st(tokens, st, cmds);
+	else if (*st == PARS_REDIR_OUT_APPEND)
+		err = pars_rediroappe_st(tokens, st, cmds);
+	else if (*st == PARS_REDIR_IN_HEREDOC)
+		err = pars_redheredoc_st(tokens, st, cmds, data);
+	else if (*st == PARS_INVALID)
+		err = pars_invalid_st(tokens, st);
+	return (err);
+}
+
 t_list	*parser(t_list *tokens, t_shell_data *data)
 {
 	t_pars_st	state;
@@ -50,20 +85,7 @@ t_list	*parser(t_list *tokens, t_shell_data *data)
 	err = PARS_NO_ERROR;
 	while (tokens && err == PARS_NO_ERROR)
 	{
-		if (state == PARS_START)
-			err = pars_start_st(tokens, &state, &commands);
-		else if (state == PARS_COMMAND)
-			err = pars_command_st(tokens, &state, &commands);
-		else if (state == PARS_REDIR_IN)
-			err = pars_redirin_st(tokens, &state, &commands);
-		else if (state == PARS_REDIR_OUT)
-			err = pars_redirout_st(tokens, &state, &commands);
-		else if (state == PARS_REDIR_OUT_APPEND)
-			err = pars_rediroappe_st(tokens, &state, &commands);
-		else if (state == PARS_REDIR_IN_HEREDOC)
-			err = pars_redheredoc_st(tokens, &state, &commands, data);
-		else if (state == PARS_INVALID)
-			err = pars_invalid_st(tokens, &state);
+		err = pars_states(tokens, &state, &commands, data);
 		tokens = tokens->next;
 	}
 	print_error(state, err);
@@ -73,33 +95,30 @@ t_list	*parser(t_list *tokens, t_shell_data *data)
 	return (commands);
 }
 
-t_pars_st	pars_next_state(t_pars_st state, t_token *token)
+t_pars_st	pars_next_state(t_pars_st st, t_token *tok)
 {
-	if (state == PARS_COMMAND && token->type == TOK_PIPE)
+	if (st == PARS_COMMAND && tok->type == TOK_PIPE)
 		return (PARS_START);
-	else if ((state == PARS_START && token->type == TOK_PIPE)
-		|| (state == PARS_REDIR_IN && token->type != TOK_WORD)
-		|| (state == PARS_REDIR_IN_HEREDOC && token->type != TOK_WORD)
-		|| (state == PARS_REDIR_OUT && token->type != TOK_WORD)
-		|| (state == PARS_REDIR_OUT_APPEND && token->type != TOK_WORD))
+	else if ((st == PARS_START && tok->type == TOK_PIPE)
+		|| ((st == PARS_REDIR_IN || st == PARS_REDIR_IN_HEREDOC
+				|| st == PARS_REDIR_OUT || st == PARS_REDIR_OUT_APPEND)
+			&& tok->type != TOK_WORD))
 		return (PARS_INVALID);
-	else if ((state == PARS_START && token->type == TOK_WORD)
-		|| (state == PARS_REDIR_IN && token->type == TOK_WORD)
-		|| (state == PARS_REDIR_IN_HEREDOC && token->type == TOK_WORD)
-		|| (state == PARS_REDIR_OUT && token->type == TOK_WORD)
-		|| (state == PARS_REDIR_OUT_APPEND && token->type == TOK_WORD))
+	else if ((st == PARS_START && tok->type == TOK_WORD)
+		|| ((st == PARS_REDIR_IN || st == PARS_REDIR_IN_HEREDOC
+				|| st == PARS_REDIR_OUT || st == PARS_REDIR_OUT_APPEND)
+			&& tok->type != TOK_WORD))
 		return (PARS_COMMAND);
-	else if ((state == PARS_START && token->type == TOK_REDIR_IN)
-		|| (state == PARS_COMMAND && token->type == TOK_REDIR_IN))
+	else if ((st == PARS_START && tok->type == TOK_REDIR_IN)
+		|| (st == PARS_COMMAND && tok->type == TOK_REDIR_IN))
 		return (PARS_REDIR_IN);
-	else if ((state == PARS_START && token->type == TOK_REDIR_IN_HEREDOC)
-		|| (state == PARS_COMMAND && token->type == TOK_REDIR_IN_HEREDOC))
+	else if ((st == PARS_START || st == PARS_COMMAND) && tok->type == TOK_HDOC)
 		return (PARS_REDIR_IN_HEREDOC);
-	else if ((state == PARS_START && token->type == TOK_REDIR_OUT)
-		|| (state == PARS_COMMAND && token->type == TOK_REDIR_OUT))
+	else if ((st == PARS_START && tok->type == TOK_REDIR_OUT)
+		|| (st == PARS_COMMAND && tok->type == TOK_REDIR_OUT))
 		return (PARS_REDIR_OUT);
-	else if ((state == PARS_START && token->type == TOK_REDIR_OUT_APPEND)
-		|| (state == PARS_COMMAND && token->type == TOK_REDIR_OUT_APPEND))
+	else if ((st == PARS_START && tok->type == TOK_REDIR_OUT_APPEND)
+		|| (st == PARS_COMMAND && tok->type == TOK_REDIR_OUT_APPEND))
 		return (PARS_REDIR_OUT_APPEND);
-	return (state);
+	return (st);
 }
