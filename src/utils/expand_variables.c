@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_variables.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/04 16:43:53 by aruzafa-          #+#    #+#             */
+/*   Updated: 2023/06/04 17:58:30 by aruzafa-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -18,21 +28,22 @@ static char	*get_var(t_shell_data *data, char *line, int *var_len)
 	return (var_value);
 }
 
-static void	concat_me(char **line, int line_count, char *var_value, int var_name_len)
+static void	concat_me(char **line, int count, char *var_value, int var_name_len)
 {
-	char	*result;
+	char	*aux;
 	char	*str1;
 	char	*str2;
+	char	*result;
 
-	str1 = ft_substr(*line, 0, line_count - 1);
-	str2 = ft_substr(*line, line_count + var_name_len, -1);
-	result = ft_strjoin(str1, var_value);
+	str1 = ft_substr(*line, 0, count);
+	str2 = ft_substr(*line, count + var_name_len + 1, -1);
+	aux = ft_strjoin(str1, var_value);
+	result = ft_strjoin(aux, str2);
 	free(str1);
-	str1 = ft_strjoin(result, str2);
-	free(result);
 	free(str2);
+	free(aux);
 	free(*line);
-	*line = str1;
+	*line = result;
 }
 
 void	expand_variables(char **line, t_shell_data* data, int expand_quotes)
@@ -50,8 +61,7 @@ void	expand_variables(char **line, t_shell_data* data, int expand_quotes)
 			quote_found = !quote_found;
 		if (*(*line + line_count) == '$' && (!quote_found || expand_quotes))
 		{
-			line_count++;
-			var_value = get_var(data, (*line) + line_count, &var_name_len);
+			var_value = get_var(data, (*line) + line_count + 1, &var_name_len);
 			if (var_name_len == 0)
 				continue ;
 			if (!var_value)
@@ -59,6 +69,7 @@ void	expand_variables(char **line, t_shell_data* data, int expand_quotes)
 			if (!var_value)
 				return ;
 			concat_me(line, line_count, var_value, var_name_len);
+			line_count += ft_strlen(var_value);
 			free(var_value);
 		}
 		else
