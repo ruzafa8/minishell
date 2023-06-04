@@ -98,6 +98,13 @@ t_pars_err		pars_create_heredoc(t_list	*commands, char *value, t_shell_data *dat
  */
 void			close_pipes(t_shell_data *data, t_list *instr);
 
+/**
+ * Function that expands the variables in the given line.
+ * @param line the line to expand. It is reallocated to substitute the variables.
+ * @param data the shell data (To get the env variables)
+ */
+void			expand_variables(char **line, t_shell_data* data);
+
 /**** builtin functions ******/
 
 int	built_in_env(t_command *command, t_shell_data *data);
