@@ -13,6 +13,7 @@ SRCS	= 	src/loop_shell.c \
 			src/utils/free.c \
 			src/utils/pipes.c \
 			src/utils/expand_variables.c \
+			src/executer/exec_unset.c \
 			src/executer/execute.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \

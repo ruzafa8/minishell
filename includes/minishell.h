@@ -54,6 +54,7 @@ void			free_ptr(void *ptr);
 int				get_env_var_index(char **env, char *var);
 int				set_env_var(t_shell_data *data, char *key, char *value);
 int				remove_env_var(t_shell_data *data, int idx);
+int				remove_exportenv_var(t_shell_data *data, int idx);
 
 /**** token functions ******/
 
@@ -113,6 +114,7 @@ int	built_in_env(t_command *command, t_shell_data *data);
 int	built_in_cd(t_command *instr, t_shell_data *data);
 int	built_in_export(t_command *command, t_shell_data *data);
 int	set_export_env_var(t_shell_data *data, char *key, char *value);
+int	built_in_unset(t_command *command, t_shell_data *data);
 int				exec_pwd(void);
 int				built_in_echo(t_command *command);
 

@@ -102,11 +102,6 @@ static void set_infinite_vars(t_command *command, t_shell_data *data)
 
 int	built_in_export(t_command *command, t_shell_data *data)
 {
-	char	**export_env_aux;
-	int		i;
-
-	i = 0;
-	export_env_aux = data->exportenv;
 	if (command->argc == 1)
 		print_export_env(data);
 	else if (command->argc > 1)
