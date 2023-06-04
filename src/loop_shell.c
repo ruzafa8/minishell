@@ -35,7 +35,7 @@ void	loop_shell(t_shell_data *data)
 			free(line);
 			continue ;
 		}
-		data->commands = parser(tokens);
+		data->commands = parser(tokens, data);
 		lex_free_token_list(&tokens);
 		if (!data->commands)
 		{
