@@ -106,11 +106,14 @@ void			close_pipes(t_shell_data *data, t_list *instr);
  */
 void			expand_variables(char **line, t_shell_data* data, int expand_quotes);
 
+
 /**** builtin functions ******/
 
 int	built_in_env(t_command *command, t_shell_data *data);
 int	built_in_cd(t_command *instr, t_shell_data *data);
 int	built_in_export(t_command *command, t_shell_data *data);
 int	set_export_env_var(t_shell_data *data, char *key, char *value);
+int				exec_pwd(void);
+int				built_in_echo(t_command *command);
 
 #endif
