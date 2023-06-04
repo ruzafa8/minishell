@@ -116,3 +116,32 @@ int	remove_env_var(t_shell_data *data, int idx)
 		return (0);
 	return (1);
 }
+
+/*
+*	borra la variable del exportenv en la posicion "idx"
+*
+*	Return 1 si ha ocurrido,
+*	0 si el idx es invalido o falla con el malloc
+*/
+int	remove_exportenv_var(t_shell_data *data, int idx)
+{
+	int	i;
+	int	count;
+
+	if (idx > env_size(data->exportenv))
+		return (0);
+	free_ptr(data->exportenv[idx]);
+	i = idx;
+	count = idx;
+	while (data->exportenv[i + 1])
+	{
+		data->exportenv[i] = ft_strdup(data->exportenv[i + 1]);
+		free_ptr(data->exportenv[i + 1]);
+		count++;
+		i++;
+	}
+	data->exportenv = realloc_env_vars(data, count);
+	if (!data->exportenv)
+		return (0);
+	return (1);
+}
