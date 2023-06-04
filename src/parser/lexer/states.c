@@ -5,7 +5,7 @@ void	lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char quote)
 	*st = lex_next_state(*st, **cmd);
 	if (quote == '"')
 	{
-		if (!ft_strchr("$\"", **cmd))
+		if (!ft_strchr("\"", **cmd))
 			append_last_token(res, cmd);
 	}
 	else
@@ -35,7 +35,7 @@ void	lex_word_state(char **cmd, t_lex_st *st, t_list **res)
 	}
 	else if (**cmd == '<')
 		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN, 0));
-	else if (!ft_strchr(" '\"$", **cmd))
+	else if (!ft_strchr(" '\"", **cmd))
 		append_last_token(res, cmd);
 	(*cmd)++;
 }
@@ -56,8 +56,6 @@ void	lex_start_state(char **command, t_lex_st *state, t_list **res)
 	else if (**command == '<')
 		ft_lstadd_back(res, lex_create_token(TOK_REDIR_IN, 0));
 	else if (**command == ' ') {}
-	else if (**command == '$')
-		ft_lstadd_back(res, lex_create_token(TOK_WORD, ft_strdup("")));
 	else
 		ft_lstadd_back(res, lex_create_token(TOK_WORD, ft_substr(*command, 0, 1)));
 	if ((**command == '>' && *((*command) + 1) == '>')

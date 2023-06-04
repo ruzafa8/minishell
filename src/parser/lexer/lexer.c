@@ -4,7 +4,7 @@ t_lex_st	lex_next_state(t_lex_st state, char command)
 {
 	if ((state == LEX_SIMPLE_QUOTE && command == '\'')
 		|| (state == LEX_DOUBLE_QUOTE && command == '"')
-		|| (state == LEX_START && !ft_strchr("<' $|\">", command)))
+		|| (state == LEX_START && !ft_strchr("<' |\">", command)))
 		return (LEX_WORD);
 	else if ((state == LEX_START && command == '\'')
 		|| (state == LEX_WORD && command == '\''))
