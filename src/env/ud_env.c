@@ -1,3 +1,5 @@
+
+
 #include "minishell.h"
 
 /*
@@ -64,8 +66,8 @@ int	set_env_var(t_shell_data *data, char *key, char *value)
 	char	*aux;
 
 	idx = get_env_var_index(data->env, key);
-	//if (value == NULL)
-	//	value = "";
+	if (value == NULL)
+		value = "";
 	aux = ft_strjoin("=", value);
 	if (!aux)
 		return (12);

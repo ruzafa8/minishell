@@ -13,7 +13,33 @@ void	print_error(t_pars_st state, t_pars_err err)
 		ft_printf("minishell: no such file or directory\n");
 }
 
-t_list	*parser(t_list *tokens)
+static void	set_pipes(t_list *instr)
+{
+	t_command	*cmd;
+	t_command	*next;
+	int			pipes[2];
+
+	while (instr)
+	{
+		cmd = (t_command *) instr->content;
+		if (instr->next)
+		{
+			next = (t_command *) instr->next->content;
+			pipe(pipes);
+			if (cmd->fd_out == 0)
+				ft_memcpy(&(cmd->fd_out), pipes + 1, sizeof(int));
+			else
+				close(pipes[1]);
+			if (next->fd_in == 0)
+				ft_memcpy(&(next->fd_in), pipes + 0, sizeof(int));
+			else
+				close(pipes[0]);
+		}
+		instr = instr->next;
+	}
+}
+
+t_list	*parser(t_list *tokens, t_shell_data *data)
 {
 	t_pars_st	state;
 	t_list		*commands;
@@ -35,7 +61,7 @@ t_list	*parser(t_list *tokens)
 		else if (state == PARS_REDIR_OUT_APPEND)
 			err = pars_rediroappe_st(tokens, &state, &commands);
 		else if (state == PARS_REDIR_IN_HEREDOC)
-			err = pars_redheredoc_st(tokens, &state);
+			err = pars_redheredoc_st(tokens, &state, &commands, data);
 		else if (state == PARS_INVALID)
 			err = pars_invalid_st(tokens, &state);
 		tokens = tokens->next;
@@ -43,6 +69,7 @@ t_list	*parser(t_list *tokens)
 	print_error(state, err);
 	if (err != PARS_NO_ERROR || state == PARS_INVALID)
 		return (pars_free_command_list(&commands), (t_list *) 0);
+	set_pipes(commands);
 	return (commands);
 }
 

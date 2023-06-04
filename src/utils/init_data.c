@@ -27,12 +27,30 @@ int	init_env(t_shell_data *aux, char **env)
 	return (1);
 }
 
+int	init_export_env(t_shell_data *aux, char **env)
+{
+	int	i = 0;
+
+	aux->exportenv = ft_calloc(env_size(env) + 1, sizeof(aux->env));
+	if (!aux->exportenv)
+		return (0); //error en el initenv
+	while (env[i])
+	{
+		aux->exportenv[i] = ft_strdup(env[i]);
+		if (!aux->exportenv[i])
+			return (0);//liberar cosas?????? error tambien en el initenv
+		i++;
+	}
+	return (1);
+}
+
 t_shell_data	*init_shell_data(char **env)
 {
 	t_shell_data	*aux;
 
 	aux = (t_shell_data *)ft_calloc(1, sizeof(t_shell_data));
 	init_env(aux, env);
+	init_export_env(aux, env);
 	//if(!init_env(aux, env)){
 		//printerror
 		//exit_shell(NULL, EXIT_FAILURE);
