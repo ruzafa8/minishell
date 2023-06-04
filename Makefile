@@ -12,11 +12,13 @@ SRCS	= 	src/loop_shell.c \
 			src/utils/init_data.c \
 			src/utils/free.c \
 			src/utils/pipes.c \
+			src/utils/expand_variables.c \
 			src/executer/execute.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \
 			src/executer/exec_pwd.c \
 			src/executer/exec_env.c \
+			src/executer/exec_echo.c \
 			src/executer/exec_export.c \
 			src/parser/lexer/lexer.c \
 			src/parser/lexer/utils.c \
