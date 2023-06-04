@@ -48,7 +48,10 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	if (pid1 < 0)
 		return (pid1);
 	if (pid1 == 0)
+	{
 		result_code = execaux(instr, data);
+		exit(result_code);
+	}
 	waitpid(pid1, 0, 0);
 	/*
 	if (WIFEXITED(result_code))
@@ -58,20 +61,19 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	}*/
 	return (result_code);
 }
-
+/*
 static int debug_env(t_shell_data *data)
 {
 	ft_printf("OLDPWD = %s\n",get_env_value(data,"OLDPWD"));
 	ft_printf("PWD = %s\n",get_env_value(data,"PWD"));
-	return (1);
+	return (0);
 }
+*/
 
 int	execute(t_list *instr, t_shell_data *data)
 {
 	int	status;
 	t_command *command;
-	int	dup_in = dup(STDIN_FILENO);
-	int	dup_out = dup(STDOUT_FILENO);
 
 	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
 	command = (t_command *) instr->content;
@@ -79,36 +81,55 @@ int	execute(t_list *instr, t_shell_data *data)
 		dup2(command->fd_in, STDIN_FILENO);
 	if (command->fd_out > 0)
 		dup2(command->fd_out, STDOUT_FILENO);
+	close_pipes(data, instr);
 	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
 		status = built_in_cd(command, data);
 	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
-		status = debug_env(data);//status = built_in_env(command, data);
+		status = built_in_env(command, data);//debug_env(data);
+	else if (ft_strncmp(command->argv[0], "export", 7) == 0)
+		status = built_in_export(command, data);
 	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(command->argv[0], "echo", 5) == 0)
 		status = built_in_echo(command);
 	else
 		status = execute_generic(command, data);
-	if (command->fd_in > 0)
-	{
-		dup2(dup_in, STDIN_FILENO);
-		close(command->fd_in);
-	}
 	if (command->fd_out > 0)
-	{
-		dup2(dup_out, STDOUT_FILENO);
 		close(command->fd_out);
-	}
-/*
-	status = 127;
-	if (!instr)
-		return (1);
-	if (instr->type == CD)
-		status = built_in_cd(instr, env);
-	else if (instr->type == PWD)
-		status = exec_pwd();
-	else if (instr->type == GENERIC)
-		status = execute_generic(instr, path, env);
-		*/
+	if (instr->next)
+		close(((t_command *)instr->next->content)->fd_in);
+	if (command->fd_in > 0)
+		dup2(data->dup_stdin, STDIN_FILENO);
+	if (command->fd_out > 0)
+		dup2(data->dup_stdout, STDOUT_FILENO);
 	return (status);
+}
+
+int	execute_pipex(t_shell_data *data)
+{
+	int		status;
+	int		last_pid;
+	int		last_status;
+	t_list	*commands;
+
+	commands = data->commands;
+	while (commands)
+	{
+		last_pid = fork();
+		if (last_pid < 0)
+			return (last_pid);
+		if (last_pid == 0)
+			exit (execute(commands, data));
+		commands = commands->next;
+	}
+	commands = data->commands;
+	close_pipes(data, 0);
+	commands = data->commands;
+	while (commands)
+	{
+		if (last_pid == waitpid(-1, &status, 0))
+			last_status = status;
+		commands = commands->next;
+	}
+	return (last_status);
 }
