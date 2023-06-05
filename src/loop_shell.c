@@ -38,8 +38,10 @@ void	loop_shell(t_shell_data *data)
 	// set señales modo interactivo CONTROL C HACE UN SALTO DE LINEA Y YA Y CTRL \ NO HACE NI MIERDAS
 	while (status)
 	{
+		set_signals_interactive();
 		line = get_nextline();
 		add_history(line);
+		set_signals_noninteractive();
 		//SI GETNEXLINE DEVUELVE NULL (CONTROL D) 
 		expand_variables(&line, data, 0);
 		tokens = lexer(line, data);

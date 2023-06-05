@@ -22,6 +22,8 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <stdlib.h>
 
 typedef struct s_command
 {
@@ -43,14 +45,14 @@ typedef struct s_shell_data
 int				execute(t_list *instr, t_shell_data *data);
 int				execute_pipex(t_shell_data *data);
 
-void			loop_shell(t_shell_data *data);
-void			free_path(char **path);
-char			**get_path(char **env);
-char			*check_access(char *command, char **path);
-char			*get_env_value(t_shell_data *data, char *key);
-int				exec_pwd(void);
+void		loop_shell(t_shell_data *data);
+void		free_path(char **path);
+char		**get_path(char **env);
+char		*check_access(char *command, char **path);
+char		*get_env_value(t_shell_data *data, char *key);
 int				is_builtin(char *command);
 int				execute_builtins(t_command *command, t_shell_data *data);
+
 
 /**** env functions ******/
 
@@ -75,10 +77,13 @@ void			substitute_env_var(t_list **tokens, t_shell_data *data);
 
 void			lex_quote_states(char **cmd, t_lex_st *st,
 					t_list **res, char q);
-void			lex_var_state(char **cmd, t_lex_st *st, t_list **res,
-					t_shell_data *data);
-void			lex_var_double_st(char **cmd, t_lex_st *st, t_list **l,
-					t_shell_data *d);
+
+void			lex_var_state(char **cmd, t_lex_st *st,
+					t_list **res, t_shell_data *data);
+
+void			lex_var_double_st(char **cmd, t_lex_st *st,
+					t_list **l, t_shell_data *d);
+					
 void			lex_word_state(char **cmd, t_lex_st *st, t_list **res);
 void			lex_start_state(char **command, t_lex_st *state, t_list **res);
 t_lex_st		lex_next_state(t_lex_st state, char command);
@@ -100,7 +105,6 @@ t_pars_err		pars_rediroappe_st(t_list *tokens, t_pars_st *state,
 t_pars_err		pars_redheredoc_st(t_list *tokens, t_pars_st *state,
 					t_list **commands, t_shell_data *data);
 t_pars_err		pars_invalid_st(t_list *tokens, t_pars_st *state);
-
 t_pars_err		pars_append_arg_to_command(t_list *commands, char *value);
 t_pars_err		pars_append_new_command(t_list **commands, char *value);
 void			pars_free_command_list(t_list **cmds);
@@ -148,5 +152,14 @@ int				set_export_env_var(t_shell_data *data, char *key, char *value);
 int				built_in_unset(t_command *command, t_shell_data *data);
 int				exec_pwd(void);
 int				built_in_echo(t_command *command);
+
+/**** signals functions ******/
+
+void	signal_reset_prompt(int signo);
+void	set_signals_interactive(void);
+void	signal_print_newline(int signal);
+void	set_signals_noninteractive(void);
+void	ignore_sigquit(void);
+
 
 #endif
