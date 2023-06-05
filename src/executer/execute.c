@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:26:11 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:35:54 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,8 @@ int	execute(t_list *instr, t_shell_data *data)
 	if (command->fd_out > 0)
 		dup2(command->fd_out, STDOUT_FILENO);
 	close_pipes(data, instr);
-	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
-		status = built_in_cd(command, data);
-	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
-		status = built_in_env(command, data);//debug_env(data);
-	else if (ft_strncmp(command->argv[0], "export", 7) == 0)
-		status = built_in_export(command, data);
-	else if (ft_strncmp(command->argv[0], "unset", 6) == 0)
-		status = built_in_unset(command, data);
-	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
-		exit(0);
-	else if (ft_strncmp(command->argv[0], "echo", 5) == 0)
-		status = built_in_echo(command);
+	if (is_builtin(command->argv[0]))
+		status = execute_builtins(command, data);
 	else
 		status = execute_generic(command, data);
 	if (command->fd_out > 0)

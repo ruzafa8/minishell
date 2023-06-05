@@ -16,6 +16,7 @@ SRCS	= 	src/loop_shell.c \
 			src/utils/expand_variables.c \
 			src/executer/exec_unset.c \
 			src/executer/execute.c \
+			src/executer/execute_utils.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \
 			src/executer/exec_pwd.c \

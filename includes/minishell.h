@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:14:06 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:38:25 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char			**get_path(char **env);
 char			*check_access(char *command, char **path);
 char			*get_env_value(t_shell_data *data, char *key);
 int				exec_pwd(void);
+int				is_builtin(char *command);
+int				execute_builtins(t_command *command, t_shell_data *data);
 
 /**** env functions ******/
 
