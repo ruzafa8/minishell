@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:15:24 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:16:15 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:28:27 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	printmatrix_n(char **aux)
 		i++;
 	}
 }
+
 static int	has_n(char *text)
 {
 	int	i;
@@ -53,7 +54,7 @@ static int	has_n(char *text)
 		i++;
 		while (text[i] && text[i] == 'n')
 			i++;
-		if(text[i] == '\0')
+		if (text[i] == '\0')
 			hasn = 1;
 	}
 	return (hasn);

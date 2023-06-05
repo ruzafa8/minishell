@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:35:54 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:47:18 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,20 @@ static int	execaux(t_command *instr, t_shell_data *data)
 	return (127);
 }
 
+/**
+ * TODO: Tengo este código comentado:
+ * if (WIFEXITED(result_code)) {
+ * 	ft_printf("%d", WEXITSTATUS(result_code));
+ * 	exit(WEXITSTATUS(result_code));
+ * }
+ */
 static int	execute_generic(t_command *instr, t_shell_data *data)
 {
 	int		pid1;
 	int		result_code;
 
 	pid1 = fork();
-	result_code = 0; // Código de error genérico.
+	result_code = 0;
 	if (pid1 < 0)
 		return (pid1);
 	if (pid1 == 0)
@@ -65,12 +72,6 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 		exit(result_code);
 	}
 	waitpid(pid1, 0, 0);
-	/*
-	if (WIFEXITED(result_code))
-	{
-		ft_printf("%d", WEXITSTATUS(result_code));
-		exit(WEXITSTATUS(result_code));
-	}*/
 	return (result_code);
 }
 
@@ -114,7 +115,7 @@ int	execute_pipex(t_shell_data *data)
 		if (last_pid < 0)
 			return (last_pid);
 		if (last_pid == 0)
-			exit (execute(commands, data));
+			exit(execute(commands, data));
 		commands = commands->next;
 	}
 	commands = data->commands;
