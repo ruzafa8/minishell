@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:35:18 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/04 19:57:27 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:43:00 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static void	print_error(t_pars_st state, t_pars_err err)
 {
-	if (state != PARS_COMMAND || err == PARS_SYNTAX_ERROR)
+	if (state == PARS_START
+		|| state == PARS_INVALID
+		|| err == PARS_SYNTAX_ERROR)
 		ft_printf("minishell: syntax error.\n");
 	else if (err == PARS_MALLOC_ERROR)
 		ft_printf("minishell: memory error\n");
@@ -89,7 +91,9 @@ t_list	*parser(t_list *tokens, t_shell_data *data)
 		tokens = tokens->next;
 	}
 	print_error(state, err);
-	if (err != PARS_NO_ERROR || state != PARS_COMMAND)
+	if (err != PARS_NO_ERROR
+		|| state == PARS_START
+		|| state == PARS_INVALID)
 		return (pars_free_command_list(&commands), (t_list *) 0);
 	set_pipes(commands);
 	return (commands);

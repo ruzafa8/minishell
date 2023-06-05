@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:38:25 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:44:16 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,13 @@ typedef struct s_shell_data
 int				execute(t_list *instr, t_shell_data *data);
 int				execute_pipex(t_shell_data *data);
 
-void		loop_shell(t_shell_data *data);
-void		free_path(char **path);
-char		**get_path(char **env);
-char		*check_access(char *command, char **path);
-char		*get_env_value(t_shell_data *data, char *key);
+void			loop_shell(t_shell_data *data);
+void			free_path(char **path);
+char			**get_path(char **env);
+char			*check_access(char *command, char **path);
+char			*get_env_value(t_shell_data *data, char *key);
 int				is_builtin(char *command);
 int				execute_builtins(t_command *command, t_shell_data *data);
-
 
 /**** env functions ******/
 
@@ -86,7 +85,7 @@ void			lex_var_state(char **cmd, t_lex_st *st,
 
 void			lex_var_double_st(char **cmd, t_lex_st *st,
 					t_list **l, t_shell_data *d);
-					
+
 void			lex_word_state(char **cmd, t_lex_st *st, t_list **res);
 void			lex_start_state(char **command, t_lex_st *state, t_list **res);
 t_lex_st		lex_next_state(t_lex_st state, char command);
@@ -158,11 +157,10 @@ int				built_in_echo(t_command *command);
 
 /**** signals functions ******/
 
-void	signal_reset_prompt(int signo);
-void	set_signals_interactive(void);
-void	signal_print_newline(int signal);
-void	set_signals_noninteractive(void);
-void	ignore_sigquit(void);
-
+void			signal_reset_prompt(int signo);
+void			set_signals_interactive(void);
+void			signal_print_newline(int signal);
+void			set_signals_noninteractive(void);
+void			ignore_sigquit(void);
 
 #endif

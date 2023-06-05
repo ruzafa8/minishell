@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 16:43:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/04 17:58:30 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:40:07 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static char	*get_var(t_shell_data *data, char *line, int *var_len)
 	var_name = ft_substr(line, 0, *var_len);
 	var_value = get_env_value(data, var_name);
 	free(var_name);
+	if (!var_value)
+		return (ft_strdup(""));
 	return (var_value);
 }
 
@@ -46,7 +48,7 @@ static void	concat_me(char **line, int count, char *var_value, int var_name_len)
 	*line = result;
 }
 
-void	expand_variables(char **line, t_shell_data* data, int expand_quotes)
+void	expand_variables(char **line, t_shell_data *data, int expand_quotes)
 {
 	int		var_name_len;
 	int		line_count;
@@ -62,12 +64,10 @@ void	expand_variables(char **line, t_shell_data* data, int expand_quotes)
 		if (*(*line + line_count) == '$' && (!quote_found || expand_quotes))
 		{
 			var_value = get_var(data, (*line) + line_count + 1, &var_name_len);
-			if (var_name_len == 0)
-				continue ;
-			if (!var_value)
-				var_value = ft_strdup("");
 			if (!var_value)
 				return ;
+			if (var_name_len == 0)
+				continue ;
 			concat_me(line, line_count, var_value, var_name_len);
 			line_count += ft_strlen(var_value);
 			free(var_value);
