@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 17:44:16 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:05:47 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int				set_export_env_var(t_shell_data *data, char *key, char *value);
 int				built_in_unset(t_command *command, t_shell_data *data);
 int				exec_pwd(void);
 int				built_in_echo(t_command *command);
+int				built_in_exit(t_command *command, t_shell_data *data);
 
 /**** signals functions ******/
 

@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:26:45 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:41:11 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:38:44 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_builtins(t_command *command, t_shell_data *data)
 	else if (ft_strncmp(command->argv[0], "unset", 6) == 0)
 		status = built_in_unset(command, data);
 	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
-		exit(0);
+		built_in_exit(command, data);
 	else if (ft_strncmp(command->argv[0], "echo", 5) == 0)
 		status = built_in_echo(command);
 	return (status);
