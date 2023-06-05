@@ -24,10 +24,29 @@ static void printmatrix_n(char **aux)
 	while (aux[i])
 	{
 		ft_printf("%s", aux[i]);
-		if (aux[i+1])
+		if (aux[i + 1])
 			ft_printf(" ");
 		i++;
 	}
+}
+static int	has_n(char *text)
+{
+	int	i;
+	int	hasn;
+
+	hasn = 0;
+	i = 0;
+	if (ft_strncmp(text, "-n", 2) != 0)
+		return (hasn);
+	else
+	{
+		i++;
+		while (text[i] && text[i] == 'n')
+			i++;
+		if(text[i] == '\0')
+			hasn = 1;
+	}
+	return (hasn);
 }
 
 int	built_in_echo(t_command *command)
@@ -38,9 +57,9 @@ int	built_in_echo(t_command *command)
 
 	if (command->argc == 1)
 		ft_printf("\n");
-	else if (command->argc == 2 && ft_strncmp(command->argv[1], "-n", 3) == 0)
+	else if (command->argc == 2 && (has_n(command->argv[1]) == 1))
 		;
-	else if (ft_strncmp(command->argv[1], "-n", 3) != 0)
+	else if (command->argc >= 2 && (has_n(command->argv[1]) == 0))
 	{
 		printmatrix(aux);
 		ft_printf("\n");
