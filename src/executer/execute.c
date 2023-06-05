@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 17:38:20 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:47:18 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	execute_pipex(t_shell_data *data)
 		if (last_pid < 0)
 			return (last_pid);
 		if (last_pid == 0)
-			exit (execute(commands, data));
+			exit(execute(commands, data));
 		commands = commands->next;
 	}
 	commands = data->commands;
