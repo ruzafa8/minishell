@@ -31,6 +31,7 @@ void	loop_shell(t_shell_data *data)
 		add_history(line);
 		set_signals_noninteractive();
 		//SI GETNEXLINE DEVUELVE NULL (CONTROL D) 
+		expand_variables(&line, data, 0);
 		tokens = lexer(line, data);
 		if (!tokens)
 		{
