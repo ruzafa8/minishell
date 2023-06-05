@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop_shell.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 15:49:55 by amorilla          #+#    #+#             */
+/*   Updated: 2023/06/05 15:49:58 by amorilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*get_nextline()
+char	*get_nextline(void)
 {
 	char	*aux;
 	char	*current_dir;
@@ -49,7 +61,6 @@ void	loop_shell(t_shell_data *data)
 			status = execute(data->commands, data);
 		else if (ft_lstsize(data->commands) > 1)
 			status = execute_pipex(data);
-		//ft_printf("statusssss: %d\n", status);
 		if (status != 0)
 			ft_printf("%s\n", strerror(status));//perror
 		pars_free_command_list(&(data->commands));

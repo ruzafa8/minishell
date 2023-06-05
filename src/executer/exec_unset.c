@@ -1,9 +1,18 @@
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_unset.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 15:23:30 by amorilla          #+#    #+#             */
+/*   Updated: 2023/06/05 15:23:41 by amorilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-static void unset_infinite_vars(t_command *command, t_shell_data *data)
+static void	unset_infinite_vars(t_command *command, t_shell_data *data)
 {
 	int		i;
 	char	**args;
@@ -26,7 +35,6 @@ static void unset_infinite_vars(t_command *command, t_shell_data *data)
 
 int	built_in_unset(t_command *command, t_shell_data *data)
 {
-
 	if (command->argc == 1)
 		;
 	else if (command->argc > 1)

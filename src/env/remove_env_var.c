@@ -1,10 +1,20 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remove_env_var.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/04 20:29:26 by aruzafa-          #+#    #+#             */
+/*   Updated: 2023/06/04 20:29:46 by aruzafa-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-*	Return -1 si no existe en el env.
-*/
+/**
+ * @return -1 si no existe en el env.
+ */
 int	get_env_var_index(char **env, char *var)
 {
 	int		i;
@@ -27,11 +37,9 @@ int	get_env_var_index(char **env, char *var)
 	return (-1);
 }
 
-
-/*
-*	Return el env nuevo
-*	o NULL si falla el malloc.
-*/
+/**
+ * @return el env nuevo o NULL si falla el malloc.
+ */
 static char	**realloc_env_vars(t_shell_data *data, int size)
 {
 	char	**new_env;
@@ -51,15 +59,15 @@ static char	**realloc_env_vars(t_shell_data *data, int size)
 	return (new_env);
 }
 
-/*
-*	añade la variable al env
-*
-*	si ya existe, le cambia el valor
-*	si no, crea una nueva.
-*
-*	Return 1 si ha ocurrido,
-*	0 si se ha destruido.
-*/
+/**
+ * Añade la variable al env.
+ *
+ * si ya existe, le cambia el valor
+ * si no, crea una nueva.
+ *
+ * @return 1 si ha ocurrido,
+ * 0 si se ha destruido.
+ */
 int	set_env_var(t_shell_data *data, char *key, char *value)
 {
 	int		idx;
@@ -88,12 +96,12 @@ int	set_env_var(t_shell_data *data, char *key, char *value)
 	return (0);
 }
 
-/*
-*	borra la variable del env en la posicion "idx"
-*
-*	Return 1 si ha ocurrido,
-*	0 si el idx es invalido o falla con el malloc
-*/
+/**
+ * borra la variable del env en la posicion "idx"
+ *
+ * @return 1 si ha ocurrido,
+ * 0 si el idx es invalido o falla con el malloc
+ */
 int	remove_env_var(t_shell_data *data, int idx)
 {
 	int	i;
@@ -113,54 +121,6 @@ int	remove_env_var(t_shell_data *data, int idx)
 	}
 	data->env = realloc_env_vars(data, count);
 	if (!data->env)
-		return (0);
-	return (1);
-}
-
-static char	**realloc_expenv_vars(t_shell_data *data, int size)
-{
-	char	**new_env;
-	int		i;
-
-	new_env = ft_calloc(size + 1, sizeof(new_env));
-	if (!new_env)
-		return (0);
-	i = 0;
-	while (data->exportenv[i] && i < size)
-	{
-		new_env[i] = ft_strdup(data->exportenv[i]);
-		free_ptr(data->exportenv[i]);
-		i++;
-	}
-	free(data->exportenv);
-	return (new_env);
-}
-
-/*
-*	borra la variable del exportenv en la posicion "idx"
-*
-*	Return 1 si ha ocurrido,
-*	0 si el idx es invalido o falla con el malloc
-*/
-int	remove_exportenv_var(t_shell_data *data, int idx)
-{
-	int	i;
-	int	count;
-
-	if (idx > env_size(data->exportenv))
-		return (0);
-	free_ptr(data->exportenv[idx]);
-	i = idx;
-	count = idx;
-	while (data->exportenv[i + 1])
-	{
-		data->exportenv[i] = ft_strdup(data->exportenv[i + 1]);
-		free_ptr(data->exportenv[i + 1]);
-		count++;
-		i++;
-	}
-	data->exportenv = realloc_expenv_vars(data, count);
-	if (!data->exportenv)
 		return (0);
 	return (1);
 }

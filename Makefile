@@ -10,8 +10,9 @@ CC = gcc
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/env/get_env_value.c \
-			src/env/ud_env.c \
-			src/env/u_export_env.c \
+			src/env/remove_env_var.c \
+			src/env/remove_exportenv_var.c \
+			src/env/set_export_env_var.c \
 			src/utils/init_data.c \
 			src/utils/free.c \
 			src/utils/signals.c \
@@ -19,6 +20,7 @@ SRCS	= 	src/loop_shell.c \
 			src/utils/expand_variables.c \
 			src/executer/exec_unset.c \
 			src/executer/execute.c \
+			src/executer/execute_utils.c \
 			src/executer/parse_env.c \
 			src/executer/exec_cd.c \
 			src/executer/exec_pwd.c \
@@ -32,6 +34,7 @@ SRCS	= 	src/loop_shell.c \
 			src/parser/lexer/states.c \
 			src/parser/parser/parser.c \
 			src/parser/parser/states.c \
+			src/parser/parser/states2.c \
 			src/parser/parser/actions.c \
 			src/parser/parser/actions_heredoc.c \
 			src/parser/parser/utils.c \
