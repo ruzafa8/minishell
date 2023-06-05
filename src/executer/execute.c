@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
+/*   Updated: 2023/06/05 15:35:54 by amorilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*check_access(char *command, char **path)
@@ -61,35 +73,20 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	}*/
 	return (result_code);
 }
-/*
-static int debug_env(t_shell_data *data)
-{
-	ft_printf("OLDPWD = %s\n",get_env_value(data,"OLDPWD"));
-	ft_printf("PWD = %s\n",get_env_value(data,"PWD"));
-	return (0);
-}
-*/
 
 int	execute(t_list *instr, t_shell_data *data)
 {
-	int	status;
-	t_command *command;
+	int			status;
+	t_command	*command;
 
-	//setear señales del modo no interactivo el control c y el control barra CORTAN LA EJECUCION
 	command = (t_command *) instr->content;
 	if (command->fd_in > 0)
 		dup2(command->fd_in, STDIN_FILENO);
 	if (command->fd_out > 0)
 		dup2(command->fd_out, STDOUT_FILENO);
 	close_pipes(data, instr);
-	if (ft_strncmp(command->argv[0], "cd", 3) == 0)
-		status = built_in_cd(command, data);
-	else if (ft_strncmp(command->argv[0], "env", 4) == 0)
-		status = built_in_env(command, data);//debug_env(data);
-	else if (ft_strncmp(command->argv[0], "export", 7) == 0)
-		status = built_in_export(command, data);
-	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
-		exit(0);
+	if (is_builtin(command->argv[0]))
+		status = execute_builtins(command, data);
 	else
 		status = execute_generic(command, data);
 	if (command->fd_out > 0)

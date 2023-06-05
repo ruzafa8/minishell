@@ -1,10 +1,20 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remove_env_var.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/04 20:29:26 by aruzafa-          #+#    #+#             */
+/*   Updated: 2023/06/04 20:29:46 by aruzafa-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-*	Return -1 si no existe en el env.
-*/
+/**
+ * @return -1 si no existe en el env.
+ */
 int	get_env_var_index(char **env, char *var)
 {
 	int		i;
@@ -27,17 +37,15 @@ int	get_env_var_index(char **env, char *var)
 	return (-1);
 }
 
-
-/*
-*	Return el env nuevo
-*	o NULL si falla el malloc.
-*/
+/**
+ * @return el env nuevo o NULL si falla el malloc.
+ */
 static char	**realloc_env_vars(t_shell_data *data, int size)
 {
 	char	**new_env;
 	int		i;
 
-	new_env = ft_calloc(size + 1, sizeof * new_env);
+	new_env = ft_calloc(size + 1, sizeof(new_env));
 	if (!new_env)
 		return (0);
 	i = 0;
@@ -51,15 +59,15 @@ static char	**realloc_env_vars(t_shell_data *data, int size)
 	return (new_env);
 }
 
-/*
-*	añade la variable al env
-*
-*	si ya existe, le cambia el valor
-*	si no, crea una nueva.
-*
-*	Return 1 si ha ocurrido,
-*	0 si se ha destruido.
-*/
+/**
+ * Añade la variable al env.
+ *
+ * si ya existe, le cambia el valor
+ * si no, crea una nueva.
+ *
+ * @return 1 si ha ocurrido,
+ * 0 si se ha destruido.
+ */
 int	set_env_var(t_shell_data *data, char *key, char *value)
 {
 	int		idx;
@@ -88,12 +96,12 @@ int	set_env_var(t_shell_data *data, char *key, char *value)
 	return (0);
 }
 
-/*
-*	borra la variable del env en la posicion "idx"
-*
-*	Return 1 si ha ocurrido,
-*	0 si el idx es invalido o falla con el malloc
-*/
+/**
+ * borra la variable del env en la posicion "idx"
+ *
+ * @return 1 si ha ocurrido,
+ * 0 si el idx es invalido o falla con el malloc
+ */
 int	remove_env_var(t_shell_data *data, int idx)
 {
 	int	i;

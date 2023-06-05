@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 15:45:23 by amorilla          #+#    #+#             */
+/*   Updated: 2023/06/05 15:45:41 by amorilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -19,6 +31,7 @@ char	*join_strs(char *str, char *add)
 	free_ptr(tmp);
 	return (str);
 }
+
 /*
 *	Checks if we have to add quotes around the error detail:
 *	"unset: `@': not a valid identifier"
