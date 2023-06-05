@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*get_nextline()
+char	*get_nextline(void)
 {
 	char	*aux;
 	char	*current_dir;

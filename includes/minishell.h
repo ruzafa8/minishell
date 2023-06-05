@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
+/*   Updated: 2023/06/05 15:14:06 by amorilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/ft.h"
@@ -21,17 +33,11 @@ typedef struct s_command
 
 typedef struct s_shell_data
 {
-	//int		interactive;
-	//t_token		*token;
-	//char		*user_input;
 	char		**env;
 	int			dup_stdin;
 	int			dup_stdout;
 	t_list		*commands;
 	char		**exportenv;
-	//char		*working_dir;
-	//char		*old_working_dir;
-	//pid_t		pid;
 }	t_shell_data;
 
 int				execute(t_list *instr, t_shell_data *data);
@@ -65,9 +71,12 @@ void			append_last_token(t_list **tokens, char **cmd);
 void			append_var_name(t_list **tokens, char **cmd);
 void			substitute_env_var(t_list **tokens, t_shell_data *data);
 
-void			lex_quote_states(char **cmd, t_lex_st *st, t_list **res, char q);
-void			lex_var_state(char **cmd, t_lex_st *st, t_list **res, t_shell_data *data);
-void			lex_var_double_st(char **cmd, t_lex_st *st, t_list **l, t_shell_data *d);
+void			lex_quote_states(char **cmd, t_lex_st *st,
+					t_list **res, char q);
+void			lex_var_state(char **cmd, t_lex_st *st, t_list **res,
+					t_shell_data *data);
+void			lex_var_double_st(char **cmd, t_lex_st *st, t_list **l,
+					t_shell_data *d);
 void			lex_word_state(char **cmd, t_lex_st *st, t_list **res);
 void			lex_start_state(char **command, t_lex_st *state, t_list **res);
 t_lex_st		lex_next_state(t_lex_st state, char command);
@@ -76,12 +85,18 @@ t_lex_st		lex_next_state(t_lex_st state, char command);
 
 t_list			*parser(t_list *tokens, t_shell_data *data);
 t_pars_st		pars_next_state(t_pars_st state, t_token *token);
-t_pars_err		pars_start_st(t_list *tokens, t_pars_st *state, t_list **commands);
-t_pars_err		pars_command_st(t_list *tokens, t_pars_st *state, t_list **commands);
-t_pars_err		pars_redirin_st(t_list *tokens, t_pars_st *state, t_list **commands);
-t_pars_err		pars_redirout_st(t_list *tokens, t_pars_st *state, t_list **commands);
-t_pars_err		pars_rediroappe_st(t_list *tokens, t_pars_st *state, t_list **commands);
-t_pars_err		pars_redheredoc_st(t_list *tokens, t_pars_st *state, t_list **commands, t_shell_data *data);
+t_pars_err		pars_start_st(t_list *tokens, t_pars_st *state,
+					t_list **commands);
+t_pars_err		pars_command_st(t_list *tokens, t_pars_st *state,
+					t_list **commands);
+t_pars_err		pars_redirin_st(t_list *tokens, t_pars_st *state,
+					t_list **commands);
+t_pars_err		pars_redirout_st(t_list *tokens, t_pars_st *state,
+					t_list **commands);
+t_pars_err		pars_rediroappe_st(t_list *tokens, t_pars_st *state,
+					t_list **commands);
+t_pars_err		pars_redheredoc_st(t_list *tokens, t_pars_st *state,
+					t_list **commands, t_shell_data *data);
 t_pars_err		pars_invalid_st(t_list *tokens, t_pars_st *state);
 
 t_pars_err		pars_append_arg_to_command(t_list *commands, char *value);
@@ -89,7 +104,8 @@ t_pars_err		pars_append_new_command(t_list **commands, char *value);
 void			pars_free_command_list(t_list **cmds);
 t_pars_err		pars_set_stdin(t_list *commands, char *filename);
 t_pars_err		pars_set_stdout(t_list *commands, char *filename, int append);
-t_pars_err		pars_create_heredoc(t_list	*commands, char *value, t_shell_data *data);
+t_pars_err		pars_create_heredoc(t_list	*commands, char *value,
+					t_shell_data *data);
 
 /**** pipes utils ******/
 
@@ -101,11 +117,14 @@ void			close_pipes(t_shell_data *data, t_list *instr);
 
 /**
  * Function that expands the variables in the given line.
- * @param line the line to expand. It is reallocated to substitute the variables.
+ * @param line the line to expand. It is reallocated to substitute the
+ *			   variables.
  * @param data the shell data (To get the env variables)
- * @param expand_quotes if 1, the variables inside simple quotes are expanded. If 0, they are not.
+ * @param expand_quotes if 1, the variables inside simple quotes 
+ * 						are expanded. If 0, they are not.
  */
-void			expand_variables(char **line, t_shell_data* data, int expand_quotes);
+void			expand_variables(char **line, t_shell_data *data,
+					int expand_quotes);
 
 /***************************** builtin functions ******************************/
 

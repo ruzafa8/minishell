@@ -1,6 +1,14 @@
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_export.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 15:20:28 by amorilla          #+#    #+#             */
+/*   Updated: 2023/06/05 15:22:17 by amorilla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -15,8 +23,7 @@ static void	free_args(char **arg)
 	free(arg);
 }
 
-
-static void print_export_env(t_shell_data *data)
+static void	print_export_env(t_shell_data *data)
 {
 	char	**export_env_aux;
 	int		i;
@@ -28,21 +35,14 @@ static void print_export_env(t_shell_data *data)
 	{
 		iterator = ft_split(export_env_aux[i], '=');
 		if (!iterator[1])
-			printf("declare -x %s\n", iterator[0]); //declare -x VARIABLE\n
+			printf("declare -x %s\n", iterator[0]);
 		else
-			printf("declare -x %s=\"%s\"\n", iterator[0], iterator[1]); //declare -x VARIABLE="valor"\n
+			printf("declare -x %s=\"%s\"\n", iterator[0], iterator[1]);
 		free_args(iterator);
 		i++;
 	}
 }
-/*
-	caracteres invalidos de variable:
-	
-	"ñç:-!¡·¢$/?¿+^¨ÑÇ.,"
-	
-	cualquier numero en la primera posicion de la variable, si es en la segunda le gusta
 
-*/
 static int	is_valid_name(char *arg)
 {
 	char	*invalid_chars;
@@ -54,16 +54,19 @@ static int	is_valid_name(char *arg)
 	is_valid = 1;
 	invalid_chars = ":-!/?+^.,";
 	if (arg[0] == '=')
-		return (ft_printf("minishell: export: \'=\': not a valid identifier\n"), 0);
+		return (ft_printf("minishell: export: \'=\': not a valid identifier\n")
+			, 0);
 	splitted = ft_split(arg, '=');
 	while (((i < (int)ft_strlen(splitted[0]))) && (is_valid == 1))
 	{
-		if (ft_strchr(invalid_chars, splitted[0][i]) || ft_isdigit(splitted[0][0]))
+		if (ft_strchr(invalid_chars, splitted[0][i])
+			|| ft_isdigit(splitted[0][0]))
 			is_valid = 0;
 		i++;
 	}
 	if (is_valid == 0)
-		ft_printf("minishell: export: \'%s\': not a valid identifier\n", splitted[0]);
+		ft_printf("minishell: export: \'%s\': not a valid identifier\n",
+			splitted[0]);
 	free_args(splitted);
 	return (is_valid);
 }
@@ -74,7 +77,7 @@ static int	is_valid_name(char *arg)
 	en otro caso se guarda en el env y el export con los valores y ya
 
 */
-static void set_infinite_vars(t_command *command, t_shell_data *data)
+static void	set_infinite_vars(t_command *command, t_shell_data *data)
 {
 	int		i;
 	char	**args;
