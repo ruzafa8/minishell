@@ -67,7 +67,7 @@ t_list	*parser(t_list *tokens, t_shell_data *data)
 		tokens = tokens->next;
 	}
 	print_error(state, err);
-	if (err != PARS_NO_ERROR || state == PARS_INVALID)
+	if (err != PARS_NO_ERROR || state != PARS_COMMAND)
 		return (pars_free_command_list(&commands), (t_list *) 0);
 	set_pipes(commands);
 	return (commands);
