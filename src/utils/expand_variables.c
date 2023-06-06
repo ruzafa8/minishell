@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 16:43:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/05 17:40:07 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:27:16 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ static char	*get_var(t_shell_data *data, char *line, int *var_len)
 	char	*var_value;
 
 	*var_len = 0;
-	while (*(line + *var_len) && ft_isalnum(*(line + *var_len)))
+	while (*(line + *var_len) && (ft_isalnum(*(line + *var_len))
+			|| *(line + *var_len) == '?'))
 		(*var_len)++;
 	if (*var_len == 0)
 		return (NULL);
 	var_name = ft_substr(line, 0, *var_len);
+	if (ft_strncmp(var_name, "?", 2) == 0)
+		return (ft_itoa(data->last_status));
 	var_value = get_env_value(data, var_name);
 	free(var_name);
 	if (!var_value)

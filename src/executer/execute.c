@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 17:47:18 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:05:07 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 		result_code = execaux(instr, data);
 		exit(result_code);
 	}
-	waitpid(pid1, 0, 0);
+	waitpid(pid1, &result_code, 0);
 	return (result_code);
 }
 

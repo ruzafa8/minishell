@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 17:44:16 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:13:52 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_shell_data
 	int			dup_stdout;
 	t_list		*commands;
 	char		**exportenv;
+	int			last_status;
 }	t_shell_data;
 
 int				execute(t_list *instr, t_shell_data *data);
