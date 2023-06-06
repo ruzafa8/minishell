@@ -21,7 +21,21 @@ int	built_in_exit(t_command *command, t_shell_data *data)
 	int	code;
 
 	(void)data;
-	ft_printf("exit\n");
-	code = ft_atoi(command->argv[1]);
-	exit(code);
+	if (command->argc > 2)
+	{
+		ft_printf("exit\n");
+		return (1); //mensaje de error????? "too many arguments"
+	}
+		
+	else if (command->argc == 1)
+	{
+		ft_printf("exit\n");
+	}
+	else
+	{
+		ft_printf("exit\n");
+		code = ft_atoi(command->argv[1]);
+		exit(code);
+	}
+	return 0;
 }
