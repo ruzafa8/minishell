@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:49:55 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 19:17:44 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:31:24 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void	loop_shell(t_shell_data *data)
 			data->last_status = execute(data->commands, data);
 		else if (ft_lstsize(data->commands) > 1)
 			data->last_status = execute_pipex(data);
-		if (data->last_status != 0)
-			ft_printf("%s\n", strerror(data->last_status));
 		pars_free_command_list(&(data->commands));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/06 17:05:07 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:32:20 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 		exit(result_code);
 	}
 	waitpid(pid1, &result_code, 0);
+	result_code = decode_error(result_code);
+	if (result_code == 127)
+		ft_printf("minishell: %s: command not found\n", instr->argv[0]);
 	return (result_code);
 }
 
@@ -124,7 +127,7 @@ int	execute_pipex(t_shell_data *data)
 	while (commands)
 	{
 		if (last_pid == waitpid(-1, &status, 0))
-			last_status = status;
+			last_status = decode_error(status);
 		commands = commands->next;
 	}
 	return (last_status);
