@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:49:55 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 17:26:30 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:31:24 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ static t_list	*analyze_line(char **line, t_shell_data *data)
 void	loop_shell(t_shell_data *data)
 {
 	char	*line;
-	int		status;
 
-	status = 1;
 	data->dup_stdin = dup(STDIN_FILENO);
 	data->dup_stdout = dup(STDOUT_FILENO);
-	while (status)
+	while (1)
 	{
 		set_signals_interactive();
 		line = get_nextline();
@@ -66,12 +64,9 @@ void	loop_shell(t_shell_data *data)
 		if (!data->commands)
 			continue ;
 		if (ft_lstsize(data->commands) == 1)
-			status = execute(data->commands, data);
+			data->last_status = execute(data->commands, data);
 		else if (ft_lstsize(data->commands) > 1)
-			status = execute_pipex(data);
-		if (status != 0)
-			ft_printf("%s\n", strerror(status));
+			data->last_status = execute_pipex(data);
 		pars_free_command_list(&(data->commands));
-		status = 1;
 	}
 }

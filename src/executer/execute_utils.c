@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:26:45 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:41:11 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:31:22 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	decode_error(int err)
+{
+	int	res;
+
+	res = 1;
+	if (WIFEXITED(err))
+		res = WEXITSTATUS(err);
+	return (res);
+}
 
 int	is_builtin(char *command)
 {
