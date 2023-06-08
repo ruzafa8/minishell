@@ -6,7 +6,6 @@ RL_LINK = -L /Users/$(USER)/.brew/opt/readline/lib
 HEADERS = -I $(LIBFT) -I ./includes $(RL_LIB)
 LIBS = $(LIBFT)/libft.a
 CC = gcc
-#src/utils/errors.c						
 SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/env/get_env_value.c \
@@ -18,6 +17,7 @@ SRCS	= 	src/loop_shell.c \
 			src/utils/signals.c \
 			src/utils/pipes.c \
 			src/utils/expand_variables.c \
+			src/utils/errors.c \
 			src/executer/exec_unset.c \
 			src/executer/execute.c \
 			src/executer/execute_utils.c \
