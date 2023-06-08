@@ -63,7 +63,6 @@ int				env_size(char **env);
 int				init_env(t_shell_data *aux, char **env);
 int				init_export_env(t_shell_data *aux, char **env);
 t_shell_data	*init_shell_data(char **env);
-void			free_ptr(void *ptr);
 int				get_env_var_index(char **env, char *var);
 int				set_env_var(t_shell_data *data, char *key, char *value);
 int				remove_env_var(t_shell_data *data, int idx);
@@ -168,5 +167,9 @@ void			ignore_sigquit(void);
 
 /****** UTILS *****/
 int				print_error(char *cmd, char *detail, char *err_msg, int err);
+void			free_envs(t_shell_data *data);
+void			del_t_command(t_command *command);
+void			free_ptr(void *ptr);
+void			exitshell(t_shell_data *data, int exitcode);
 
 #endif

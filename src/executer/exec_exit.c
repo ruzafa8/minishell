@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void	exitshell(t_shell_data *data, int exitcode)
+{
+	if (data)
+	{
+		free_envs(data);
+		ft_lstclear(&data->commands, del_t_command);//HAY QUE HACER UNO NUEVO??? EL DELONE O QUE PASA
+		close(data->dup_stdin);//alomejor esto sobra
+		close(data->dup_stdout);//alomejor esto sobra
+		free(data);
+	}
+	exit(exitcode);
+}
+
+
 static int	esnum(char *str)
 {
 	int	i;
@@ -46,8 +60,9 @@ int	built_in_exit(t_command *command, t_shell_data *data)
 	{
 		if(!esnum(command->argv[1]))
 		{
-			ft_printf("exit\nminishell: exit: %s: numeric argument required",command->argv[1]);
-			return (255);
+			//ft_printf("exit\nminishell: exit: %s: numeric argument required",command->argv[1]);
+			//return (255);
+			exitshell(data, print_error("exit", 0, "numeric argument required", 255));
 		}
 		return (ft_printf("exit\nminishell: exit: too many arguments"),1);
 	}
