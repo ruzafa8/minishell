@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 20:05:47 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:15:02 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_shell_data
 	int			dup_stdout;
 	t_list		*commands;
 	char		**exportenv;
+	int			last_status;
 }	t_shell_data;
 
 int				execute(t_list *instr, t_shell_data *data);
@@ -155,6 +156,7 @@ int				built_in_unset(t_command *command, t_shell_data *data);
 int				exec_pwd(void);
 int				built_in_echo(t_command *command);
 int				built_in_exit(t_command *command, t_shell_data *data);
+int				decode_error(int err);
 
 /**** signals functions ******/
 
@@ -163,5 +165,8 @@ void			set_signals_interactive(void);
 void			signal_print_newline(int signal);
 void			set_signals_noninteractive(void);
 void			ignore_sigquit(void);
+
+/****** UTILS *****/
+int				print_error(char *cmd, char *detail, char *err_msg, int err);
 
 #endif
