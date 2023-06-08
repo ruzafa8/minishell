@@ -6,13 +6,13 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:35:18 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/05 18:43:00 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:07:14 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_error(t_pars_st state, t_pars_err err)
+static void	pars_print_error(t_pars_st state, t_pars_err err)
 {
 	if (state == PARS_START
 		|| state == PARS_INVALID
@@ -90,7 +90,7 @@ t_list	*parser(t_list *tokens, t_shell_data *data)
 		err = pars_states(tokens, &state, &commands, data);
 		tokens = tokens->next;
 	}
-	print_error(state, err);
+	pars_print_error(state, err);
 	if (err != PARS_NO_ERROR
 		|| state == PARS_START
 		|| state == PARS_INVALID)

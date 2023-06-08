@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:45:23 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:45:41 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:13:26 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,16 @@ char	*join_strs(char *str, char *add)
 */
 static int	add_detail_quotes(char *command)
 {
-	if (ft_strncmp(command, "export", 7) == 0
-		|| ft_strncmp(command, "unset", 6) == 0)
-		return (1);
-	return (0);
+	return (ft_strncmp(command, "export", 7) == 0
+		|| ft_strncmp(command, "unset", 6) == 0);
 }
 
-/* errmsg_cmd:
-*	Prints an error message to the standard error,
-*	prefixed with the program name.
-*	Returns with the specified error number.
-*/
-int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
+/**
+ *	Prints an error message to the standard error,
+ *	prefixed with the program name.
+ *	Returns with the specified error number.
+ */
+int	print_error(char *command, char *detail, char *error_message, int err)
 {
 	char	*msg;
 	int		detail_quotes;
@@ -75,5 +73,5 @@ int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 	msg = join_strs(msg, error_message);
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_ptr(msg);
-	return (error_nb);
+	return (err);
 }

@@ -3,35 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:49:39 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:49:41 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:14:42 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	close_fd(int fd)
+{
+	if (fd > 0)
+		close(fd);
+}
+
 static void	iterate_to_close(t_list *current, t_list *next, t_list *commands)
 {
+	t_command	*command;
+
 	while (commands)
 	{
+		command = (t_command *) commands->content;
 		if (commands == current)
-		{
-			if (((t_command *)commands->content)->fd_in > 0)
-				close(((t_command *)commands->content)->fd_in);
-		}
+			close_fd(command->fd_in);
 		else if (next && commands == next)
-		{
-			if (((t_command *)commands->content)->fd_out > 0)
-				close(((t_command *)commands->content)->fd_out);
-		}
+			close_fd(command->fd_out);
 		else
 		{
-			if (((t_command *)commands->content)->fd_in > 0)
-				close(((t_command *)commands->content)->fd_in);
-			if (((t_command *)commands->content)->fd_out > 0)
-				close(((t_command *)commands->content)->fd_out);
+			close_fd(command->fd_in);
+			close_fd(command->fd_out);
 		}
 		commands = commands->next;
 	}

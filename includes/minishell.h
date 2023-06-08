@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/06 18:31:17 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:15:02 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,8 @@ void			set_signals_interactive(void);
 void			signal_print_newline(int signal);
 void			set_signals_noninteractive(void);
 void			ignore_sigquit(void);
+
+/****** UTILS *****/
+int				print_error(char *cmd, char *detail, char *err_msg, int err);
 
 #endif

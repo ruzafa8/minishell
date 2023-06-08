@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/06 18:32:20 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:13:42 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	execute_generic(t_command *instr, t_shell_data *data)
 	waitpid(pid1, &result_code, 0);
 	result_code = decode_error(result_code);
 	if (result_code == 127)
-		ft_printf("minishell: %s: command not found\n", instr->argv[0]);
+		print_error(instr->argv[0], 0, "command not found", result_code);
 	return (result_code);
 }
 
