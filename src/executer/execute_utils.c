@@ -46,7 +46,7 @@ int	execute_builtins(t_command *command, t_shell_data *data)
 	else if (ft_strncmp(command->argv[0], "unset", 6) == 0)
 		status = built_in_unset(command, data);
 	else if (ft_strncmp(command->argv[0], "exit", 5) == 0)
-		built_in_exit(command, data);
+		status = built_in_exit(command, data);
 	else if (ft_strncmp(command->argv[0], "echo", 5) == 0)
 		status = built_in_echo(command);
 	return (status);

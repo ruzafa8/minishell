@@ -168,7 +168,7 @@ void			ignore_sigquit(void);
 /****** UTILS *****/
 int				print_error(char *cmd, char *detail, char *err_msg, int err);
 void			free_envs(t_shell_data *data);
-void			del_t_command(t_command *command);
+void			del_t_command(void *command);
 void			free_ptr(void *ptr);
 void			exitshell(t_shell_data *data, int exitcode);
 

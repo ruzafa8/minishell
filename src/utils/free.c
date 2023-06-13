@@ -37,10 +37,12 @@ void	free_envs(t_shell_data *data)
 	}
 	free_ptr(data->exportenv);
 }
-void del_t_command(t_command *command)//HAY QUE HACER UNO NUEVO??? EL DELONE
+void del_t_command(void *com)//HAY QUE HACER UNO NUEVO??? EL DELONE
 {
-	int	i;
+	t_command	*command;
+	int			i;
 
+	command = (t_command *) com;
 	close(command->fd_in);
 	close(command->fd_out);
 	i = 0;

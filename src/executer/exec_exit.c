@@ -18,8 +18,10 @@ void	exitshell(t_shell_data *data, int exitcode)
 	{
 		free_envs(data);
 		ft_lstclear(&data->commands, del_t_command);//HAY QUE HACER UNO NUEVO??? EL DELONE O QUE PASA
-		close(data->dup_stdin);//alomejor esto sobra
-		close(data->dup_stdout);//alomejor esto sobra
+		if (data->dup_stdin)
+			close(data->dup_stdin);//alomejor esto sobra
+		if (data->dup_stdout)
+			close(data->dup_stdout);//alomejor esto sobra
 		free(data);
 	}
 	exit(exitcode);
@@ -33,6 +35,8 @@ static int	esnum(char *str)
 
 	i = 0;
 	is = 1;
+	if (!str)
+		return (0);
 	while (str[i] && is)
 	{
 		is = ft_isdigit(str[i]);
@@ -55,30 +59,24 @@ int	built_in_exit(t_command *command, t_shell_data *data)
 {
 	int	code;
 
-	(void)data;
 	if (command->argc > 2)
 	{
 		if(!esnum(command->argv[1]))
-		{
-			//ft_printf("exit\nminishell: exit: %s: numeric argument required",command->argv[1]);
-			//return (255);
 			exitshell(data, print_error("exit", 0, "numeric argument required", 255));
-		}
-		return (ft_printf("exit\nminishell: exit: too many arguments"),1);
+		return (print_error("exit", 0, "too many arguments", 1));
 	}
-	if(!esnum(command->argv[1]))
-	{
-		ft_printf("exit\nminishell: exit: %s: numeric argument required",command->argv[1]);
-		return (255);
-	}
-
+	if(!esnum(command->argv[1]) && command->argc > 1)
+		exitshell(data, print_error("exit", 0, "numeric argument required", 255));
 	else if (command->argc == 1)
-		return (ft_printf("exit\n"),0);
+	{	
+		ft_printf("exit\n");
+		exitshell(data, 0);
+	}
 	else
 	{
 		ft_printf("exit\n");
-		code = ft_atoi(command->argv[1]);
-		exit(code);
+		code = ft_atoi(command->argv[1]) % 256;
+		exitshell(data, code);
 	}
-	return 0;
+	return (255);
 }
