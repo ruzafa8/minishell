@@ -41,7 +41,7 @@ static int	exec_cd(char *pathaux, t_shell_data *data)
 
 	res_code = 0;
 	if (chdir(pathaux) == -1)
-		res_code = errno;
+		res_code = 1;
 	if (res_code == 0)
 	{
 		new_path = getcwd(NULL, 0);
@@ -49,6 +49,13 @@ static int	exec_cd(char *pathaux, t_shell_data *data)
 		free(new_path);
 	}
 	return (res_code);
+}
+
+static int	print_error_cd(char *dir)
+{
+	ft_printf("minishell: cd: %s", dir);
+	perror(" ");
+	return (1);
 }
 
 /**
@@ -76,9 +83,11 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 		res_code = exec_cd(command->argv[1], data);
 	else if (command->argc == 2 && ft_strncmp(command->argv[1], ".", 2) == 0)
 		res_code = set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
-	else if (command->argc == 2)
+	else if (command->argc >= 2)
 		res_code = exec_cd(command->argv[1], data);
 	else
 		res_code = 1;
+	if (res_code == 1)
+		return (print_error_cd(command->argv[1]));
 	return (res_code);
 }

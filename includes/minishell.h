@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
 /*   Updated: 2023/06/08 18:15:02 by aruzafa-         ###   ########.fr       */
@@ -35,6 +35,7 @@ typedef struct s_command
 
 typedef struct s_shell_data
 {
+	int			interactive;
 	char		**env;
 	int			dup_stdin;
 	int			dup_stdout;
@@ -60,7 +61,6 @@ int				env_size(char **env);
 int				init_env(t_shell_data *aux, char **env);
 int				init_export_env(t_shell_data *aux, char **env);
 t_shell_data	*init_shell_data(char **env);
-void			free_ptr(void *ptr);
 int				get_env_var_index(char **env, char *var);
 int				set_env_var(t_shell_data *data, char *key, char *value);
 int				remove_env_var(t_shell_data *data, int idx);
@@ -152,6 +152,7 @@ int				set_export_env_var(t_shell_data *data, char *key, char *value);
 int				built_in_unset(t_command *command, t_shell_data *data);
 int				exec_pwd(void);
 int				built_in_echo(t_command *command);
+int				built_in_exit(t_command *command, t_shell_data *data);
 int				decode_error(int err);
 
 /**** signals functions ******/
@@ -164,5 +165,9 @@ void			ignore_sigquit(void);
 
 /****** UTILS *****/
 int				print_error(char *cmd, char *detail, char *err_msg, int err);
+void			free_envs(t_shell_data *data);
+void			del_t_command(void *command);
+void			free_ptr(void *ptr);
+void			exitshell(t_shell_data *data, int exitcode);
 
 #endif
