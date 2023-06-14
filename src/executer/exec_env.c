@@ -34,6 +34,7 @@ int	built_in_env(t_command *command, t_shell_data *data)
 	}
 	else
 		return (print_error("env", 0,
-				"Error, env built in doesnt support any args or flags", 7));
+				"Error, env built in doesnt support any arguments or flags",
+				1));
 	return (res_code);
 }
