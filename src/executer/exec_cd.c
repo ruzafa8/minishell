@@ -80,7 +80,8 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 		res_code = exec_cd(command->argv[1], data);
 	else
 		res_code = 1;
-	if(res_code == 1)
-		return (print_error("cd", command->argv[1], "No such file or directory", 1));
+	if (res_code == 1)
+		return (print_error("cd", command->argv[1],
+				"No such file or directory", 1));
 	return (res_code);
 }
