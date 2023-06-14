@@ -36,8 +36,6 @@ typedef struct s_command
 typedef struct s_shell_data
 {
 	int			interactive;
-	//t_token		*token;
-	//char		*user_input;
 	char		**env;
 	int			dup_stdin;
 	int			dup_stdout;

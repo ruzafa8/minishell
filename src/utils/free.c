@@ -37,7 +37,8 @@ void	free_envs(t_shell_data *data)
 	}
 	free_ptr(data->exportenv);
 }
-void del_t_command(void *com)//HAY QUE HACER UNO NUEVO??? EL DELONE
+
+void	del_t_command(void *com)
 {
 	t_command	*command;
 	int			i;
@@ -53,4 +54,3 @@ void del_t_command(void *com)//HAY QUE HACER UNO NUEVO??? EL DELONE
 	}
 	free_ptr(command->argv);
 }
-

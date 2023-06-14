@@ -12,21 +12,23 @@
 
 #include "minishell.h"
 
+/**
+ * TODO: alomejor CLOSEAR STDIN Y OUT ES TONTERIA???
+**/
 void	exitshell(t_shell_data *data, int exitcode)
 {
 	if (data)
 	{
 		free_envs(data);
-		ft_lstclear(&data->commands, del_t_command);//HAY QUE HACER UNO NUEVO??? EL DELONE O QUE PASA
+		ft_lstclear(&data->commands, del_t_command);
 		if (data->dup_stdin)
-			close(data->dup_stdin);//alomejor esto sobra
+			close(data->dup_stdin);
 		if (data->dup_stdout)
-			close(data->dup_stdout);//alomejor esto sobra
+			close(data->dup_stdout);
 		free(data);
 	}
 	exit(exitcode);
 }
-
 
 static int	esnum(char *str)
 {
@@ -45,36 +47,25 @@ static int	esnum(char *str)
 	return (is);
 }
 
-
-
-/**
- * TODO: tener en cuenta que me pongan """""""""      " """""" 54 "          " 
- * 		 y que ponga el numero????
- * 
- * TODO: en el controlD poner que haga exit en el handle
- * 
- * TODO: modulo 256 los errores pa que rente num%256
-**/
 int	built_in_exit(t_command *command, t_shell_data *data)
 {
 	int	code;
 
+	ft_printf("exit\n");
 	if (command->argc > 2)
 	{
-		if(!esnum(command->argv[1]))
-			exitshell(data, print_error("exit", 0, "numeric argument required", 255));
+		if (!esnum(command->argv[1]))
+			exitshell(data,
+				print_error("exit", 0, "numeric argument required", 255));
 		return (print_error("exit", 0, "too many arguments", 1));
 	}
-	if(!esnum(command->argv[1]) && command->argc > 1)
-		exitshell(data, print_error("exit", 0, "numeric argument required", 255));
+	if (!esnum(command->argv[1]) && command->argc > 1)
+		exitshell(data,
+			print_error("exit", 0, "numeric argument required", 255));
 	else if (command->argc == 1)
-	{	
-		ft_printf("exit\n");
 		exitshell(data, 0);
-	}
 	else
 	{
-		ft_printf("exit\n");
 		code = ft_atoi(command->argv[1]) % 256;
 		exitshell(data, code);
 	}
