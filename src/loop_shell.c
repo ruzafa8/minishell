@@ -31,6 +31,11 @@ static t_list	*analyze_line(char **line, t_shell_data *data)
 	t_list	*tokens;
 	t_list	*commands;
 
+	if (!line || !*line)
+	{
+		ft_printf("exit\n");
+		exitshell(data, data->last_status);
+	}
 	expand_variables(line, data, 0);
 	tokens = lexer(*line, data);
 	if (!tokens)
