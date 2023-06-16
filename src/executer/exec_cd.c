@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:38:32 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/16 20:41:36 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 21:00:59 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,6 @@ static int	print_error_cd(char *dir)
 	return (print_error("cd", dir, strerror(errno), 1));
 }
 
-/**
- * Posibles errores del cd:
- * 
- * Too many args,
- * The target might not exist, 
- * the target might not be a directory, 
- * you might not have permission to access the target directory
- */
 int	built_in_cd(t_command *command, t_shell_data *data)
 {
 	int		res_code;
