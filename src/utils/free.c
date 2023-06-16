@@ -44,8 +44,10 @@ void	del_t_command(void *com)
 	int			i;
 
 	command = (t_command *) com;
-	close(command->fd_in);
-	close(command->fd_out);
+	if (command->fd_in)
+		close(command->fd_in);
+	if (command->fd_out)
+		close(command->fd_out);
 	i = 0;
 	while (command->argv[i])
 	{
