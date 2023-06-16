@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:35:18 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/16 19:53:05 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:56:13 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	pars_print_error(t_pars_st state, t_pars_err err)
 {
-	if (state != PARS_COMMAND || err == PARS_SYNTAX_ERROR)
-		print_error("parser", 0, "syntax error", 0);
-	else if (err == PARS_MALLOC_ERROR)
+	if (err == PARS_MALLOC_ERROR)
 		print_error("parser", 0, "memory error", 0);
 	else if (err == PARS_NO_SUCH_FILE_OR_DIR)
 		print_error("parser", 0, "no such file or directory", 0);
+	else if (state != PARS_COMMAND || err == PARS_SYNTAX_ERROR)
+		print_error("parser", 0, "syntax error", 0);	
 }
 
 static void	set_pipes(t_list *instr)
