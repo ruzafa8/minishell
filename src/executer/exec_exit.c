@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-/**
- * TODO: alomejor CLOSEAR STDIN Y OUT ES TONTERIA???
-**/
 void	exitshell(t_shell_data *data, int exitcode)
 {
 	if (data)
