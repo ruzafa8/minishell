@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	unset_infinite_vars(t_command *command, t_shell_data *data)
+static int	unset_infinite_vars(t_command *command, t_shell_data *data)
 {
 	int		i;
 	char	**args;
@@ -25,19 +25,25 @@ static void	unset_infinite_vars(t_command *command, t_shell_data *data)
 	{
 		idxenv = get_env_var_index(data->env, args[i]);
 		idxexp = get_env_var_index(data->exportenv, args[i]);
+		if (idxenv == -1 || idxexp == -1)
+			return (print_error("unset", args[i], "var does not exist", 1));
 		if (idxenv != -1)
 			remove_env_var(data, idxenv);
 		if (idxexp != -1)
 			remove_exportenv_var(data, idxexp);
 		i++;
 	}
+	return (0);
 }
 
 int	built_in_unset(t_command *command, t_shell_data *data)
 {
+	int	rescode;
+
+	rescode = 0;
 	if (command->argc == 1)
 		;
 	else if (command->argc > 1)
-		unset_infinite_vars(command, data);
-	return (0);
+		rescode = unset_infinite_vars(command, data);
+	return (rescode);
 }
