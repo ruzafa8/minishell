@@ -34,7 +34,7 @@ static t_list	*analyze_line(char **line, t_shell_data *data)
 	if (!line || !*line)
 	{
 		ft_printf("exit\n");
-		exitshell(data, data->last_status);
+		exitshell(data, g_sig.exit_status);
 	}
 	expand_variables(line, data, 0);
 	tokens = lexer(*line, data);
@@ -61,6 +61,7 @@ void	loop_shell(t_shell_data *data)
 	while (1)
 	{
 		set_signals_interactive();
+		sig_init();
 		line = get_nextline();
 		add_history(line);
 		set_signals_noninteractive();
@@ -69,9 +70,9 @@ void	loop_shell(t_shell_data *data)
 		if (!data->commands)
 			continue ;
 		if (ft_lstsize(data->commands) == 1)
-			data->last_status = execute(data->commands, data);
+			g_sig.exit_status = execute(data->commands, data);
 		else if (ft_lstsize(data->commands) > 1)
-			data->last_status = execute_pipex(data);
+			g_sig.exit_status = execute_pipex(data);
 		pars_free_command_list(&(data->commands));
 	}
 }

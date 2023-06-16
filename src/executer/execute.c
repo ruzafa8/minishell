@@ -59,19 +59,18 @@ static int	execaux(t_command *instr, t_shell_data *data)
  */
 static int	execute_generic(t_command *instr, t_shell_data *data)
 {
-	int		pid1;
 	int		result_code;
 
-	pid1 = fork();
+	g_sig.pid = fork();
 	result_code = 0;
-	if (pid1 < 0)
-		return (pid1);
-	if (pid1 == 0)
+	if (g_sig.pid < 0)
+		return (g_sig.pid);
+	if (g_sig.pid == 0)
 	{
 		result_code = execaux(instr, data);
 		exit(result_code);
 	}
-	waitpid(pid1, &result_code, 0);
+	waitpid(g_sig.pid, &result_code, 0);
 	result_code = decode_error(result_code);
 	if (result_code == 127)
 		print_error(instr->argv[0], 0, "command not found", result_code);

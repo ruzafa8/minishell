@@ -76,6 +76,7 @@ t_shell_data	*init_shell_data(char **env)
 {
 	t_shell_data	*aux;
 
+	g_sig.exit_status = 0;
 	aux = (t_shell_data *)ft_calloc(1, sizeof(t_shell_data));
 	init_env(aux, env);
 	init_export_env(aux, env);
@@ -84,6 +85,5 @@ t_shell_data	*init_shell_data(char **env)
 
 void	sig_init(void)
 {
-	g_sig.exit_status = 0;
 	g_sig.pid = 0;
 }
