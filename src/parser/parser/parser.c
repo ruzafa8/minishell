@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:35:18 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/16 18:47:21 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:49:50 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void	pars_print_error(t_pars_st state, t_pars_err err)
 	if (state == PARS_START
 		|| state == PARS_INVALID
 		|| err == PARS_SYNTAX_ERROR)
-		ft_printf("minishell: syntax error.\n");
+		print_error("parser", 0, "syntax error", 0);
 	else if (err == PARS_MALLOC_ERROR)
-		ft_printf("minishell: memory error\n");
+		print_error("parser", 0, "memory error", 0);
 	else if (err == PARS_NO_SUCH_FILE_OR_DIR)
-		ft_printf("minishell: no such file or directory\n");
+		print_error("parser", 0, "no such file or directory", 0);
 }
 
 static void	set_pipes(t_list *instr)
