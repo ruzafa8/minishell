@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:20:28 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/05 15:22:17 by amorilla         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:57:35 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 static void	free_args(char **arg)
 {
+	int	i;
+
 	if (!arg)
 		return ;
-	if (arg[0] != 0)
-		free(arg[0]);
-	if (arg[1] != 0)
-		free(arg[1]);
+	i = 0;
+	while (arg[i])
+	{
+		free(arg[i]);
+		i++;
+	}
 	free(arg);
 }
 
