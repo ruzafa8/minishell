@@ -81,3 +81,9 @@ t_shell_data	*init_shell_data(char **env)
 	init_export_env(aux, env);
 	return (aux);
 }
+
+void	sig_init(void)
+{
+	g_sig.exit_status = 0;
+	g_sig.pid = 0;
+}
