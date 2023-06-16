@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:38:32 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/06 17:28:15 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:37:13 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
  */
 static void	update_pwds(t_shell_data *data, char *new)
 {
-	char	*aux;
+	char	*oldpwd;
+	char	*pwd;
 
+	pwd = get_env_value(data, "PWD");
+	set_env_var(data, "OLDPWD", pwd);
+	free(pwd);
 	if (new[0] == '\0')
 	{
-		aux = ft_strdup(get_env_value(data, "OLDPWD"));
-		set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
-		set_env_var(data, "PWD", aux);
-		free(aux);
+		oldpwd = get_env_value(data, "OLDPWD");
+		set_env_var(data, "PWD", oldpwd);
+		free(oldpwd);
 	}
 	else
-	{
-		set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
 		set_env_var(data, "PWD", new);
-	}
 }
 
 static int	exec_cd(char *pathaux, t_shell_data *data)
