@@ -54,8 +54,7 @@ static int	is_valid_name(char *arg)
 	is_valid = 1;
 	invalid_chars = ":-!/?+^.,";
 	if (arg[0] == '=')
-		return (ft_printf("minishell: export: \'=\': not a valid identifier\n")
-			, 0);
+		return (0);
 	splitted = ft_split(arg, '=');
 	while (((i < (int)ft_strlen(splitted[0]))) && (is_valid == 1))
 	{
@@ -64,9 +63,6 @@ static int	is_valid_name(char *arg)
 			is_valid = 0;
 		i++;
 	}
-	if (is_valid == 0)
-		ft_printf("minishell: export: \'%s\': not a valid identifier\n",
-			splitted[0]);
 	free_args(splitted);
 	return (is_valid);
 }
@@ -77,15 +73,15 @@ static int	is_valid_name(char *arg)
 	en otro caso se guarda en el env y el export con los valores y ya
 
 */
-static void	set_infinite_vars(t_command *command, t_shell_data *data)
+static int	set_infinite_vars(t_command *command, t_shell_data *data)
 {
 	int		i;
 	char	**args;
 	char	**splited;
 
-	i = 1;
+	i = 0;
 	args = command->argv;
-	while (i < command->argc)
+	while (++i < command->argc)
 	{
 		if (is_valid_name(args[i]))
 		{
@@ -99,15 +95,21 @@ static void	set_infinite_vars(t_command *command, t_shell_data *data)
 				free_args(splited);
 			}
 		}
-		i++;
+		else
+			return (print_error("export", args[i], "not a valid identifier",
+					1));
 	}
+	return (0);
 }
 
 int	built_in_export(t_command *command, t_shell_data *data)
 {
+	int	rescode;
+
+	rescode = 0;
 	if (command->argc == 1)
 		print_export_env(data);
 	else if (command->argc > 1)
-		set_infinite_vars(command, data);
-	return (0);
+		rescode = set_infinite_vars(command, data);
+	return (rescode);
 }

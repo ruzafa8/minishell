@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-/**
- * TODO: Revisar qué hay que hacer con los errores (res_code)
- */
 int	built_in_env(t_command *command, t_shell_data *data)
 {
 	int		res_code;
@@ -33,9 +30,8 @@ int	built_in_env(t_command *command, t_shell_data *data)
 		}
 	}
 	else
-	{
-		ft_printf("Error, env built in doesnt support any args or flags\n");
-		res_code = 7;
-	}
+		return (print_error("env", 0,
+				"Error, env built in doesnt support any arguments or flags",
+				1));
 	return (res_code);
 }
