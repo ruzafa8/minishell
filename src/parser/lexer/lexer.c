@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:28:19 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/04 19:28:21 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:50:42 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_list	*lexer(char *command, t_shell_data *data)
 	}
 	if (state == LEX_SIMPLE_QUOTE || state == LEX_DOUBLE_QUOTE)
 	{
-		ft_printf("minishell: syntax error: quote not closed.\n");
+		print_error("lexer", "syntax error", "quote not closed", 0);
 		return (lex_free_token_list(&tokens), (t_list *) 0);
 	}
 	return (tokens);
