@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:35:18 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/08 18:07:14 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:47:21 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_pars_st	pars_next_state(t_pars_st st, t_token *tok)
 	else if ((st == PARS_START && tok->type == TOK_WORD)
 		|| ((st == PARS_REDIR_IN || st == PARS_REDIR_IN_HEREDOC
 				|| st == PARS_REDIR_OUT || st == PARS_REDIR_OUT_APPEND)
-			&& tok->type != TOK_WORD))
+			&& tok->type == TOK_WORD))
 		return (PARS_COMMAND);
 	else if ((st == PARS_START && tok->type == TOK_REDIR_IN)
 		|| (st == PARS_COMMAND && tok->type == TOK_REDIR_IN))
