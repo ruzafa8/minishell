@@ -43,6 +43,12 @@ typedef struct s_shell_data
 	int			last_status;
 }	t_shell_data;
 
+typedef struct s_global_sig
+{
+	int		exit_status;
+	pid_t	pid;
+}	t_global_sig;
+
 int				execute(t_list *instr, t_shell_data *data);
 int				execute_pipex(t_shell_data *data);
 
