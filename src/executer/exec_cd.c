@@ -53,9 +53,7 @@ static int	exec_cd(char *pathaux, t_shell_data *data)
 
 static int	print_error_cd(char *dir)
 {
-	ft_printf("minishell: cd: %s", dir);
-	perror(" ");
-	return (1);
+	return (print_error("cd", dir, strerror(errno), 1));
 }
 
 /**
