@@ -167,6 +167,7 @@ void			set_signals_interactive(void);
 void			signal_print_newline(int signal);
 void			set_signals_noninteractive(void);
 void			ignore_sigquit(void);
+void			sig_init(void);
 
 /****** UTILS *****/
 int				print_error(char *cmd, char *detail, char *err_msg, int err);
@@ -174,5 +175,7 @@ void			free_envs(t_shell_data *data);
 void			del_t_command(void *command);
 void			free_ptr(void *ptr);
 void			exitshell(t_shell_data *data, int exitcode);
+
+extern t_global_sig	g_sig;
 
 #endif

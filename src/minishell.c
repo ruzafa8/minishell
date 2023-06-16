@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+t_global_sig	g_sig;
+
 int	main(int argc, char **argv, char **env)
 {
 	t_shell_data	*shell_data;
