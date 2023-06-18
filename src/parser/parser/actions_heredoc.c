@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 19:34:04 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/04 19:34:51 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:53:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ t_pars_err	pars_create_heredoc(t_list	*cmds, char *value, t_shell_data *data)
 	read_heredoc(open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0666),
 		value, data);
 	command->fd_in = open(filename, O_RDONLY, 0666);
+	free(filename);
 	return (PARS_NO_ERROR);
 }

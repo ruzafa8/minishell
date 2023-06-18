@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:38:32 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/06 17:28:15 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/16 21:00:59 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
  */
 static void	update_pwds(t_shell_data *data, char *new)
 {
-	char	*aux;
+	char	*oldpwd;
+	char	*pwd;
 
+	pwd = get_env_value(data, "PWD");
+	set_env_var(data, "OLDPWD", pwd);
+	free(pwd);
 	if (new[0] == '\0')
 	{
-		aux = ft_strdup(get_env_value(data, "OLDPWD"));
-		set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
-		set_env_var(data, "PWD", aux);
-		free(aux);
+		oldpwd = get_env_value(data, "OLDPWD");
+		set_env_var(data, "PWD", oldpwd);
+		free(oldpwd);
 	}
 	else
-	{
-		set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
 		set_env_var(data, "PWD", new);
-	}
 }
 
 static int	exec_cd(char *pathaux, t_shell_data *data)
@@ -56,20 +56,12 @@ static int	print_error_cd(char *dir)
 	return (print_error("cd", dir, strerror(errno), 1));
 }
 
-/**
- * Posibles errores del cd:
- * 
- * Too many args,
- * The target might not exist, 
- * the target might not be a directory, 
- * you might not have permission to access the target directory
- */
 int	built_in_cd(t_command *command, t_shell_data *data)
 {
 	int		res_code;
 	char	*pathaux;
 
-	res_code = 0;
+	res_code = 1;
 	if (command->argc == 1
 		|| (ft_strncmp(command->argv[1], "--", 3) == 0 && command->argc == 2))
 	{
@@ -80,11 +72,13 @@ int	built_in_cd(t_command *command, t_shell_data *data)
 	else if (command->argc == 2 && ft_strncmp(command->argv[1], "..", 3) == 0)
 		res_code = exec_cd(command->argv[1], data);
 	else if (command->argc == 2 && ft_strncmp(command->argv[1], ".", 2) == 0)
-		res_code = set_env_var(data, "OLDPWD", get_env_value(data, "PWD"));
+	{
+		pathaux = get_env_value(data, "PWD");
+		res_code = set_env_var(data, "OLDPWD", pathaux);
+		free(pathaux);
+	}
 	else if (command->argc >= 2)
 		res_code = exec_cd(command->argv[1], data);
-	else
-		res_code = 1;
 	if (res_code == 1)
 		return (print_error_cd(command->argv[1]));
 	return (res_code);

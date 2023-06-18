@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/18 15:17:24 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:41:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	execaux(t_command *instr, t_shell_data *data)
 	if (!path)
 		return (1);
 	comand_and_path = check_access(instr->argv[0], path);
+	free_path(path);
 	if (comand_and_path != 0)
 	{
 		execve(comand_and_path, instr->argv, data->env);
@@ -50,13 +51,6 @@ static int	execaux(t_command *instr, t_shell_data *data)
 	return (127);
 }
 
-/**
- * TODO: Tengo este código comentado:
- * if (WIFEXITED(result_code)) {
- * 	ft_printf("%d", WEXITSTATUS(result_code));
- * 	exit(WEXITSTATUS(result_code));
- * }
- */
 static int	execute_generic(t_command *instr, t_shell_data *data)
 {
 	int		result_code;
