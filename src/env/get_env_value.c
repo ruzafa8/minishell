@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 20:00:30 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/04 20:00:31 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:15:46 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_env_value(t_shell_data *data, char *key)
 	key_len = ft_strlen(key);
 	while (data->env[i])
 	{
-		arg = ft_split(data->env[i], '=');
+		arg = split_env(data->env[i]);
 		if (!arg || !arg[0] || !arg[1])
 			return (free_args(arg));
 		if (ft_strncmp(arg[0], key, key_len) == 0)
