@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/16 19:31:00 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:41:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,18 @@ static int	execaux(t_command *instr, t_shell_data *data)
 
 static int	execute_generic(t_command *instr, t_shell_data *data)
 {
-	int		pid1;
 	int		result_code;
 
-	pid1 = fork();
+	g_sig.pid = fork();
 	result_code = 0;
-	if (pid1 < 0)
-		return (pid1);
-	if (pid1 == 0)
+	if (g_sig.pid < 0)
+		return (g_sig.pid);
+	if (g_sig.pid == 0)
 	{
 		result_code = execaux(instr, data);
 		exit(result_code);
 	}
-	waitpid(pid1, &result_code, 0);
+	waitpid(g_sig.pid, &result_code, 0);
 	result_code = decode_error(result_code);
 	if (result_code == 127)
 		print_error(instr->argv[0], 0, "command not found", result_code);
@@ -78,6 +77,8 @@ int	execute(t_list *instr, t_shell_data *data)
 	t_command	*command;
 
 	command = (t_command *) instr->content;
+	if (!command->argv || !command->argv[0])
+		return (0);
 	if (command->fd_in > 0)
 		dup2(command->fd_in, STDIN_FILENO);
 	if (command->fd_out > 0)

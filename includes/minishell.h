@@ -40,7 +40,6 @@ typedef struct s_shell_data
 	int			dup_stdout;
 	t_list		*commands;
 	char		**exportenv;
-	int			last_status;
 }	t_shell_data;
 
 typedef struct s_global_sig

@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 16:43:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/16 20:45:56 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:41:16 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*get_var(t_shell_data *data, char *line, int *var_len)
 		return (NULL);
 	var_name = ft_substr(line, 0, *var_len);
 	if (ft_strncmp(var_name, "?", 2) == 0)
-		return (free(var_name), ft_itoa(data->last_status));
+		return (free(var_name), ft_itoa(g_sig.exit_status));
 	var_value = get_env_value(data, var_name);
 	free(var_name);
 	if (!var_value)
