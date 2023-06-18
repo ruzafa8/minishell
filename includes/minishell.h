@@ -6,7 +6,7 @@
 /*   By: amorilla <amorilla@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:13:47 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/08 18:15:02 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:05:15 by amorilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int				get_env_var_index(char **env, char *var);
 int				set_env_var(t_shell_data *data, char *key, char *value);
 int				remove_env_var(t_shell_data *data, int idx);
 int				remove_exportenv_var(t_shell_data *data, int idx);
+
+char			**split_env(char *str);
 
 /**** token functions ******/
 

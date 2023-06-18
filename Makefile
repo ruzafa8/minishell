@@ -10,6 +10,7 @@ SRCS	= 	src/loop_shell.c \
 			src/minishell.c \
 			src/env/get_env_value.c \
 			src/env/remove_env_var.c \
+			src/env/split_env.c \
 			src/env/remove_exportenv_var.c \
 			src/env/set_export_env_var.c \
 			src/utils/init_data.c \
