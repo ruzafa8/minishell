@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 16:43:53 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/06/18 15:41:16 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:15:02 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,8 @@ void	expand_variables(char **line, t_shell_data *data, int expand_quotes)
 			var_value = get_var(data, (*line) + line_count + 1, &var_name_len);
 			if (!var_value)
 				return ;
-			if (var_name_len == 0)
-				continue ;
-			concat_me(line, line_count, var_value, var_name_len);
+			if (var_name_len != 0)
+				concat_me(line, line_count, var_value, var_name_len);
 			line_count += ft_strlen(var_value);
 			free(var_value);
 		}
