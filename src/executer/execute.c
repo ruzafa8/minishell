@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:23:58 by amorilla          #+#    #+#             */
-/*   Updated: 2023/06/08 18:13:42 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:17:24 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	execute(t_list *instr, t_shell_data *data)
 	t_command	*command;
 
 	command = (t_command *) instr->content;
+	if (!command->argv || !command->argv[0])
+		return (0);
 	if (command->fd_in > 0)
 		dup2(command->fd_in, STDIN_FILENO);
 	if (command->fd_out > 0)
